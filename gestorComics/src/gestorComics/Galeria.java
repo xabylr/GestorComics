@@ -48,9 +48,9 @@ public class Galeria implements IGaleria {
 			ultimoID++;
 			c.setID(ultimoID);
 			obras.add(c);
-			if(BD.getBD()!=null)
+			if(bd!=null)
 				try {
-					BD.getBD().insertarComic(c);
+					bd.insertarComic(c);
 				} catch (ExcepcionBD e) {
 					e.printStackTrace();
 					throw new ExcepcionBD("Error al insertar cómic ("+e.getMessage()+")");
@@ -72,9 +72,9 @@ public class Galeria implements IGaleria {
 				obras.add(v);
 			else c.addVineta(v);
 			
-			if(BD.getBD()!=null)
+			if(bd!=null)
 				try {
-					BD.getBD().insertarVineta(v,c);
+					bd.insertarVineta(v,c);
 				} catch (ExcepcionBD e) {
 					e.printStackTrace();
 					throw new ExcepcionBD("Error al insertar viñeta ("+e.getMessage()+")");
@@ -168,7 +168,7 @@ public class Galeria implements IGaleria {
 	@Override
 	public List<Vineta> getVinetas(Comic c) throws SQLException{
 		if(bd==null) return c.getVinetas();
-		else return BD.getBD().getVinetas(c);
+		else return bd.getVinetas(c);
 
 		
 	}
