@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 public abstract class Obra implements Comparable<Obra>, Visualizable{
 	
-	protected int ID;
+	protected int ID=-1;
 	protected String nombre;
 	
 	@Override

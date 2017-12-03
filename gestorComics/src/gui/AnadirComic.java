@@ -69,6 +69,7 @@ public class AnadirComic extends JFrame implements IAnadirComic {
 				Comic nuevo;
 				if(tNombre.getText().equals("")) nuevo = new Comic();
 				else nuevo = new Comic(tNombre.getText());
+				nuevo.inicializar(); //para que tenga una lista de viñetas vacía
 				
 				Galeria.getGaleria().insertarComic(nuevo);
 				VentanaGaleria.getVentana().addObra(nuevo);

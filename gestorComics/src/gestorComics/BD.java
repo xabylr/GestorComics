@@ -247,11 +247,12 @@ try {
 	public void insertarComic(Comic comic) throws ExcepcionBD  {
 try {
 		PreparedStatement psmnt = con.prepareStatement(
-			"INSERT INTO VINETA (ID, NOMBRE, PORTADA) VALUES (?,?,?)");
+			"INSERT INTO COMIC (ID, NOMBRE, PORTADA) VALUES (?,?,?)");
 			
 			psmnt.setInt(1, comic.getID() );
 			psmnt.setString(2, comic.getNombre() );
 			if(comic.getPortada()!=null)psmnt.setInt(3, comic.getPortada().getID());
+			
 			
 			for(Vineta v : comic.getVinetas()) {
 				insertarVineta(v, comic);

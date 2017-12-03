@@ -9,7 +9,7 @@ public class Comic extends Obra{
 	private static final String NOMBRE_POR_DEFETO="Viñeta sin nombre";
 
 	private Vineta portada;
-	private List<Vineta> vinetas;
+	private List<Vineta> vinetas; //nulo si no se han obtenido
 	
 	public Comic() {
 		this(NOMBRE_POR_DEFETO);
@@ -17,7 +17,6 @@ public class Comic extends Obra{
 	
 	public Comic(String n) {
 		nombre=n;
-		vinetas = new ArrayList<Vineta>();
 	}
 
 
@@ -31,9 +30,18 @@ public class Comic extends Obra{
 		return resultado;
 	}
 
+	public void inicializar() { //cargar lista de viñetas
+		if(vinetas==null)vinetas = new ArrayList<Vineta>();
+	}
 	
 	public void addVineta(Vineta v){
+		inicializar();
 		vinetas.add(v);
+	}
+	
+	public void addVinetas(List<Vineta> v) {
+		inicializar();
+		vinetas.addAll(v);
 	}
 	
 	public List<Vineta> getVinetas(){

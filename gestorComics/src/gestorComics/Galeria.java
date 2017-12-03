@@ -51,6 +51,7 @@ public class Galeria implements IGaleria {
 			if(bd!=null)
 				try {
 					bd.insertarComic(c);
+					System.out.println("Comic insertado en la base de datos");
 				} catch (ExcepcionBD e) {
 					e.printStackTrace();
 					throw new ExcepcionBD("Error al insertar cómic ("+e.getMessage()+")");
