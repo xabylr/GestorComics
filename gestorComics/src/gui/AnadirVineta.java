@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JTextField;
@@ -57,6 +58,11 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		listaComics = new JComboBox<Comic>();
 		
 		listaComics.addItem(new Comic("<Suelto>"));
+		
+		List<Comic> lc = Galeria.getGaleria().getComics();
+		for(Comic c : lc) listaComics.addItem(c);
+
+		
 		
 		JLabel lblCmic = new JLabel("Cómic: ");
 		panelSelSubir.add(lblCmic);

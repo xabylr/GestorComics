@@ -13,6 +13,7 @@ public interface IGaleria {
 	public void insertAll(Collection<Obra> c);
 	public Obra get(Integer id);
 	public List<Obra> getAll();
+	public List<Comic> getComics(); 
 	
 	/*
 	 *Devolver siguiente ID disponible 

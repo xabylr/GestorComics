@@ -66,7 +66,10 @@ public class AnadirComic extends JFrame implements IAnadirComic {
 	
 		btnAnadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Comic nuevo = new Comic(tNombre.getText());
+				Comic nuevo;
+				if(tNombre.getText().equals("")) nuevo = new Comic();
+				else nuevo = new Comic(tNombre.getText());
+				
 				Galeria.getGaleria().insert(nuevo);
 				VentanaGaleria.getVentana().addObra(nuevo);
 				dispatchEvent( new WindowEvent(AnadirComic.this, WindowEvent.WINDOW_CLOSING) );

@@ -110,6 +110,17 @@ public class Galeria implements IGaleria {
 	public int nextID() {
 		return ultimoID+1;
 	}
+
+	@Override
+	public List<Comic> getComics() {
+		List<Comic> listAux = new ArrayList<>();
+		
+		for(Obra o : obras) {
+			if(o instanceof Comic)listAux.add((Comic) o);
+		}
+			
+		return listAux;
+	}
 	
 	
 }

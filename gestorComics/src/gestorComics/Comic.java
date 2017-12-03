@@ -6,12 +6,16 @@ import java.util.List;
 
 public class Comic implements Obra{
 
-	//TODO Tratar comic como una coleccion de viñetas
+	private static final String NOMBRE_POR_DEFETO="Viñeta sin nombre";
 	
 	int ID;
 	String nombre;
 	Vineta portada;
 	List<Vineta> vinetas;
+	
+	public Comic() {
+		this(NOMBRE_POR_DEFETO);
+	}
 	
 	public Comic(String n) {
 		nombre=n;
