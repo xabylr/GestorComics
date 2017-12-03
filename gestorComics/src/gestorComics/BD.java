@@ -274,9 +274,9 @@ try {
 try {
 			
 		//obtener viñetas sueltas	
-		PreparedStatement psmnt = con.prepareStatement("SELECT (IMAGEN, NOMBRE, ID) "
-				+ "FROM( SELECT * FROM VINETA EXCEPT "
-				+ "SELECT * FROM VINETA V, COMIC_VINETA CV WHERE V.ID = CV.VINETA_ID )");
+		PreparedStatement psmnt = con.prepareStatement(
+				"SELECT ID,NOMBRE,IMAGEN FROM VINETA EXCEPT "
+				+ "SELECT V.ID,V.NOMBRE,V.IMAGEN FROM VINETA V, COMIC_VINETA CV WHERE V.ID = CV.VINETA_ID");
 		ResultSet rs = psmnt.getResultSet();
 		
 		while(rs.next() ) {
@@ -296,7 +296,7 @@ try {
 		
 		//obtener cómics con su viñeta de portada
 		
-		psmnt = con.prepareStatement("SELECT (ID, NOMBRE, PORTADA) FROM COMIC");
+		psmnt = con.prepareStatement("SELECT ID, NOMBRE, PORTADA FROM COMIC");
 		rs = psmnt.getResultSet();
 		
 		while(rs.next() ) {
@@ -322,7 +322,7 @@ try {
 	
 	private Vineta getVineta(int id) throws ExcepcionBD  {
 		try {
-			PreparedStatement psmnt = con.prepareStatement("SELECT (IMAGEN, NOMBRE, ID)"
+			PreparedStatement psmnt = con.prepareStatement("SELECT IMAGEN, NOMBRE, ID"
 					+ " FROM VINETA WHERE ID="+id);
 			ResultSet rs = psmnt.executeQuery();
 			
