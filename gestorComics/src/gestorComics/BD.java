@@ -275,8 +275,8 @@ try {
 			
 		//obtener viñetas sueltas	
 		PreparedStatement psmnt = con.prepareStatement("SELECT (IMAGEN, NOMBRE, ID) "
-				+ "FROM( (SELECT * FROM VINETA)MINUS"
-				+ "(SELECT * FROM VINETA V, COMIC_VINETA CV WHERE V.ID = CV.VINETA_ID) )");
+				+ "FROM( SELECT * FROM VINETA EXCEPT "
+				+ "SELECT * FROM VINETA V, COMIC_VINETA CV WHERE V.ID = CV.VINETA_ID )");
 		ResultSet rs = psmnt.getResultSet();
 		
 		while(rs.next() ) {
