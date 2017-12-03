@@ -87,6 +87,12 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		setTitle(titulo);
 		
 	}
+	
+	@Override
+	public void mensajeError(String error) {
+		//TODO hacer algo
+	}
+	
 
 
 

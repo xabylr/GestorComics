@@ -1,11 +1,13 @@
 package gestorComics;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import excepciones.ExcepcionBD;
 import excepciones.RecursoNoEncontrado;
 
 
@@ -33,31 +35,80 @@ public class Galeria implements IGaleria {
 	}
 
 	
-	public void conectar(IBD b) throws SQLException {
+	public void conectar(IBD b) throws SQLException, IOException {
 		bd=b;
 		getGaleria();
-		obras.addAll(bd.getObras());
+		insertAll(bd.getObras());
+	}
+	
+	
+	@Override
+	public void insertarComic(Comic c) throws ExcepcionBD {
+		if (c.getID()==-1) { //si es local
+			ultimoID++;
+			c.setID(ultimoID);
+			obras.add(c);
+			if(BD.getBD()!=null)
+				try {
+					BD.getBD().insertarComic(c);
+				} catch (ExcepcionBD e) {
+					e.printStackTrace();
+					throw new ExcepcionBD("Error al insertar cómic ("+e.getMessage()+")");
+				}
+			
+		}else { //si venía de la bbdd
+			obras.add(c);
+			if(c.getID() > ultimoID) ultimoID=c.getID();
+		}	
+		
 	}
 	
 	@Override
-	public void insert(Obra o) {
-		obras.add(o);
-		if(o.getID() > ultimoID) ultimoID=o.getID();
+	public void insertarVineta(Vineta v, Comic c) throws ExcepcionBD {
+		if (v.getID()==-1) { //si es local se le asigna un id
+			ultimoID++;
+			v.setID(ultimoID);
+			if(c == null)//Si es una viñeta suelta
+				obras.add(v);
+			else c.addVineta(v);
+			
+			if(BD.getBD()!=null)
+				try {
+					BD.getBD().insertarVineta(v,c);
+				} catch (ExcepcionBD e) {
+					e.printStackTrace();
+					throw new ExcepcionBD("Error al insertar viñeta ("+e.getMessage()+")");
+				}
+			
+		}else { //si venía de la bbdd se usa su id y se obtiene el máximo id
+			if(c == null) {//Si es una viñeta suelta
+				obras.add(v);
+			}else c.addVineta(v);
+			
+			if(v.getID() > ultimoID) ultimoID=v.getID();
+		}	
+		
 	}
+	
+	
 
 	@Override
-	public void insertAll(Collection<Obra> c) {
-		obras.addAll(c);
-		buscarUltimoID();
+	public void insertAll(Collection<Obra> c) throws IOException, SQLException {
+		for(Obra o : obras) {
+			if(o instanceof Vineta) insertarVineta((Vineta)o, null);
+			else if(o instanceof Comic) insertarComic((Comic)o);
+			
+		}
+	
 	}
 	
-	private void buscarUltimoID() {
+	/*private void buscarUltimoID() {
 		Iterator<Obra> it = obras.iterator();
 		while(it.hasNext()) {
 			int indice = it.next().getID();
 			if (indice > ultimoID) ultimoID = indice;
 		}
-	}
+	}*/
 	
 	@Override
 	public Obra get(Integer id){
@@ -74,7 +125,8 @@ public class Galeria implements IGaleria {
 		return obra;
 	}
 	
-	public Obra getComic(String nombre){
+	@Override
+	public Comic getComic(String nombre){
 		Iterator<Obra> it = obras.iterator();
 		boolean encontrado = false;
 		Obra obra = null;
@@ -85,9 +137,11 @@ public class Galeria implements IGaleria {
 		}
 		if(!encontrado) throw new RecursoNoEncontrado("Comic: "+nombre);
 		
-		return obra;
+		return (Comic)obra;
 	}
-	public Obra getVineta(String nombre) {
+	
+	@Override
+	public Vineta getVineta(String nombre) {
 		Iterator<Obra> it = obras.iterator();
 		boolean encontrado = false;
 		Obra obra = null;
@@ -98,7 +152,7 @@ public class Galeria implements IGaleria {
 		}
 		if(!encontrado) throw new RecursoNoEncontrado("Viñeta: "+nombre);
 		
-		return obra;
+		return (Vineta)obra;
 	}
 
 	@Override
@@ -111,6 +165,14 @@ public class Galeria implements IGaleria {
 		return ultimoID+1;
 	}
 
+	@Override
+	public List<Vineta> getVinetas(Comic c) throws SQLException{
+		if(bd==null) return c.getVinetas();
+		else return BD.getBD().getVinetas(c);
+
+		
+	}
+	
 	@Override
 	public List<Comic> getComics() {
 		List<Comic> listAux = new ArrayList<>();

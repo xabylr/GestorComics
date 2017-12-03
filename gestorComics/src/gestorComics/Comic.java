@@ -4,14 +4,12 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Comic implements Obra{
+public class Comic extends Obra{
 
 	private static final String NOMBRE_POR_DEFETO="Viñeta sin nombre";
-	
-	int ID;
-	String nombre;
-	Vineta portada;
-	List<Vineta> vinetas;
+
+	private Vineta portada;
+	private List<Vineta> vinetas;
 	
 	public Comic() {
 		this(NOMBRE_POR_DEFETO);
@@ -20,16 +18,6 @@ public class Comic implements Obra{
 	public Comic(String n) {
 		nombre=n;
 		vinetas = new ArrayList<Vineta>();
-	}
-
-	@Override
-	public String getNombre() {
-		return nombre;
-	}
-
-	@Override
-	public void setNombre(String n) {
-		nombre = n;
 	}
 
 
@@ -43,10 +31,6 @@ public class Comic implements Obra{
 		return resultado;
 	}
 
-	@Override
-	public int getID() {
-		return ID;
-	}
 	
 	public void addVineta(Vineta v){
 		vinetas.add(v);

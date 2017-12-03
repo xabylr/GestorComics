@@ -32,4 +32,7 @@ public void delObra(Obra obra);
 public void refrescar();
 
 
+void mensajeError(String error);
+
+
 }

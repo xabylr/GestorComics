@@ -156,14 +156,16 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		btnCrearVineta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				Vineta nuevaVineta = new Vineta(imagen, tfNombre.getText(), Galeria.getGaleria().nextID() );
+				Vineta nuevaVineta = new Vineta(imagen, tfNombre.getText() );
 				Comic aComic = getComic();
 				if (aComic==null) {
-					Galeria.getGaleria().insert(nuevaVineta);
+					Galeria.getGaleria().insertarVineta(nuevaVineta, aComic);
 					VentanaGaleria.getVentana().addObra(nuevaVineta);
 				}
 				else {
-					aComic.addVineta(nuevaVineta);
+//					aComic.addVineta(nuevaVineta);
+					
+					Galeria.getGaleria().insertarVineta(nuevaVineta, aComic);
 					
 					//Si el cómic no tenía portada, le ponemos la viñeta de portada
 					if(aComic.getPortada() == null) {

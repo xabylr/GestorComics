@@ -1,13 +1,19 @@
 package gestorComics;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
+
+import excepciones.ExcepcionBD;
 
 public interface IBD {
 
-	public void insertarObra(Obra obra) throws IOException, SQLException;
-	public List<Obra> getObras() throws SQLException;
-	public List<Vineta> getVinetas(Comic comic)throws SQLException;
+	public List<Obra> getObras() throws ExcepcionBD;
+	public List<Vineta> getVinetas(Comic comic)throws ExcepcionBD;
+	/*
+	 * Inserta la viñeta especificada en la base de datos asociada a un cómic. 
+	 * Si comic es null, se inserta suelta
+	 */
+	void insertarVineta(Vineta vineta, Comic comic) throws ExcepcionBD;
+	void insertarComic(Comic comic) throws ExcepcionBD;
+	int getUltimoID();
 
 }

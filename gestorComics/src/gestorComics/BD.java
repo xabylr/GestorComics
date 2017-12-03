@@ -1,12 +1,15 @@
 
 package gestorComics;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
 
 import javax.imageio.ImageIO;
+
+import excepciones.ExcepcionBD;
 
 public class BD implements IBD{
 	private static final String RES_FOLDER = "res";
@@ -200,44 +203,194 @@ public class BD implements IBD{
 		
 	}
 	
+	
 	@Override
-	public void insertarObra(Obra obra) throws IOException, SQLException {
-
-		if(obra instanceof Vineta) {
-			
-			Vineta vineta =(Vineta) obra; //para no hacer un lío de paréntesis aquí dentro
-			
+	public void insertarVineta(Vineta vineta, Comic comic) throws ExcepcionBD {
 		//Convertimos la imagen a un archivo png en memoria ( stream de array de bytes y a un inputstream ) para subir	
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write((BufferedImage)vineta.getImagen(), "png", baos);
-			InputStream is = new ByteArrayInputStream(baos.toByteArray());
-
-			//creamos la sentencia SQL para subir la imagen	
-			PreparedStatement psmnt = con.prepareStatement("INSERT INTO VINETA (NOMBRE, ID, IMAGEN) VALUES (?,?,?)");
-					psmnt.setString(1, vineta.getNombre());
-					psmnt.setInt(2, vineta.getID());
-					psmnt.setBinaryStream(3, is, baos.size() );
-					
-			psmnt.executeUpdate(); 
-			System.out.println("Viñeta "+ vineta.getNombre()+ " (ID "+vineta.getID()+ ") insertada en la BBDD");
-		
-		} else if(obra instanceof Comic){
-			Comic comic = (Comic) obra;
+try {
 			
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write((BufferedImage)vineta.getImagen(), "png", baos);
+		InputStream is = new ByteArrayInputStream(baos.toByteArray());
+
+		//creamos la sentencia SQL para subir la imagen	
+		PreparedStatement psmnt = con.prepareStatement(
+				"INSERT INTO VINETA (NOMBRE, ID, IMAGEN) VALUES (?,?,?)");
+			psmnt.setString(1, vineta.getNombre());
+			psmnt.setInt(2, vineta.getID());
+			psmnt.setBinaryStream(3, is, baos.size() );
+				
+		psmnt.executeUpdate(); 
+		System.out.println("Viñeta "+ vineta.getNombre()+ " (ID "+vineta.getID()+ ") insertada en la BBDD");
+		
+		if(comic != null) {
+			psmnt = con.prepareStatement(
+					"INSERT INTO COMIC_VINETA (VINETA_ID, COMIC_ID) VALUES(?,?)");
+			psmnt.setInt(1, vineta.getID());
+			psmnt.setInt(2, comic.getID());
+			
+			psmnt.executeUpdate();
+			
+			System.out.println("Añadida asociación a "+comic);
+		}
+		
+	
+}catch (SQLException | IOException e) {
+	e.printStackTrace();
+	throw new ExcepcionBD("Error al insertar  "+vineta+" ("+e.getMessage()+")");
+}
+	
+	}
+	
+	
+	@Override
+	public void insertarComic(Comic comic) throws ExcepcionBD  {
+try {
+		PreparedStatement psmnt = con.prepareStatement(
+			"INSERT INTO VINETA (ID, NOMBRE, PORTADA) VALUES (?,?,?)");
+			
+			psmnt.setInt(1, comic.getID() );
+			psmnt.setString(2, comic.getNombre() );
+			if(comic.getPortada()!=null)psmnt.setInt(3, comic.getPortada().getID());
+			
+			for(Vineta v : comic.getVinetas()) {
+				insertarVineta(v, comic);
+			}
+			
+			
+		
+		} catch (ExcepcionBD | SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al insertar "+comic+" ("+e.getMessage()+")");
 		}
 		
 	}
 
 	@Override
-	public List<Obra> getObras() throws SQLException {
-		// TODO IMPLEMENTAR
-		return new ArrayList<Obra>();
+	public List<Obra> getObras() throws ExcepcionBD{
+		//lista a devolver de obras
+		List<Obra> resultado = new ArrayList<>();
+		
+try {
+			
+		//obtener viñetas sueltas	
+		PreparedStatement psmnt = con.prepareStatement("SELECT (IMAGEN, NOMBRE, ID) "
+				+ "FROM( (SELECT * FROM VINETA)MINUS"
+				+ "(SELECT * FROM VINETA V, COMIC_VINETA CV WHERE V.ID = CV.VINETA_ID) )");
+		ResultSet rs = psmnt.getResultSet();
+		
+		while(rs.next() ) {
+			Blob imagenBlob = rs.getBlob("IMAGEN");
+			Image imagen;
+			
+				imagen = ImageIO.read(imagenBlob.getBinaryStream());
+			 	
+			String nombre = rs.getString("NOMBRE");
+			int id = rs.getInt("ID");
+			
+			Vineta v = new Vineta(imagen, nombre);
+			v.setID(id);
+			
+			resultado.add(v);
+		}
+		
+		//obtener cómics con su viñeta de portada
+		
+		psmnt = con.prepareStatement("SELECT (ID, NOMBRE, PORTADA) FROM COMIC");
+		rs = psmnt.getResultSet();
+		
+		while(rs.next() ) {
+			int id = rs.getInt("ID");
+			String nombre = rs.getString("NOMBRE");
+			int IDportada = rs.getInt("PORTADA");
+
+			Comic c = new Comic(nombre);
+			c.setID(id);
+			c.setPortada(getVineta(IDportada) );
+			
+			resultado.add(c);
+		}
+		
+}catch (IOException | SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error en la base de datos ("+e.getMessage()+")");
+		}
+		
+			return resultado;	
+	}
+	
+	
+	private Vineta getVineta(int id) throws ExcepcionBD  {
+		try {
+			PreparedStatement psmnt = con.prepareStatement("SELECT (IMAGEN, NOMBRE, ID)"
+					+ " FROM VINETA WHERE ID="+id);
+			ResultSet rs = psmnt.executeQuery();
+			
+			if(rs.next()) {
+				Blob imagenBlob = rs.getBlob("IMAGEN");
+				Image imagen;
+					imagen = ImageIO.read(imagenBlob.getBinaryStream());
+				 
+				String nombre = rs.getString("NOMBRE");
+
+				Vineta v = new Vineta(imagen, nombre);
+				v.setID(id);
+				
+				return v;
+			} else return null;
+			
+			
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al encontrar la viñeta con id "+id+" ("+e.getMessage()+")");
+		}
+	}
+/*
+	@Override
+	public Vineta getPortada(Comic comic) {
+		SELECT * FROM COMIC, COMIC_VINETA WHERE COMIC.PORTADA = ?
+	}*/
+
+	@Override
+	public List<Vineta> getVinetas(Comic comic) throws ExcepcionBD  {
+		
+		List<Vineta> resultado = new ArrayList<>();
+		
+try {
+		//SELECT * FROM VINETA, COMIC_VINETA WHERE COMIC_VINETA.COMIC_ID = ?;
+		PreparedStatement psmnt = con.prepareStatement(
+				"SELECT V.IMAGEN, V.NOMBRE, V.ID FROM VINETA V, COMIC_VINETA CV"
+				+ " WHERE CV.VINETA_ID=V.ID AND  CV.COMIC_ID = ?");
+		psmnt.setInt(1, comic.getID());
+		ResultSet rs = psmnt.executeQuery();
+		
+		while(rs.next()) {
+			Blob imagenBlob = rs.getBlob("IMAGEN");
+			Image imagen;
+				
+			imagen = ImageIO.read(imagenBlob.getBinaryStream());
+			 
+			String nombre = rs.getString("NOMBRE");
+			int id = rs.getInt("ID");
+			
+			Vineta v = new Vineta(imagen, nombre);
+			v.setID(id);
+			
+		} 
+				
+				
+} catch (IOException | SQLException e) {
+	e.printStackTrace();
+	throw new ExcepcionBD("Error al obtener las viñetas del cómic "+comic+" ("+e.getMessage()+")");
+}		
+		
+		return resultado;
 	}
 
 	@Override
-	public List<Vineta> getVinetas(Comic comic) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public int getUltimoID() {
+		// TODO ES IMPORTANTE IMPLEMENTARLO
+		return 0;
 	}
 	
 }
