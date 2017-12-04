@@ -278,13 +278,12 @@ try {
 		PreparedStatement psmnt = con.prepareStatement(
 				"SELECT ID,NOMBRE,IMAGEN FROM VINETA EXCEPT "
 				+ "SELECT V.ID,V.NOMBRE,V.IMAGEN FROM VINETA V, COMIC_VINETA CV WHERE V.ID = CV.VINETA_ID");
-		ResultSet rs = psmnt.getResultSet();
+		
+		ResultSet rs = psmnt.executeQuery();
+		
 		
 		while(rs.next() ) {
-			Blob imagenBlob = rs.getBlob("IMAGEN");
-			Image imagen;
-			
-				imagen = ImageIO.read(imagenBlob.getBinaryStream());
+			Image imagen = ImageIO.read(rs.getBinaryStream("IMAGEN"));
 			 	
 			String nombre = rs.getString("NOMBRE");
 			int id = rs.getInt("ID");
@@ -298,7 +297,7 @@ try {
 		//obtener cómics con su viñeta de portada
 		
 		psmnt = con.prepareStatement("SELECT ID, NOMBRE, PORTADA FROM COMIC");
-		rs = psmnt.getResultSet();
+		rs = psmnt.executeQuery();
 		
 		while(rs.next() ) {
 			int id = rs.getInt("ID");
@@ -307,7 +306,9 @@ try {
 
 			Comic c = new Comic(nombre);
 			c.setID(id);
+			c.inicializar();
 			c.setPortada(getVineta(IDportada) );
+			
 			
 			resultado.add(c);
 		}

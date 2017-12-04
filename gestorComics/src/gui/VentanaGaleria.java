@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,7 +20,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	
 	JButton BTNAnadirComic;
 	JButton BTNAnadirVineta;
-	PanelObras obras;
+	PanelObras panelObras;
 	
 	private static VentanaGaleria ventana;
 	
@@ -41,8 +41,8 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		BTNAnadirComic = new JButton("Añadir Comic");
 		PanelBotones.add(BTNAnadirComic);
 		
-		obras = new PanelObras(Galeria.getGaleria().getAll());
-		add(obras, BorderLayout.CENTER);
+		panelObras = new PanelObras(Galeria.getGaleria().getAll());
+		add(panelObras, BorderLayout.CENTER);
 		
 		setSize(ANCHURA, ALTURA);
 		
@@ -70,16 +70,21 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	
 	@Override
 	public void refrescar() {
-		obras.refrescar();
+		panelObras.refrescar();
 	}
 	
+	@Override
 	public void addObra(Obra obra) {
-		obras.addObra(obra);
+		panelObras.addObra(obra);
+	}
+	
+	@Override
+	public void addObras(List<Obra> lobras){
+		panelObras.addObras(lobras);
 	}
 
-
 	public void delObra(Obra obra) {
-		obras.delObra(obra);
+		panelObras.delObra(obra);
 	}
 
 	@Override

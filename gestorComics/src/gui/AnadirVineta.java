@@ -158,12 +158,14 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 				
 				Vineta nuevaVineta = new Vineta(imagen, tfNombre.getText() );
 				Comic aComic = getComic();
+				
+	if(imagen!=null) {
 				if (aComic==null) {
 					Galeria.getGaleria().insertarVineta(nuevaVineta, aComic);
 					VentanaGaleria.getVentana().addObra(nuevaVineta);
 				}
 				else {
-//					aComic.addVineta(nuevaVineta);
+		//			aComic.addVineta(nuevaVineta);
 					
 					Galeria.getGaleria().insertarVineta(nuevaVineta, aComic);
 					
@@ -178,6 +180,12 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 				}
 				
 				dispatchEvent( new WindowEvent(AnadirVineta.this, WindowEvent.WINDOW_CLOSING) );
+	}else {
+				alert("Inserta una imagen válida");
+		
+	}
+				
+			
 					
 			}
 		});

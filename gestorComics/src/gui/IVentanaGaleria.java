@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import gestorComics.Obra;
 /*
@@ -33,6 +34,9 @@ public void refrescar();
 
 
 void mensajeError(String error);
+
+
+void addObras(List<Obra> lobras);
 
 
 }

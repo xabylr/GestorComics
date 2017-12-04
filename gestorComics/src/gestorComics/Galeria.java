@@ -95,7 +95,7 @@ public class Galeria implements IGaleria {
 
 	@Override
 	public void insertAll(Collection<Obra> c) throws IOException, SQLException {
-		for(Obra o : obras) {
+		for(Obra o : c) {
 			if(o instanceof Vineta) insertarVineta((Vineta)o, null);
 			else if(o instanceof Comic) insertarComic((Comic)o);
 			

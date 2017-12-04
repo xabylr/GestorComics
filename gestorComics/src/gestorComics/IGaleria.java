@@ -27,5 +27,6 @@ public interface IGaleria {
 	List<Vineta> getVinetas(Comic c) throws SQLException;
 	void insertarComic(Comic c) throws ExcepcionBD;
 	void insertarVineta(Vineta v, Comic c) throws ExcepcionBD;
+	public void conectar(IBD bd) throws SQLException, IOException;
 
 }
