@@ -31,10 +31,6 @@ public class Mockup {
 			CtrMenuPrincipal ctr = new CtrMenuPrincipal(vo);
 			vo.setControlador(ctr);
 			
-			
-			Vineta oso = new Vineta(ImageIO.read(new File("res/dev/oso.png") ),  "Pendejo");
-			
-			vo.addObra(oso);
 			vo.addObra(new Vineta("Viñeta Vacía"));
 			
 
