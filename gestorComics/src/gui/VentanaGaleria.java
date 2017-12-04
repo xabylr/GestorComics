@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import gestorComics.Galeria;
 import gestorComics.Obra;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
@@ -30,6 +33,11 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	
 	private VentanaGaleria() {
 		setTitle("Gestor de cómics");
+		
+		try {
+			setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException e) {}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel PanelBotones = new JPanel();
