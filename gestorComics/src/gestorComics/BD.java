@@ -252,7 +252,7 @@ try {
 			psmnt.setInt(1, comic.getID() );
 			psmnt.setString(2, comic.getNombre() );
 			if(comic.getPortada()!=null)psmnt.setInt(3, comic.getPortada().getID());
-			
+			psmnt.executeUpdate();
 			
 			for(Vineta v : comic.getVinetas()) {
 				insertarVineta(v, comic);
