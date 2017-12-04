@@ -129,7 +129,7 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 						Image img = ImageIO.read(archivoEscogido);
 						imagen=img;
 					}catch (IllegalArgumentException e) {
-						throw new ExcepcionUsuario("Elige una irmagen válida");
+						throw new ExcepcionUsuario("Elige una imagen válida");
 					}
 					
 					
@@ -144,7 +144,6 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 					lblAlert.setVisible(false);
 				} catch (ExcepcionUsuario e) {
 					alert(e.getMessage());
-					e.printStackTrace();
 				}catch(IOException e) {
 					alert("Error al seleccionar un archivo");
 					e.printStackTrace();
