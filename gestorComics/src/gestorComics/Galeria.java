@@ -39,6 +39,7 @@ public class Galeria implements IGaleria {
 		bd=b;
 		getGaleria();
 		insertAll(bd.getObras());
+		ultimoID = bd.getUltimoID();
 	}
 	
 	
@@ -63,6 +64,7 @@ public class Galeria implements IGaleria {
 		}	
 		
 	}
+
 	
 	@Override
 	public void insertarVineta(Vineta v, Comic c) throws ExcepcionBD {
@@ -72,14 +74,26 @@ public class Galeria implements IGaleria {
 			if(c == null)//Si es una viñeta suelta
 				obras.add(v);
 			else c.addVineta(v);
-			
-			if(bd!=null)
+		
+			if(bd!=null) {
 				try {
+					System.out.println("Insertando vineta en BBDD");
 					bd.insertarVineta(v,c);
+					if(c!=null && c.getPortada() == null) {
+				
+						System.out.println("Añadiendo portada del cómic a BBDD");
+						bd.setPortada(v.getID(), c.getID());
+					}
+					
+					
 				} catch (ExcepcionBD e) {
 					e.printStackTrace();
 					throw new ExcepcionBD("Error al insertar viñeta ("+e.getMessage()+")");
 				}
+			}
+			
+			if(c!= null && c.getPortada()== null) c.setPortada(v);
+				
 			
 		}else { //si venía de la bbdd se usa su id y se obtiene el máximo id
 			if(c == null) {//Si es una viñeta suelta
@@ -168,10 +182,13 @@ public class Galeria implements IGaleria {
 
 	@Override
 	public List<Vineta> getVinetas(Comic c) throws SQLException{
-		if(bd==null) return c.getVinetas();
-		else return bd.getVinetas(c);
-
-		
+		if(c.getVinetas()!=null)return c.getVinetas();
+		else if(bd!=null) return bd.getVinetas(c);
+			else {
+				c.inicializar();
+				return c.getVinetas();
+			}
+			
 	}
 	
 	@Override

@@ -15,5 +15,6 @@ public interface IBD {
 	void insertarVineta(Vineta vineta, Comic comic) throws ExcepcionBD;
 	void insertarComic(Comic comic) throws ExcepcionBD;
 	int getUltimoID();
+	void setPortada(int v, int c);
 
 }

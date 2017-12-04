@@ -163,33 +163,27 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 				if (aComic==null) {
 					Galeria.getGaleria().insertarVineta(nuevaVineta, aComic);
 					VentanaGaleria.getVentana().addObra(nuevaVineta);
+					System.out.println("Añadida viñeta suelta");
 				}
 				else {
-		//			aComic.addVineta(nuevaVineta);
 					
+					//insertamos viñeta en la bbdd (también se le pone viñeta de portada si no la tenía)
 					Galeria.getGaleria().insertarVineta(nuevaVineta, aComic);
-					
-					//Si el cómic no tenía portada, le ponemos la viñeta de portada
-					if(aComic.getPortada() == null) {
-						aComic.setPortada(nuevaVineta);
-						VentanaGaleria.getVentana().refrescar();
-					}
-					
-				System.out.println(nuevaVineta+" agregada con éxito "
-				+(aComic==null? "suelta": "en "+aComic.getNombre()));
+					System.out.println("añadida viñeta en "+aComic);
+				
 				}
 				
+				VentanaGaleria.getVentana().refrescar(); //refrescamos la ventana de obras
+				
+				//cerramos la ventana
 				dispatchEvent( new WindowEvent(AnadirVineta.this, WindowEvent.WINDOW_CLOSING) );
 	}else {
 				alert("Inserta una imagen válida");
 		
 	}
-				
-			
 					
 			}
 		});
-		
 		
 		//CENTRADO DE VENTANA
 	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();

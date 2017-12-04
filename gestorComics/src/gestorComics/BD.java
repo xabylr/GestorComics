@@ -306,7 +306,6 @@ try {
 
 			Comic c = new Comic(nombre);
 			c.setID(id);
-			c.inicializar();
 			c.setPortada(getVineta(IDportada) );
 			
 			
@@ -329,9 +328,7 @@ try {
 			ResultSet rs = psmnt.executeQuery();
 			
 			if(rs.next()) {
-				Blob imagenBlob = rs.getBlob("IMAGEN");
-				Image imagen;
-					imagen = ImageIO.read(imagenBlob.getBinaryStream());
+				Image imagen=ImageIO.read(rs.getBinaryStream("IMAGEN"));
 				 
 				String nombre = rs.getString("NOMBRE");
 
@@ -365,12 +362,10 @@ try {
 				+ " WHERE CV.VINETA_ID=V.ID AND  CV.COMIC_ID = ?");
 		psmnt.setInt(1, comic.getID());
 		ResultSet rs = psmnt.executeQuery();
-		
+		System.out.println("BUSCANDO COMICS");
 		while(rs.next()) {
-			Blob imagenBlob = rs.getBlob("IMAGEN");
-			Image imagen;
-				
-			imagen = ImageIO.read(imagenBlob.getBinaryStream());
+			System.out.println("ENCONTRADA VINETA");
+			Image imagen = ImageIO.read(rs.getBinaryStream("IMAGEN"));
 			 
 			String nombre = rs.getString("NOMBRE");
 			int id = rs.getInt("ID");
@@ -378,6 +373,7 @@ try {
 			Vineta v = new Vineta(imagen, nombre);
 			v.setID(id);
 			
+			resultado.add(v);
 		} 
 				
 				
@@ -391,8 +387,34 @@ try {
 
 	@Override
 	public int getUltimoID() {
-		// TODO ES IMPORTANTE IMPLEMENTARLO
-		return 0;
+		// SELECT MAX(ID) FROM VINETA,COMIC
+		int resultado=-1;
+	try {
+			PreparedStatement psmnt = con.prepareStatement(
+					"SELECT MAX (ID) FROM (SELECT ID FROM VINETA UNION SELECT ID FROM COMIC)");
+			ResultSet rs = psmnt.executeQuery();
+			if(rs.next()) resultado = rs.getInt(1);
+			
+	} catch (SQLException e) {
+		e.printStackTrace();
+		throw new ExcepcionBD("Error al obtener el último ID de la BBDD");
+	}
+		
+		return resultado;
+	}
+
+	@Override
+	public void setPortada(int v, int c) {
+		try {
+			PreparedStatement psmnt = con.prepareStatement(
+					"UPDATE COMIC SET PORTADA="+v+" WHERE ID="+c);
+			psmnt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al poner portada (ID: "+v+") en comic (ID: "+c+") ("+e.getMessage()+")");
+		}
+		
 	}
 	
 }

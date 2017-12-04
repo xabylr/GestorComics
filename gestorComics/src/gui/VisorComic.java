@@ -4,11 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JFrame;
 import gestorComics.Comic;
+import gestorComics.Galeria;
 import gestorComics.Obra;
+import gestorComics.Vineta;
+
 import javax.swing.JPanel;
 import javax.swing.JButton;
 
@@ -22,9 +26,17 @@ public class VisorComic extends JFrame implements IVisorComic{
 		setTitle(c.getNombre());
 		setBounds(100, 100, 741, 466);
 		
-		PanelObras po = new  PanelObras((List<Obra>) (List<?>) c.getVinetas());
+		PanelObras po;
+		try {
+			po = new  PanelObras((List<Obra>) (List<?>)Galeria.getGaleria().getVinetas(c));
+			add(po, BorderLayout.CENTER);
+			
+		} catch (SQLException e1) {
+			System.err.println("Error al cargar viñetas del cómic "+c);
+			e1.printStackTrace();
+		}
 		
-		add(po, BorderLayout.CENTER);
+		
 		
 		
 		JPanel panelCerrar = new JPanel();
