@@ -3,6 +3,7 @@ package gui;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,11 +57,11 @@ public class VisorVineta extends JFrame implements IVisorVineta {
 					.addGap(19))
 		);
 		
-		limagen = new JLabel("");
+		BufferedImage im = (BufferedImage) vineta.getImagen();
+		limagen = new JLabel(new ImageIcon(im.getScaledInstance(im.getWidth(), im.getHeight(), Image.SCALE_DEFAULT)));
 		panelVisor.add(limagen);
-		getContentPane().setLayout(groupLayout);
 		setTitle(vineta.getNombre());
-		limagen.setIcon(new ImageIcon(vineta.getImagen()) );
+		limagen.setIcon(new ImageIcon(im.getScaledInstance(im.getWidth(), im.getHeight(), Image.SCALE_DEFAULT)) );
 
 		pack();
 		

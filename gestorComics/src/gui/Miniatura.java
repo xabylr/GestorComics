@@ -2,10 +2,14 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
 import javax.swing.JPanel;
 
 import javax.swing.ImageIcon;
@@ -80,6 +84,8 @@ public class Miniatura extends JPanel implements Visualizable {
 				JLabel lminiatura = new JLabel(
 						new ImageIcon(imagen.getScaledInstance(
 								ANCH_IMG, ALT_IMG, Image.SCALE_DEFAULT)));
+				
+				
 				panelMiniatura.add(lminiatura);
 			
 				JPanel panelDescripcion = new JPanel();
