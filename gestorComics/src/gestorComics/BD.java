@@ -9,6 +9,8 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 
+import org.sqlite.SQLiteConfig.Pragma;
+
 import excepciones.ExcepcionBD;
 
 public class BD implements IBD{
@@ -29,10 +31,8 @@ public class BD implements IBD{
 	
 	private static BD bd;
 	
-	public static BD getBD(){
-		
-		return bd==null? bd = new BD() : bd;
-		
+	public static BD getBD(){	
+		return bd==null? bd = new BD() : bd;	
 	}
 	
 	private BD(){
@@ -56,7 +56,8 @@ public class BD implements IBD{
 		{
         // create a connection to the database
 			con = DriverManager.getConnection(STR_SQLITE+URL_BD);
-        
+			PreparedStatement psmnt = con.prepareStatement("PRAGMA FOREIGN_KEY=ON");
+			psmnt.executeUpdate();
 		}
 		catch (SQLException ex)
 		{
