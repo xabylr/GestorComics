@@ -6,11 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
-
 import javax.imageio.ImageIO;
-
-import org.sqlite.SQLiteConfig.Pragma;
-
 import excepciones.ExcepcionBD;
 
 public class BD implements IBD{
@@ -21,7 +17,7 @@ public class BD implements IBD{
 	private static final String STR_SQLITE = "jdbc:sqlite:";
 	private static String URL_BD = getUrlBDGenerator() + "/"+ FILE_BD;
 	private static File archivoDDL;
-	static{URL_BD= URL_BD.replace("\\", "/");
+	static{URL_BD = URL_BD.replace("\\", "/");
 	archivoDDL = new File(RES_FOLDER+"/"+FILE_DDL);
 	}
 
