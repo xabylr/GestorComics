@@ -14,7 +14,7 @@ import org.sqlite.SQLiteConfig.Pragma;
 import excepciones.ExcepcionBD;
 
 public class BD implements IBD{
-	private static final String RES_FOLDER = "res";
+	private static final String RES_FOLDER = "src/res";
 	private static final String FILE_BD = "dibujante.db";
 	private static final String FILE_DDL = "generadorBD.ddl";
 	private static final String CARPETA_PROYECTO = "GestorComics";

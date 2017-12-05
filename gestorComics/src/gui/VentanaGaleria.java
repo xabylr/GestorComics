@@ -35,7 +35,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		setTitle("Gestor de cómics");
 		
 		try {
-			setIconImage(ImageIO.read(new File("res/icon.png")));
+			setIconImage(ImageIO.read(new File("src/res/icon.png")));
 		} catch (IOException e) {}
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

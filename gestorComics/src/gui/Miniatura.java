@@ -27,7 +27,7 @@ import java.awt.event.MouseAdapter;
 @SuppressWarnings("serial")
 public class Miniatura extends JPanel implements Visualizable {
 	
-	public static String RUTA_IMAGEN_POR_DEFECTO = "res/imagen_no_disponible.png";
+	public static String RUTA_IMAGEN_POR_DEFECTO = "src/res/imagen_no_disponible.png";
 	public static String NOMBRE_POR_DEFECTO = "Sin nombre";
 	
 	static Image IMAGEN_POR_DEFECTO;
