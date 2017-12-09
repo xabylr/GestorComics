@@ -2,13 +2,17 @@ package controladores;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import gestorComics.IGaleria;
 import gui.*;
 
 
 public class CtrMenuPrincipal implements ActionListener {
 	IVentanaGaleria ventana;
+	IGaleria galeria;
 
-	public CtrMenuPrincipal(IVentanaGaleria v) {
+	public CtrMenuPrincipal(IGaleria g, IVentanaGaleria v) {
+		galeria = g;
 		ventana = v;
 	}
 	
@@ -29,11 +33,11 @@ public class CtrMenuPrincipal implements ActionListener {
 	
 	
 	private void anadirComic() {
-		new AnadirComic();
+		new AnadirComic(galeria, ventana);
 	}
 	
 	private void anadirVineta() {
-		new AnadirVineta();
+		new AnadirVineta(galeria, ventana);
 	}
 	
 

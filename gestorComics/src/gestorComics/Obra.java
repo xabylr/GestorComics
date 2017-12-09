@@ -1,19 +1,23 @@
 package gestorComics;
 
 import java.util.Comparator;
-
-public abstract class Obra implements Comparable<Obra>, Visualizable{
+/*
+ * Esta clase abstracta no contiene sentencias para sincronizar con la galería.
+ * Esto debe de hacerlo cada implementación concreta.
+ */
+public abstract class Obra implements Comparable<Obra>, Visualizable, Sincronizable{
 	
 	protected int ID=-1;
 	protected String nombre;
+
 	
 	@Override
 	public int compareTo(Obra o) {
-	OrdenAlfabetico ord =	new OrdenAlfabetico();
+	OrdenAlfabetico ord = new OrdenAlfabetico();
 		return (ord.compare(this, o) );
 	}
 	
-
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -27,8 +31,19 @@ public abstract class Obra implements Comparable<Obra>, Visualizable{
 		return ID;
 	}
 	
+	
 	public void setID(int id) {
-		ID=id;
+		ID = id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj.getClass().equals(this.getClass()) && getID() == ((Obra) obj).getID();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getID();
 	}
 	
 }

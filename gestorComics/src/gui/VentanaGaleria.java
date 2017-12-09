@@ -11,7 +11,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import gestorComics.Galeria;
+import gestorComics.IGaleria;
 import gestorComics.Obra;
 
 import javax.imageio.ImageIO;
@@ -21,17 +21,19 @@ import javax.swing.JButton;
 public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 
 	
-	JButton BTNAnadirComic;
-	JButton BTNAnadirVineta;
-	PanelObras panelObras;
+	private JButton BTNAnadirComic;
+	private JButton BTNAnadirVineta;
+	private PanelObras panelObras;
+	private IGaleria galeria;
 	
-	private static VentanaGaleria ventana;
 	
 	private final static int ANCHURA = 850;
 	private final static int ALTURA = 600;
 
 	
-	private VentanaGaleria() {
+	@SuppressWarnings("unchecked")
+	public VentanaGaleria(IGaleria g) {
+		galeria = g;
 		setTitle("Gestor de cómics");
 		
 		try {
@@ -49,7 +51,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		BTNAnadirComic = new JButton("Añadir Comic");
 		PanelBotones.add(BTNAnadirComic);
 		
-		panelObras = new PanelObras(Galeria.getGaleria().getAll());
+		panelObras = new PanelObras( (List<Obra>) (List<?>) galeria.getComics() );
 		add(panelObras, BorderLayout.CENTER);
 		
 		setSize(ANCHURA, ALTURA);
@@ -61,11 +63,6 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	    this.setLocation(x, y);
 		
 		setVisible(true);
-	}
-	
-	public static VentanaGaleria getVentana() {
-		if (ventana==null) return ventana = new VentanaGaleria();
-		return ventana;
 	}
 	
 	

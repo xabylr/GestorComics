@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import excepciones.ExcepcionUsuario;
 import gestorComics.Comic;
 import gestorComics.Galeria;
+import gestorComics.IGaleria;
 import gestorComics.Vineta;
 
 import javax.swing.JLabel;
@@ -37,8 +38,12 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 	private JTextField tfNombre;
 	private Image imagen;
 	private Miniatura miniatura;
+	private IGaleria galeria;
+	private IVentanaGaleria ventanaGaleria;
 	
-	public AnadirVineta() {
+	public AnadirVineta(IGaleria g, IVentanaGaleria vg) {
+		galeria = g;
+		ventanaGaleria = vg;
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelSelComic = new JPanel();
@@ -57,9 +62,8 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		
 		listaComics = new JComboBox<Comic>();
 		
-		listaComics.addItem(new Comic("<Suelto>"));
 		
-		List<Comic> lc = Galeria.getGaleria().getComics();
+		List<Comic> lc = galeria.getComics();
 		for(Comic c : lc) listaComics.addItem(c);
 
 		
@@ -158,29 +162,16 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 				Vineta nuevaVineta = new Vineta(imagen, tfNombre.getText() );
 				Comic aComic = getComic();
 				
-	if(imagen!=null) {
-				if (aComic==null) {
-					Galeria.getGaleria().insertarVineta(nuevaVineta, aComic);
-					VentanaGaleria.getVentana().addObra(nuevaVineta);
-					System.out.println("Añadida viñeta suelta");
-				}
-				else {
+					try {
+					if(imagen==null || aComic==null) throw new ExcepcionUsuario();
+						aComic.addVineta(nuevaVineta);
+						ventanaGaleria.refrescar(); //refrescamos la ventana de obras
+						//cerramos la ventana
+						dispatchEvent( new WindowEvent(AnadirVineta.this, WindowEvent.WINDOW_CLOSING) );
 					
-					//insertamos viñeta en la bbdd (también se le pone viñeta de portada si no la tenía)
-					Galeria.getGaleria().insertarVineta(nuevaVineta, aComic);
-					System.out.println("añadida viñeta en "+aComic);
-				
-				}
-				
-				VentanaGaleria.getVentana().refrescar(); //refrescamos la ventana de obras
-				
-				//cerramos la ventana
-				dispatchEvent( new WindowEvent(AnadirVineta.this, WindowEvent.WINDOW_CLOSING) );
-	}else {
-				alert("Inserta una imagen válida");
-		
-	}
-					
+					}catch (ExcepcionUsuario e) {
+						alert("Inserta una imagen válida y una viñeta");
+					}		
 			}
 		});
 		
@@ -209,10 +200,6 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 
 	@Override
 	public Comic getComic() {
-		//Crear viñeta suelta
-		if(listaComics.getSelectedIndex()==0) return null;
-		
-		//Devolver cómic suelto
 		return (Comic)listaComics.getSelectedItem();
 	}
 

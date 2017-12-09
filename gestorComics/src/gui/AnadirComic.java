@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import gestorComics.Comic;
-import gestorComics.Galeria;
+import gestorComics.IGaleria;
 
 import java.awt.Dimension;
 
@@ -28,8 +28,13 @@ public class AnadirComic extends JFrame implements IAnadirComic {
 	JButton btnCancelar;
 	private JPanel panelNombre;
 	private JLabel lblNombre;
+	private IGaleria galeria;
+	private IVentanaGaleria ventanaGaleria;
 	
-	public AnadirComic() {
+	public AnadirComic(IGaleria g, IVentanaGaleria vg) {
+		galeria = g;
+		ventanaGaleria = vg;
+		
 		setTitle("Añadir comic");
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
@@ -69,10 +74,8 @@ public class AnadirComic extends JFrame implements IAnadirComic {
 				Comic nuevo;
 				if(tNombre.getText().equals("")) nuevo = new Comic();
 				else nuevo = new Comic(tNombre.getText());
-				nuevo.inicializar(); //para que tenga una lista de viñetas vacía
-				
-				Galeria.getGaleria().insertarComic(nuevo);
-				VentanaGaleria.getVentana().addObra(nuevo);
+				galeria.guardarComic(nuevo);
+				ventanaGaleria.addObra(nuevo);
 				dispatchEvent( new WindowEvent(AnadirComic.this, WindowEvent.WINDOW_CLOSING) );
 			}
 		});

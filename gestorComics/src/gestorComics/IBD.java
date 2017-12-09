@@ -6,15 +6,35 @@ import excepciones.ExcepcionBD;
 
 public interface IBD {
 
-	public List<Obra> getObras() throws ExcepcionBD;
-	public List<Vineta> getVinetas(Comic comic)throws ExcepcionBD;
+	
+	//Búsqueda
+	int getUltimoIdComic();
+	int getUltimoIdVineta();
+	
+	public List<Comic> getComics() throws ExcepcionBD;
+	public List<Vineta> getVinetas(int c) throws ExcepcionBD;
+	public Vineta getPortada(int c) throws ExcepcionBD;
+	
+	//Modificación
 	/*
 	 * Inserta la viñeta especificada en la base de datos asociada a un cómic. 
 	 * Si comic es null, se inserta suelta
 	 */
-	void insertarVineta(Vineta vineta, Comic comic) throws ExcepcionBD;
-	void insertarComic(Comic comic) throws ExcepcionBD;
-	int getUltimoID();
-	void setPortada(int v, int c);
+	public void insertarVineta(Vineta v, int c) throws ExcepcionBD;
+	public void insertarVinetas(List<Vineta> vs, int c);
+	public void insertarComic(Comic comic) throws ExcepcionBD;
+	
+	public void renombrarVineta(Vineta v, String n)  throws ExcepcionBD;
+	public void renombrarComic(int c, String n) throws ExcepcionBD;
+	
+	public void actualizarImagenVineta(Vineta v);
+	
+	/*
+	 * Borra la viñeta de un cómic y de la BD si se queda sin enlaces
+	 */
+	public void borrarVineta(int v, int c) throws ExcepcionBD;
+	public void borrarComic(int c) throws ExcepcionBD;
+	
+	void setPortadaComic(int v, int c) throws ExcepcionBD;
 
 }

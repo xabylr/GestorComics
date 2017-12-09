@@ -13,19 +13,14 @@ import gui.*;
 public class GestorComics {
 
 	public static void main(String[] args) throws IOException {
-			IGaleria galeria = Galeria.getGaleria();
-			IBD bd = BD.getBD();
-			try {
-				galeria.conectar(bd);
-			} catch (SQLException e) {
-				System.err.println("ERROR AL CONECTAR A LA BBDD");
-				e.printStackTrace();
-			}			
-			IVentanaGaleria vo = VentanaGaleria.getVentana();
+			IBD bd = new BD();
+			IGaleria galeria = new Galeria(bd);
 			
-			vo.setTitulo("Gestor de Cómics (Primera iteración)");
-			CtrMenuPrincipal ctr = new CtrMenuPrincipal(vo);
-			vo.setControlador(ctr);
+			IVentanaGaleria vg = new VentanaGaleria(galeria);
+			
+			vg.setTitulo("Gestor de Cómics (Segunda iteración)");
+			CtrMenuPrincipal ctr = new CtrMenuPrincipal(galeria, vg);
+			vg.setControlador(ctr);
 
 			
 	}

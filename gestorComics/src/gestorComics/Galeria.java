@@ -15,191 +15,122 @@ import excepciones.RecursoNoEncontrado;
  * Colección de Obras del modelo siguiendo el esquema singleton
  */
 public class Galeria implements IGaleria {
-	private List<Obra> obras;
-	private static Galeria galeria;
-	private int ultimoID;
+	private List<Comic> comics;
 	
 	private IBD bd;
 	
-	private Galeria(){
-		obras = new ArrayList<>(); //A discutir el tipo de lista
+	public Galeria(){
+		comics = new ArrayList<>(); //A discutir el tipo de lista
 	}
 	
-	private Galeria(Collection<Obra> c) {
-		obras.addAll(c);
-	}
-
-	public static Galeria getGaleria(){
-		if (galeria == null) return galeria = new Galeria();
-		else return galeria;
+	public Galeria(IBD b) {
+		this();
+		conectar(b);
 	}
 
 	
-	public void conectar(IBD b) throws SQLException, IOException {
+	public void conectar(IBD b) {
 		bd=b;
-		getGaleria();
-		insertAll(bd.getObras());
-		ultimoID = bd.getUltimoID();
+		try {
+			cargarComics(bd.getComics());
+		} catch (ExcepcionBD e) {
+			throw new ExcepcionBD(
+					"Error al conectar la galería a la base de datos", e);
+		}
 	}
 	
-	
+	//Guarda en BBDD y local
 	@Override
-	public void insertarComic(Comic c) throws ExcepcionBD {
-		if (c.getID()==-1) { //si es local
-			ultimoID++;
-			c.setID(ultimoID);
-			obras.add(c);
-			if(bd!=null)
-				try {
-					bd.insertarComic(c);
-					System.out.println("Comic insertado en la base de datos");
-				} catch (ExcepcionBD e) {
-					e.printStackTrace();
-					throw new ExcepcionBD("Error al insertar cómic ("+e.getMessage()+")");
-				}
-			
-		}else { //si venía de la bbdd
-			obras.add(c);
-			if(c.getID() > ultimoID) ultimoID=c.getID();
-		}	
-		
+	public void guardarComic(Comic c) throws ExcepcionBD {
+		c.conectar(bd);
+		c.guardar();
+		comics.add(c);
 	}
+	
+	
+	//Carga de BBDD a local
+	@Override
+	public void cargarComic(Comic c) throws ExcepcionBD {
+		c.conectar(bd);
+		comics.add(c);
+	}
+	
 
 	
 	@Override
-	public void insertarVineta(Vineta v, Comic c) throws ExcepcionBD {
-		if (v.getID()==-1) { //si es local se le asigna un id
-			ultimoID++;
-			v.setID(ultimoID);
-			if(c == null)//Si es una viñeta suelta
-				obras.add(v);
-			else c.addVineta(v);
-		
-			if(bd!=null) {
-				try {
-					System.out.println("Insertando vineta en BBDD");
-					bd.insertarVineta(v,c);
-					if(c!=null && c.getPortada() == null) {
-				
-						System.out.println("Añadiendo portada del cómic a BBDD");
-						bd.setPortada(v.getID(), c.getID());
-					}
-					
-					
-				} catch (ExcepcionBD e) {
-					e.printStackTrace();
-					throw new ExcepcionBD("Error al insertar viñeta ("+e.getMessage()+")");
-				}
-			}
-			
-			if(c!= null && c.getPortada()== null) c.setPortada(v);
-				
-			
-		}else { //si venía de la bbdd se usa su id y se obtiene el máximo id
-			if(c == null) {//Si es una viñeta suelta
-				obras.add(v);
-			}else c.addVineta(v);
-			
-			if(v.getID() > ultimoID) ultimoID=v.getID();
-		}	
-		
+	public void cargarComics(Collection<Comic> comics){	
+		for(Comic c : comics) {
+			cargarComic(c);	
+		}
 	}
 	
 	
-
-	@Override
-	public void insertAll(Collection<Obra> c) throws IOException, SQLException {
-		for(Obra o : c) {
-			if(o instanceof Vineta) insertarVineta((Vineta)o, null);
-			else if(o instanceof Comic) insertarComic((Comic)o);
-			
-		}
-	
-	}
-	
-	/*private void buscarUltimoID() {
-		Iterator<Obra> it = obras.iterator();
-		while(it.hasNext()) {
-			int indice = it.next().getID();
-			if (indice > ultimoID) ultimoID = indice;
-		}
-	}*/
 	
 	@Override
-	public Obra get(Integer id){
-		Iterator<Obra> it = obras.iterator();
+	public Comic getComic(int id){
+		Iterator<Comic> it = comics.iterator();
 		boolean encontrado = false;
-		Obra obra = null;
+		Comic comic = null;
 		
 		while(!encontrado && it.hasNext()) {
-			obra = it.next();
-			if(obra.getID() == id) encontrado=true;
+			comic = it.next();
+			if(comic.getID() == id) encontrado=true;
 		}
-		if(!encontrado) throw new RecursoNoEncontrado("ID "+id);
+		//Todos los cómics de la base de datos se cargan en memoria, así que no buscamos allí.
+		if(!encontrado) throw new RecursoNoEncontrado("Cómic (ID "+id+")");
 		
-		return obra;
+		return comic;
+	}
+	
+	@Override
+	public Vineta getVineta(Comic c, int id){
+		Iterator<Vineta> it = c.getVinetas().iterator();
+		boolean encontrado = false;
+		Vineta vineta = null;
+		
+		while(!encontrado && it.hasNext()) {
+			vineta = it.next();
+			if(vineta.getID() == id) encontrado=true;
+		}
+		//Todos los cómics de la base de datos se cargan en memoria, así que no buscamos allí.
+		if(!encontrado) throw new RecursoNoEncontrado("Viñeta (ID "+id+") en "+c);
+		
+		return vineta;
 	}
 	
 	@Override
 	public Comic getComic(String nombre){
-		Iterator<Obra> it = obras.iterator();
+		Iterator<Comic> it = comics.iterator();
 		boolean encontrado = false;
-		Obra obra = null;
+		Comic comic = null;
 		
 		while(!encontrado && it.hasNext()) {
-			obra = it.next();
-			if(obra instanceof Comic && obra.getNombre().equals(nombre)) encontrado=true;
+			comic = it.next();
+			if(comic instanceof Comic && comic.getNombre().equals(nombre)) encontrado=true;
 		}
-		if(!encontrado) throw new RecursoNoEncontrado("Comic: "+nombre);
+		if(!encontrado) throw new RecursoNoEncontrado("Cómic con nombre: \""+nombre+"\"");
 		
-		return (Comic)obra;
-	}
-	
-	@Override
-	public Vineta getVineta(String nombre) {
-		Iterator<Obra> it = obras.iterator();
-		boolean encontrado = false;
-		Obra obra = null;
-		
-		while(!encontrado && it.hasNext()) {
-			obra = it.next();
-			if(obra instanceof Vineta && obra.getNombre().equals(nombre)) encontrado=true;
-		}
-		if(!encontrado) throw new RecursoNoEncontrado("Viñeta: "+nombre);
-		
-		return (Vineta)obra;
+		return comic;
 	}
 
-	@Override
-	public List<Obra> getAll() {
-		return obras;
-	}
 
-	@Override
-	public int nextID() {
-		return ultimoID+1;
-	}
-
-	@Override
-	public List<Vineta> getVinetas(Comic c) throws SQLException{
-		if(c.getVinetas()!=null)return c.getVinetas();
-		else if(bd!=null) return bd.getVinetas(c);
-			else {
-				c.inicializar();
-				return c.getVinetas();
-			}
-			
-	}
-	
 	@Override
 	public List<Comic> getComics() {
 		List<Comic> listAux = new ArrayList<>();
 		
-		for(Obra o : obras) {
+		for(Obra o : comics) {
 			if(o instanceof Comic)listAux.add((Comic) o);
 		}
 			
 		return listAux;
+	}
+
+
+	@Override
+	public void borrarComic(Comic c) throws RecursoNoEncontrado {
+		c.desConectar();
+		comics.remove(c);
+		
 	}
 	
 	

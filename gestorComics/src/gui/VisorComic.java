@@ -22,19 +22,13 @@ public class VisorComic extends JFrame implements IVisorComic{
 	//https://stackoverflow.com/questions/2745265/is-listdog-a-subclass-of-listanimal-why-arent-javas-generics-implicitly-p
 	//No pasa nada, no se añade ninguna obra a la lista de viñetas, solo se lee
 	@SuppressWarnings("unchecked") 
-	public VisorComic(Comic c) {
-		setTitle(c.getNombre());
+	public VisorComic(Comic comic) {
+		setTitle(comic.getNombre());
 		setBounds(100, 100, 741, 466);
 		
 		PanelObras po;
-		try {
-			po = new  PanelObras((List<Obra>) (List<?>)Galeria.getGaleria().getVinetas(c));
-			add(po, BorderLayout.CENTER);
-			
-		} catch (SQLException e1) {
-			System.err.println("Error al cargar viñetas del cómic "+c);
-			e1.printStackTrace();
-		}
+		po = new  PanelObras((List<Obra>) (List<?>) comic.getVinetas());
+		add(po, BorderLayout.CENTER);
 		
 		
 		

@@ -4,7 +4,8 @@ import java.awt.Image;
 
 public class Vineta extends Obra{
 	
-	Image imagen;
+	private IBD bd;
+	private Image imagen;
 
 	public Image getImagen() {
 		return imagen;
@@ -12,26 +13,27 @@ public class Vineta extends Obra{
 
 	public void setImagen(Image i) {
 		imagen = i;
+		if(bd!=null) bd.actualizarImagenVineta(this);
 	}
 	
 	public Vineta() {
-		setID(-1);
+
 	}
 
 	public Vineta(String n) {
 		this();
-		setNombre(n);
+		nombre = n;
 	}
 	
 	public Vineta(Image i) {
 		this();
-		setImagen(i);
+		imagen = i;
 	}
 	
 	public Vineta(Image i, String n) {
 		this();
-		setImagen(i);
-		setNombre(n);
+		imagen = i;
+		nombre = n;
 	}
 
 	
@@ -50,5 +52,23 @@ public class Vineta extends Obra{
 	public String toString() {
 		return "Viñeta: "+nombre+" (ID "+ID+")";
 	}
+
+	@Override
+	public void conectar(IBD b) {
+		bd = b;
+		
+	}
+	
+	@Override
+	public void guardar() {
+		System.out.println("NO SE HACE NADA PARA SINCRONIZAR UNA VIÑETA AÚN");
+	}
+
+	@Override
+	public void desConectar() {
+		bd = null;
+		
+	}
+
 
 }

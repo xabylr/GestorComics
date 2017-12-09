@@ -7,26 +7,45 @@ import java.util.Collection;
 import java.util.List;
 
 import excepciones.ExcepcionBD;
+import excepciones.RecursoNoEncontrado;
 
 /*
- * Galería siguiendo el patrón singleton
+ * Galería que puede conectarse a una base de datos
  */
 public interface IGaleria {
+	/*
+	 * Utilizado principalmente por la propia clase y para pruebas sin BD
+	 */
+	public void cargarComics(Collection<Comic> c);
 	
-	public void insertAll(Collection<Obra> c) throws IOException, SQLException;
-	public Obra get(Integer id);
-	public List<Obra> getAll();
+	//Búsqueda
 	public List<Comic> getComics(); 
+	public Comic getComic(int id);
+	public Comic getComic(String nombre);
+	public Vineta getVineta(Comic c, int id);
+	
+	//Escritura
 	
 	/*
-	 *Devolver siguiente ID disponible 
+	 * Sube el cómic con sus viñetas si las tiene y le asigna un ID
 	 */
-	public int nextID();
-	Comic getComic(String nombre);
-	Vineta getVineta(String nombre);
-	List<Vineta> getVinetas(Comic c) throws SQLException;
-	void insertarComic(Comic c) throws ExcepcionBD;
-	void insertarVineta(Vineta v, Comic c) throws ExcepcionBD;
-	public void conectar(IBD bd) throws SQLException, IOException;
+	public void guardarComic(Comic c) throws RecursoNoEncontrado;
+
+	/*
+	 * Carga un cómic en la galería local
+	 */
+	public void cargarComic(Comic c) throws RecursoNoEncontrado;
+	
+	
+	/*
+	 * Borra el cómic y sus viñetas
+	 */
+	public void borrarComic(Comic c) throws RecursoNoEncontrado;
+	/*
+	 * Si la viñeta no se usa en más cómics la borra completamente
+	 */
+	
+	//Base de datos
+	public void conectar(IBD bd) throws ExcepcionBD;
 
 }

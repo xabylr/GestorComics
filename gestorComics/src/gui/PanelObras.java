@@ -41,6 +41,7 @@ public class PanelObras extends JScrollPane {
 		addObras(listaObras);
 	}
 	
+	
 	public void refrescar() {
 		panelObras.removeAll();
 		addObras(listaObras);

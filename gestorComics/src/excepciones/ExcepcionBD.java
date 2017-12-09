@@ -14,6 +14,11 @@ public class ExcepcionBD extends RuntimeException {
 		System.err.println("Excepción de BD: "+reason);
 	}
 	
+	public ExcepcionBD(String motivo, Exception e) {
+		mensaje = motivo;
+		motivo = motivo+"\n("+e.getMessage()+")";
+	}
+	
 	@Override
 	public String getMessage() {
 		return mensaje;
