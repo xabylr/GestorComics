@@ -70,11 +70,11 @@ public class Comic extends Obra{
 				
 				Vineta aux = bd.getPortada(ID);
 				
+		//(PRESCINDIBLE) usar la misma viñeta de portada de entre las que ya tenemos
+		//Así se evita usar la copia necesaria antes de tener la lista de viñetas
 				if (aux != null)
 					for (Vineta v : vinetas)
 						if(v.equals(aux)) portada = v;
-				
-				
 			}
 			else vinetas = new ArrayList<Vineta>();
 		}
@@ -83,11 +83,16 @@ public class Comic extends Obra{
 	public void addVineta(Vineta v){
 		inicializarVinetas();
 		vinetas.add(v);
+		
+		//primero guardamos la viñeta para que tenga un ID en la BD
+		if(bd!=null) {
+			bd.insertarVineta(v, ID);
+		}
+		
+		//Después se puede poner de portada incluso en la BD
 		if(portada == null) setPortada(v);
 		
-		if(bd!=null) {
-				bd.insertarVineta(v, ID);
-		}
+
 		
 	}
 	
@@ -125,6 +130,7 @@ public class Comic extends Obra{
 	}
 	
 	public Vineta getPortada() {
+		if (portada == null && bd != null )portada = bd.getPortada(ID); 
 		return portada;
 	}
 	
@@ -140,7 +146,7 @@ public class Comic extends Obra{
 	@Override
 	public Image vistaPrevia() {
 		if(portada==null) return null;
-		return portada.vistaPrevia();
+		return getPortada().vistaPrevia();
 	}
 
 

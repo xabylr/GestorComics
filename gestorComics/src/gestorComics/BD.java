@@ -114,8 +114,7 @@ public class BD implements IBD{
 		//if(v.getID() > ultimoIdVineta) ultimoIdVineta=v.getID();
 try {
 		if(vineta.getID()==-1) {
-			System.out.println("SET ID A "+ultimoIdVineta);
-			vineta.setID(ultimoIdVineta++);
+			vineta.setID(++ultimoIdVineta);
 			
 		}
 	
@@ -141,8 +140,7 @@ try {
 
 	
 }catch (SQLException | IOException e) {
-	e.printStackTrace();
-	throw new ExcepcionBD("Error al insertar  "+vineta+" ("+e.getMessage()+")");
+	throw new ExcepcionBD("Error al insertar  "+vineta, e);
 }
 	
 	}
@@ -152,7 +150,6 @@ try {
 	public void insertarComic(Comic comic) throws ExcepcionBD  {
 try {
 	
-	System.out.println("INSERTAR COMIC CON ID: "+ultimoIdComic);
 		if(comic.getID()==-1)comic.setID(++ultimoIdComic);
 	
 
@@ -191,11 +188,14 @@ try {
 			int id = rs.getInt("ID");
 			String nombre = rs.getString("NOMBRE");
 			int IDportada = rs.getInt("PORTADA");
+			if (rs.wasNull()) IDportada = -1;
 
 			Comic c = new Comic(nombre);
 			c.setID(id);
 			
 			c.setPortada(getVineta(IDportada) );
+			
+			c.conectar(this);
 			
 			resultado.add(c);
 		}
@@ -210,6 +210,8 @@ try {
 	
 	
 	private Vineta getVineta(int id) throws ExcepcionBD  {
+		if (id == -1) return null;
+		
 		try {
 			PreparedStatement psmnt = con.prepareStatement("SELECT IMAGEN, NOMBRE, ID"
 					+ " FROM VINETA WHERE ID="+id);
@@ -271,7 +273,6 @@ try {
 
 	@Override
 	public int getUltimoIdComic() {
-		System.out.println("ULTIMO ID");
 		int resultado=-1;
 	try {
 			PreparedStatement psmnt = con.prepareStatement(

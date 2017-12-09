@@ -54,7 +54,7 @@ public class Galeria implements IGaleria {
 	//Carga de BBDD a local
 	@Override
 	public void cargarComic(Comic c) throws ExcepcionBD {
-		c.conectar(bd);
+		//c.conectar(bd); //ya se hace en BD
 		comics.add(c);
 	}
 	

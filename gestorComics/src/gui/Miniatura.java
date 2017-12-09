@@ -120,7 +120,6 @@ public class Miniatura extends JPanel implements Visualizable {
 
 
 	public void seleccionado() {
-		System.out.println("Seleccionado "+obra);
 		
 		try {
 			mostrarObra();
