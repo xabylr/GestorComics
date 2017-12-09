@@ -39,7 +39,11 @@ public class PaneAnotaciones extends JScrollPane {
 		//Hacemos un poco más rápido el scroll
 		//getVerticalScrollBar().setUnitIncrement(16);
 		
+		
+		//Código para añadir recuadrobs (de momento inerte) para añadir comentarios
 		addAnotaciones(listaAnotaciones);
+		gbc.gridy = panelAnotaciones.getComponentCount();
+				panelAnotaciones.add(new WidgetAnotacion(), gbc);
 	}
 	
 	
@@ -56,7 +60,7 @@ public class PaneAnotaciones extends JScrollPane {
 	private void addAnotacionNoValidate(Anotacion anotacion) {
 		gbc.gridy = panelAnotaciones.getComponentCount();
 		
-		panelAnotaciones.add(new WidgetAnotacion(anotacion) );
+		panelAnotaciones.add(new WidgetAnotacion(anotacion), gbc);
 
 		
 	}

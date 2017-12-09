@@ -18,13 +18,9 @@ public class PruebaAnotaciones {
 		List<Anotacion> alist = new ArrayList<>();
 		
 		Anotacion aPublica = new AnotacionPublica("Esto es una anotación pública");
-		WidgetAnotacion paPub = new WidgetAnotacion(aPublica);
-		
+
 		Anotacion aPrivada = new AnotacionPrivada("Esto es una anotación privada");
-		WidgetAnotacion paPriv = new WidgetAnotacion(aPrivada);
-		
-		WidgetAnotacion paVacio = new WidgetAnotacion();
-		
+
 		alist.add(aPublica); alist.add(aPrivada);
 		
 		JFrame ventana = new JFrame("Ventana de prueba");

@@ -78,7 +78,7 @@ public class WidgetAnotacion extends JPanel {
 		publico = anotacion.esPublico();
 		inicializar();
 		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/LLLL/yyyy (H:m)");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/LLLL/yyyy (HH:mm)");
 		
 		lblTitulo.setText(anotacion.getFecha().format(dtf));
 		
@@ -118,10 +118,10 @@ public class WidgetAnotacion extends JPanel {
 	private void refrescarIcono() {
 		if (publico) {
 			lblPrivacidad.setIcon(new ImageIcon("src/res/unlock.png"));
-			lblPrivacidad.setText("Público");
+			lblPrivacidad.setText("Global");
 		}else {
 			lblPrivacidad.setIcon(new ImageIcon("src/res/lock.png"));
-			lblPrivacidad.setText("Privado");
+			lblPrivacidad.setText("Local");
 		}
 	}
 	

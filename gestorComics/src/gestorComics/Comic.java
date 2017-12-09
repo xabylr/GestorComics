@@ -149,5 +149,23 @@ public class Comic extends Obra{
 		return getPortada().vistaPrevia();
 	}
 
+	@Override
+	public void addAnotacionPrivada(AnotacionPrivada a) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<AnotacionPrivada> getAnotacionesPrivadas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delAnotacionPrivada(AnotacionPrivada a) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
