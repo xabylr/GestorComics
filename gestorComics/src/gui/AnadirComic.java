@@ -21,7 +21,7 @@ import javax.swing.JLabel;
 import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
-public class AnadirComic extends JFrame implements IAnadirComic {
+public class AnadirComic extends JFrame{
 	
 	private JTextField tNombre;
 	JButton btnAnadir;
@@ -94,10 +94,4 @@ public class AnadirComic extends JFrame implements IAnadirComic {
 	}
 
 
-
-	@Override
-	public String devuelveTexto() {
-		return tNombre.getText();
-		
-	}
 }

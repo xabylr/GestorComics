@@ -39,7 +39,7 @@ public class BD implements IBD{
 			
 		}
 		
-        System.out.println("Se ha establecido la conexión con el archivo BBDD");
+        System.out.println("Se ha establecido la conexión con el archivo BD");
         
         ultimoIdComic = getUltimoIdComic();
         ultimoIdVineta = getUltimoIdVineta();    
@@ -88,7 +88,7 @@ public class BD implements IBD{
 
 			sc.close();
 		}catch(Exception e) {
-			throw new ExcepcionBD("Error al general la BBDD", e);
+			throw new ExcepcionBD("Error al general la BD", e);
 		}
 	}
 	
@@ -281,7 +281,7 @@ try {
 			if(rs.next()) resultado = rs.getInt(1);
 			
 	} catch (SQLException e) {
-		throw new ExcepcionBD("Error al obtener el último ID de la BBDD", e);
+		throw new ExcepcionBD("Error al obtener el último ID de la BD", e);
 	}
 		
 		return resultado;
@@ -298,7 +298,7 @@ try {
 			
 	} catch (SQLException e) {
 		e.printStackTrace();
-		throw new ExcepcionBD("Error al obtener el último ID de la BBDD",e);
+		throw new ExcepcionBD("Error al obtener el último ID de la BD",e);
 	}
 		
 		return resultado;
@@ -322,44 +322,44 @@ try {
 	@Override
 	public void renombrarVineta(Vineta v, String n) throws ExcepcionBD {
 		// TODO Auto-generated method stub
-		System.out.println("RENOMBAR VIÑETA EN BBDD NO IMPLEMENTADO");
+		System.out.println("RENOMBAR VIÑETA EN BD NO IMPLEMENTADO");
 	}
 
 	@Override
 	public void renombrarComic(int c, String n) throws ExcepcionBD {
 		// TODO Auto-generated method stub
-		System.out.println("RENOMBAR CÓMIC EN BBDD NO IMPLEMENTADO");
+		System.out.println("RENOMBAR CÓMIC EN BD NO IMPLEMENTADO");
 	}
 
 	@Override
 	public void borrarVineta(int v, int c) throws ExcepcionBD {
 		// TODO Auto-generated method stub
-		System.out.println("BORRAR VIÑETA EN BBDD NO IMPLEMENTADO");
+		System.out.println("BORRAR VIÑETA EN BD NO IMPLEMENTADO");
 		
 	}
 
 	@Override
 	public void borrarComic(int c) throws ExcepcionBD {
 		// TODO Auto-generated method stub
-		System.out.println("BORRAR CÓMIC EN BBDD NO IMPLEMENTADO");
+		System.out.println("BORRAR CÓMIC EN BD NO IMPLEMENTADO");
 	}
 
 	@Override
 	public Vineta getPortada(int c) throws ExcepcionBD {
 		// TODO Auto-generated method stub
-		System.out.println("CONSEGUIR PORTADA EN BBDD NO IMPLEMENTADO");
+		System.out.println("CONSEGUIR PORTADA EN BD NO IMPLEMENTADO");
 		return null;
 	}
 
 	@Override
 	public void insertarVinetas(List<Vineta> vs, int c) {
 		// TODO Auto-generated method stub
-		System.out.println("INSERTAR VIÑETAS EN BBDD NO IMPLEMENTADO");
+		System.out.println("INSERTAR VIÑETAS EN BD NO IMPLEMENTADO");
 	}
 
 	@Override
 	public void actualizarImagenVineta(Vineta v) {
-		System.out.println("ACTUALIZAR IMAGEN VIÑETA EN BBDD NO IMPLEMENTADO");
+		System.out.println("ACTUALIZAR IMAGEN VIÑETA EN BD NO IMPLEMENTADO");
 		
 	}
 	

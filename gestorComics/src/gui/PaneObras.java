@@ -15,7 +15,7 @@ import javax.swing.ScrollPaneConstants;
  * Sirve tanto para ver la galería de obras como para ver las viñetas de un cómic
  */
 @SuppressWarnings("serial")
-public class PanelObras extends JScrollPane {
+public class PaneObras extends JScrollPane {
 	
 	public static final int NCOL=5;
 
@@ -25,7 +25,7 @@ public class PanelObras extends JScrollPane {
 	GridBagLayout gbl;
 	GridBagConstraints gbc ;
 	
-	public PanelObras(List<Obra> list) {
+	public PaneObras(List<Obra> list) {
 		listaObras=list;
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		

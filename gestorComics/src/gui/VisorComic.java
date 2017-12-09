@@ -26,8 +26,8 @@ public class VisorComic extends JFrame implements IVisorComic{
 		setTitle(comic.getNombre());
 		setBounds(100, 100, 741, 466);
 		
-		PanelObras po;
-		po = new  PanelObras((List<Obra>) (List<?>) comic.getVinetas());
+		PaneObras po;
+		po = new  PaneObras((List<Obra>) (List<?>) comic.getVinetas());
 		add(po, BorderLayout.CENTER);
 		
 		
