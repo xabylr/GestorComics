@@ -76,6 +76,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	@Override
 	public void refrescar() {
 		panelObras.refrescar();
+//		validate();
 	}
 	
 	@Override

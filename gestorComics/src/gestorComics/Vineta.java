@@ -60,12 +60,12 @@ public class Vineta extends Obra{
 	}
 	
 	@Override
-	public void guardar() {
+	public void subir() {
 		System.out.println("NO SE HACE NADA PARA SINCRONIZAR UNA VIÑETA AÚN");
 	}
 
 	@Override
-	public void desConectar() {
+	public void retirar() {
 		bd = null;
 		
 	}

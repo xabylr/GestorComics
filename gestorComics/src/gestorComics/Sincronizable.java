@@ -8,8 +8,8 @@ public interface Sincronizable {
 	
 	public void conectar(IBD b);
 	
-	public void guardar();
+	public void subir();
 	
-	public void desConectar(); //Borramos de la BD
+	public void retirar(); //Borramos de la BD
 	
 }

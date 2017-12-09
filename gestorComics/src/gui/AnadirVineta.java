@@ -22,6 +22,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JTextField;
@@ -34,12 +35,14 @@ import java.awt.Dimension;
 public class AnadirVineta extends JFrame implements IAnadirVineta {
 	
 	private JLabel lblAlert;
-	private JComboBox<Comic> listaComics;
+	private JComboBox<ContenedorComic> listaComics;
 	private JTextField tfNombre;
 	private Image imagen;
 	private Miniatura miniatura;
 	private IGaleria galeria;
 	private IVentanaGaleria ventanaGaleria;
+	
+	private Vineta nuevaVineta;
 	
 	public AnadirVineta(IGaleria g, IVentanaGaleria vg) {
 		galeria = g;
@@ -60,11 +63,13 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		JPanel panelSelSubir = new JPanel();
 		panelSelComic.add(panelSelSubir);
 		
-		listaComics = new JComboBox<Comic>();
+		listaComics = new JComboBox<ContenedorComic>();
 		
 		
 		List<Comic> lc = galeria.getComics();
-		for(Comic c : lc) listaComics.addItem(c);
+		for(Comic c : lc) {
+			addComic(c);
+		}
 
 		
 		
@@ -113,64 +118,63 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		JButton btnCrearVineta = new JButton("Crear Viñeta");
 		panelBtn.add(btnCrearVineta);
 		
-		
 		pack();
 		
+		//Botón seleccionar imagen
 		btnSelImg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-		try {
-					
-					JFileChooser explorador = new JFileChooser();
-					
-					int eleccion = explorador.showOpenDialog(new JFrame());
-					
+		try {		
+					JFileChooser explorador = new JFileChooser();		
+					int eleccion = explorador.showOpenDialog(new JFrame());		
 					if (eleccion != JFileChooser.APPROVE_OPTION)
-						throw new ExcepcionUsuario("Elige un archivo");
-
+						throw new CancellationException();
 					File archivoEscogido = explorador.getSelectedFile();
 					try {
 						Image img = ImageIO.read(archivoEscogido);
 						imagen=img;
 					}catch (IllegalArgumentException e) {
 						throw new ExcepcionUsuario("Elige una imagen válida");
+					} catch (IOException e) {
+						throw new ExcepcionUsuario("Error de lectura");
 					}
 					
+					nuevaVineta = new Vineta(imagen, tfNombre.getText());
 					
-					if(miniatura!=null) panelSubir.remove(miniatura);
+					if(miniatura!=null) panelSubir.remove(miniatura);	
+					miniatura = new Miniatura(nuevaVineta);
 					
-					miniatura = new Miniatura(new Vineta(imagen, tfNombre.getText()));
 					panelSubir.add(miniatura);
 					pack();
 					revalidate();
-					
-					
 					lblAlert.setVisible(false);
-				} catch (ExcepcionUsuario e) {
-					alert(e.getMessage());
-				}catch(IOException e) {
-					alert("Error al seleccionar un archivo");
-					e.printStackTrace();
-				}
-				
+					
+		} catch (ExcepcionUsuario e) {
+			if(miniatura!=null) panelSubir.remove(miniatura);	
+			alert(e.getMessage());
+		} catch (CancellationException e) {
+			
+		}
+					
 		}});
 		
 		
+		//Botón crear viñeta
 		btnCrearVineta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				Vineta nuevaVineta = new Vineta(imagen, tfNombre.getText() );
-				Comic aComic = getComic();
-				
+					Comic aComic = getComic();
 					try {
-					if(imagen==null || aComic==null) throw new ExcepcionUsuario();
+					if(nuevaVineta == null || aComic == null)
+						throw new ExcepcionUsuario("Selecciona un cómic y una imagen");
+				
 						aComic.addVineta(nuevaVineta);
 						ventanaGaleria.refrescar(); //refrescamos la ventana de obras
 						//cerramos la ventana
 						dispatchEvent( new WindowEvent(AnadirVineta.this, WindowEvent.WINDOW_CLOSING) );
 					
 					}catch (ExcepcionUsuario e) {
-						alert("Inserta una imagen válida y una viñeta");
+						alert(e.getMessage());
 					}		
 			}
 		});
@@ -195,13 +199,28 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 
 	@Override
 	public void addComic(Comic c) {
-		listaComics.addItem(c);
+		listaComics.addItem(new ContenedorComic(c));
 	}
 
 	@Override
 	public Comic getComic() {
-		return (Comic)listaComics.getSelectedItem();
+		if(listaComics.getSelectedItem()!=null)
+			return ( (ContenedorComic) listaComics.getSelectedItem() ).getComic();
+		else return null;
 	}
 
 
+}
+
+class ContenedorComic{
+	Comic comic;
+	public ContenedorComic(Comic c) {
+		comic = c;
+	}
+	@Override
+	public String toString() {
+		return comic.getNombre();
+	}
+	public Comic getComic() {return comic;}
+	
 }

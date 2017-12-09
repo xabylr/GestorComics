@@ -7,6 +7,7 @@ import gestorComics.*;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.ScrollPaneConstants;
@@ -45,16 +46,14 @@ public class PanelObras extends JScrollPane {
 	public void refrescar() {
 		panelObras.removeAll();
 		addObras(listaObras);
-		validate();
 	}
 	
 	public void addObra(Obra obra) {
-	
-		addObraNoV(obra);
+		addObraNoValidate(obra);
 		validate();
 	}
 	
-	private void addObraNoV(Obra obra) {
+	private void addObraNoValidate(Obra obra) {
 		gbc.gridx = panelObras.getComponentCount()%NCOL;
 		gbc.gridy = panelObras.getComponentCount()/NCOL;
 		
@@ -63,8 +62,11 @@ public class PanelObras extends JScrollPane {
 		
 	}
 	public void addObras(List<Obra> l) {
-		Iterator<Obra> it = l.iterator();
-		while(it.hasNext()) addObraNoV(it.next()  );
+			Iterator<Obra> it = l.iterator();
+			while(it.hasNext()) {
+				addObraNoValidate(it.next() );
+			}
+		
 		validate();
 	}
 	

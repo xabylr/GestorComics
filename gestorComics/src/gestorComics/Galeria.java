@@ -42,8 +42,11 @@ public class Galeria implements IGaleria {
 	//Guarda en BBDD y local
 	@Override
 	public void guardarComic(Comic c) throws ExcepcionBD {
-		c.conectar(bd);
-		c.guardar();
+		if(bd!=null) {
+			c.conectar(bd);
+			c.subir();
+		}
+		
 		comics.add(c);
 	}
 	
@@ -116,19 +119,13 @@ public class Galeria implements IGaleria {
 
 	@Override
 	public List<Comic> getComics() {
-		List<Comic> listAux = new ArrayList<>();
-		
-		for(Obra o : comics) {
-			if(o instanceof Comic)listAux.add((Comic) o);
-		}
-			
-		return listAux;
+		return comics;
 	}
 
 
 	@Override
 	public void borrarComic(Comic c) throws RecursoNoEncontrado {
-		c.desConectar();
+		c.retirar();
 		comics.remove(c);
 		
 	}

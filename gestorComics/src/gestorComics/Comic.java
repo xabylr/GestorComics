@@ -31,13 +31,13 @@ public class Comic extends Obra{
 	}
 	
 	@Override
-	public void guardar() {
+	public void subir() {
 		bd.insertarComic(this); //Se le asigna un ID
 	}
 	
 
 	@Override
-	public void desConectar() {
+	public void retirar() {
 		bd.borrarComic(ID);
 		bd=null;
 		ID=-1;
@@ -62,7 +62,7 @@ public class Comic extends Obra{
 		return resultado;
 	}
 
-
+	//Si ya había viñetas antes de conectar, se pierden
 	public void inicializarVinetas() { //cargar lista de viñetas
 		if (vinetas == null) {
 			if (bd != null) {
@@ -84,9 +84,10 @@ public class Comic extends Obra{
 		inicializarVinetas();
 		vinetas.add(v);
 		if(portada == null) setPortada(v);
-			if(bd!=null) {
-					bd.insertarVineta(v, ID);
-			}
+		
+		if(bd!=null) {
+				bd.insertarVineta(v, ID);
+		}
 		
 	}
 	

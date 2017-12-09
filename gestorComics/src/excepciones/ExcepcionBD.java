@@ -15,8 +15,9 @@ public class ExcepcionBD extends RuntimeException {
 	}
 	
 	public ExcepcionBD(String motivo, Exception e) {
-		mensaje = motivo;
-		motivo = motivo+"\n("+e.getMessage()+")";
+		mensaje = motivo+"\n\n~~~~~~~~~~~~~~~~~ (v) Información detallada del error  (v) ~~~~~~~~~~~~~~~~~\n\n"
+				+e.getMessage()+
+				"\n\n~~~~~~~~~~~~~~~~~ (^) Información detallada del error  (^) ~~~~~~~~~~~~~~~~~\n";
 	}
 	
 	@Override
