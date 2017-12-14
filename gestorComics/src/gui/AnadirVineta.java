@@ -40,13 +40,11 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 	private Image imagen;
 	private Miniatura miniatura;
 	private IGaleria galeria;
-	private IVentanaGaleria ventanaGaleria;
 	
 	private Vineta nuevaVineta;
 	
-	public AnadirVineta(IGaleria g, IVentanaGaleria vg) {
+	public AnadirVineta(IGaleria g) {
 		galeria = g;
-		ventanaGaleria = vg;
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelSelComic = new JPanel();
@@ -169,7 +167,7 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 						throw new ExcepcionUsuario("Selecciona un cómic y una imagen");
 				
 						aComic.addVineta(nuevaVineta);
-						ventanaGaleria.refrescar(); //refrescamos la ventana de obras
+						galeria.refrescarLista();
 						//cerramos la ventana
 						dispatchEvent( new WindowEvent(AnadirVineta.this, WindowEvent.WINDOW_CLOSING) );
 					

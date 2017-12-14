@@ -30,6 +30,10 @@ void addObra(Obra obra);
  */
 public void delObra(Obra obra);
 
+
+/*
+ * Refresca la lista de obras en pantalla en base a su lista interna
+ */
 public void refrescar();
 
 

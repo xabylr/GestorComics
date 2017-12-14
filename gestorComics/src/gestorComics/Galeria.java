@@ -1,7 +1,5 @@
 package gestorComics;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -9,27 +7,29 @@ import java.util.List;
 
 import excepciones.ExcepcionBD;
 import excepciones.RecursoNoEncontrado;
+import gui.IVentanaGaleria;
 
 
 /*
- * Colección de Obras del modelo siguiendo el esquema singleton
+ * Colección de Obras del modelo con información de una BD y actualizando una GUI
  */
 public class Galeria implements IGaleria {
 	private List<Comic> comics;
+	private IVentanaGaleria gui;
 	
 	private IBD bd;
 	
 	public Galeria(){
-		comics = new ArrayList<>(); //A discutir el tipo de lista
+		comics = new ArrayList<>();
 	}
 	
 	public Galeria(IBD b) {
 		this();
-		conectar(b);
+		conectarBD(b);
 	}
 
 	
-	public void conectar(IBD b) {
+	public void conectarBD(IBD b) {
 		bd=b;
 		try {
 			cargarComics(bd.getComics());
@@ -48,13 +48,18 @@ public class Galeria implements IGaleria {
 		}
 		
 		comics.add(c);
+		refrescarGUI();
 	}
 	
 	
 	//Carga de BBDD a local
 	@Override
 	public void cargarComic(Comic c) throws ExcepcionBD {
-		//c.conectar(bd); //ya se hace en BD
+		cargarComic(c);
+		refrescarGUI();
+	}
+	
+	private void cargarComicNoRefresco(Comic c) {
 		comics.add(c);
 	}
 	
@@ -63,8 +68,9 @@ public class Galeria implements IGaleria {
 	@Override
 	public void cargarComics(Collection<Comic> comics){	
 		for(Comic c : comics) {
-			cargarComic(c);	
+			cargarComicNoRefresco(c);	
 		}
+		refrescarGUI();
 	}
 	
 	
@@ -127,8 +133,24 @@ public class Galeria implements IGaleria {
 	public void borrarComic(Comic c) throws RecursoNoEncontrado {
 		c.retirar();
 		comics.remove(c);
+		refrescarGUI();
 		
 	}
+
+	@Override
+	public void conectarGUI(IVentanaGaleria g) {
+		gui = g;
+		
+	}
+
+	@Override
+	public void refrescarLista() {
+		refrescarGUI();
+	}
 	
+	
+	private void refrescarGUI() {
+		if(gui!=null) gui.refrescar();
+	}
 	
 }

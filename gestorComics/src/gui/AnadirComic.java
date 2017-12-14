@@ -31,9 +31,8 @@ public class AnadirComic extends JFrame{
 	private IGaleria galeria;
 	private IVentanaGaleria ventanaGaleria;
 	
-	public AnadirComic(IGaleria g, IVentanaGaleria vg) {
+	public AnadirComic(IGaleria g) {
 		galeria = g;
-		ventanaGaleria = vg;
 		
 		setTitle("Añadir comic");
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -65,18 +64,13 @@ public class AnadirComic extends JFrame{
 		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispatchEvent( new WindowEvent(AnadirComic.this, WindowEvent.WINDOW_CLOSING) );
+				AnadirComic.this.cancelar();
 			}
 		});
 	
 		btnAnadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Comic nuevo;
-				if(tNombre.getText().equals("")) nuevo = new Comic();
-				else nuevo = new Comic(tNombre.getText());
-				galeria.guardarComic(nuevo);
-				ventanaGaleria.addObra(nuevo);
-				dispatchEvent( new WindowEvent(AnadirComic.this, WindowEvent.WINDOW_CLOSING) );
+				AnadirComic.this.anadirVineta();
 			}
 		});
 		
@@ -84,14 +78,31 @@ public class AnadirComic extends JFrame{
 		this.setVisible(true);
 		this.setSize(850, 600);
 		this.pack();
+		
 		//CENTRADO DE VENTANA
 	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
 	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
 	    this.setLocation(x, y);
-	    
-		
 	}
-
+	
+	private void cerrarVentana(){
+		dispatchEvent( new WindowEvent(this, WindowEvent.WINDOW_CLOSING) );
+	}
+	
+	private void cancelar() {
+		cerrarVentana();
+	}
+	
+	private void anadirVineta() {
+		Comic nuevo;
+		if(tNombre.getText().equals("")) nuevo = new Comic();
+		else nuevo = new Comic(tNombre.getText());
+		galeria.guardarComic(nuevo);
+		ventanaGaleria.addObra(nuevo);
+		
+		cerrarVentana();
+	}
+	
 
 }

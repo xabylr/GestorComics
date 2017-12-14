@@ -16,7 +16,7 @@ public class NOBDGestorComics {
 		IVentanaGaleria vg = new VentanaGaleria(galeria);
 
 		vg.setTitulo("Gestor de Cómics (Modo OFFLINE)");
-		CtrMenuPrincipal ctr = new CtrMenuPrincipal(galeria, vg);
+		CtrVentanaGaleria ctr = new CtrVentanaGaleria(galeria, vg);
 		vg.setControlador(ctr);
 
 	

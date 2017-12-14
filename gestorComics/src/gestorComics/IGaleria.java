@@ -1,16 +1,15 @@
 package gestorComics;
 
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
 import excepciones.ExcepcionBD;
 import excepciones.RecursoNoEncontrado;
+import gui.IVentanaGaleria;
 
 /*
- * Galería que puede conectarse a una base de datos
+ * Galería que puede conectarse a una GUI para actualizar su contenido
  */
 public interface IGaleria {
 	/*
@@ -46,6 +45,11 @@ public interface IGaleria {
 	 */
 	
 	//Base de datos
-	public void conectar(IBD bd) throws ExcepcionBD;
+	public void conectarBD(IBD bd) throws ExcepcionBD;
+	
+	//GUI
+	public void conectarGUI(IVentanaGaleria g);
+
+	public void refrescarLista();
 
 }

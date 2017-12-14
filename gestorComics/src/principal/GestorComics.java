@@ -1,8 +1,6 @@
 package principal;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import controladores.*;
 import gestorComics.BD;
 import gestorComics.Galeria;
@@ -19,7 +17,7 @@ public class GestorComics {
 			IVentanaGaleria vg = new VentanaGaleria(galeria);
 			
 			vg.setTitulo("Gestor de Cómics (Segunda iteración)");
-			CtrMenuPrincipal ctr = new CtrMenuPrincipal(galeria, vg);
+			CtrVentanaGaleria ctr = new CtrVentanaGaleria(galeria, vg);
 			vg.setControlador(ctr);
 
 			

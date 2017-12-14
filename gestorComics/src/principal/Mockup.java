@@ -18,7 +18,7 @@ public class Mockup {
 			IVentanaGaleria vg = new VentanaGaleria(galeria);
 	
 			vg.setTitulo("Gestor de cómics (MOCKUP)");
-			CtrMenuPrincipal ctr = new CtrMenuPrincipal(galeria, vg);
+			CtrVentanaGaleria ctr = new CtrVentanaGaleria(galeria, vg);
 			vg.setControlador(ctr);
 			
 			vg.addObra(new Vineta("Viñeta Vacía"));
