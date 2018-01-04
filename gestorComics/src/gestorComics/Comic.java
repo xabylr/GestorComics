@@ -188,5 +188,8 @@ public class Comic extends Obra implements IObservable{
 		observadores.remove(o);
 	}
 
+	public boolean contiene(IObserver o){
+		return observadores.contains(o);
+	}
 
 }

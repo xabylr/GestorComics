@@ -42,7 +42,7 @@ public class CtrVentanaGaleria implements ActionListener, IObserver {
 		System.out.println("Añadir Comic");
 		new AnadirComic(galeria);
 		for(Comic c: galeria.getComics()) {
-			c.registrar(this);
+			if(!c.contiene(this)) c.registrar(this);
 		}
 	}
 	
