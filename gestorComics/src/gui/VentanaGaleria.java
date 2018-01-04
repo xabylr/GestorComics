@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import gestorComics.Comic;
 import gestorComics.IGaleria;
 import gestorComics.Obra;
 
@@ -52,6 +53,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		PanelBotones.add(BTNAnadirComic);
 		
 		panelObras = new PaneObras( (List<Obra>) (List<?>) galeria.getComics() );
+		
 		add(panelObras, BorderLayout.CENTER);
 		
 		setSize(ANCHURA, ALTURA);
@@ -76,7 +78,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	@Override
 	public void refrescar() {
 		panelObras.refrescar();
-//		validate();
+		validate();
 	}
 	
 	@Override

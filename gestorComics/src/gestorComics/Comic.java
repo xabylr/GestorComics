@@ -2,17 +2,21 @@ package gestorComics;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import controladores.IObserver;
 import excepciones.ExcepcionBD;
 import excepciones.RecursoNoEncontrado;
 
-public class Comic extends Obra{
+public class Comic extends Obra implements IObservable{
 
 	private static final String NOMBRE_POR_DEFETO="Viñeta sin nombre";
 
 	protected IBD bd;
+	
+	private Collection<IObserver> observadores;
 	
 	private Vineta portada;
 	private List<Vineta> vinetas; //nulo si no se han obtenido
@@ -165,6 +169,23 @@ public class Comic extends Obra{
 	public void delAnotacionPrivada(AnotacionPrivada a) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void notificar() {
+		for(IObserver o : observadores){
+			o.actualizar();
+		}
+	}
+
+	@Override
+	public void registrar(IObserver o) {
+		observadores.add(o);
+	}
+
+	@Override
+	public void darBaja(IObserver o) {
+		observadores.remove(o);
 	}
 
 

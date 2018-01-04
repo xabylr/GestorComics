@@ -3,11 +3,13 @@ package controladores;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import gestorComics.Comic;
 import gestorComics.IGaleria;
+import gestorComics.Obra;
 import gui.*;
 
 
-public class CtrVentanaGaleria implements ActionListener {
+public class CtrVentanaGaleria implements ActionListener, IObserver {
 	IVentanaGaleria ventana;
 	IGaleria galeria;
 
@@ -39,11 +41,19 @@ public class CtrVentanaGaleria implements ActionListener {
 	private void anadirComic() {
 		System.out.println("Añadir Comic");
 		new AnadirComic(galeria);
+		for(Comic c: galeria.getComics()) {
+			c.registrar(this);
+		}
 	}
 	
 	private void anadirVineta() {
 		System.out.println("Añadir Viñeta");
 		new AnadirVineta(galeria);
+	}
+
+	@Override
+	public void actualizar() {
+		ventana.refrescar();
 	}
 	
 
