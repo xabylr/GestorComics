@@ -1,9 +1,10 @@
+
+
 package gui;
 
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,6 +13,8 @@ import javax.swing.JPanel;
 import gestorComics.Vineta;
 
 import javax.swing.JButton;
+
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -22,19 +25,35 @@ import excepciones.RecursoNoEncontrado;
 @SuppressWarnings("serial")
 public class VisorVineta extends JFrame implements IVisorVineta {
 	
-	public JButton btnCerrar;
+	private static final int ALT_IMG = 500;
+	private static final int ANCH_IMG = 500;
+	private JButton btnCerrar;
 	JLabel limagen;
 	
-	public VisorVineta(Vineta vineta) throws RecursoNoEncontrado {
+	private JButton btnBorrar;
+	private JButton btnCambiarNombre;
+	private JButton btnCambiarImagen;
+	
+	Vineta vineta;
+	
+	public VisorVineta(Vineta v) throws RecursoNoEncontrado {
 		
-		if(vineta==null || vineta.getImagen() ==null)
+		if(v==null || v.getImagen() ==null)
 			throw new RecursoNoEncontrado("No hay nada que mostrar");
 
 		
+		vineta = v;
+		
 		btnCerrar = new JButton("Cerrar");
 		
+		btnBorrar = new JButton("Borrar");
+		
+		btnCambiarImagen = new JButton("Cambiar Imagen");
+		
+		btnCambiarNombre = new JButton("Cambiar Nombre");
+		
 		JPanel panelVisor = new JPanel();
-		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		/*GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -55,14 +74,15 @@ public class VisorVineta extends JFrame implements IVisorVineta {
 					.addGap(18)
 					.addComponent(btnCerrar)
 					.addGap(19))
-		);
+		);*/
 		
-		BufferedImage im = (BufferedImage) vineta.getImagen();
-		limagen = new JLabel(new ImageIcon(im.getScaledInstance(im.getWidth(), im.getHeight(), Image.SCALE_DEFAULT)));
+		limagen = new JLabel("");
 		panelVisor.add(limagen);
-		setTitle(vineta.getNombre());
-		limagen.setIcon(new ImageIcon(im.getScaledInstance(im.getWidth(), im.getHeight(), Image.SCALE_DEFAULT)) );
-
+		//getContentPane().setLayout(groupLayout);
+		
+		setTitle(v.getNombre());
+		limagen.setIcon(new ImageIcon(v.getImagen().getScaledInstance(ANCH_IMG, ALT_IMG, Image.SCALE_DEFAULT)));
+		getContentPane().add(panelVisor, BorderLayout.CENTER);
 		pack();
 		
 		//CENTRADO DE VENTANA
@@ -70,6 +90,16 @@ public class VisorVineta extends JFrame implements IVisorVineta {
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
 	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
 	    this.setLocation(x, y);
+	    
+	    
+	    JPanel panelBotones = new JPanel();
+	    panelBotones.add(btnCerrar);
+	    panelBotones.add(btnBorrar);
+	    panelBotones.add(btnCambiarNombre);
+	    panelBotones.add(btnCambiarImagen);
+	    
+	    add(panelBotones, BorderLayout.SOUTH);
+	    
 	    
 		setVisible(true);
 	}
@@ -79,14 +109,29 @@ public class VisorVineta extends JFrame implements IVisorVineta {
 		btnCerrar.setActionCommand(IVisorVineta.CANCELAR);
 		btnCerrar.addActionListener(ctr);
 		
+		btnBorrar.setActionCommand(IVisorVineta.BORRAR);
+		btnBorrar.addActionListener(ctr);
+		
+		btnCambiarNombre.setActionCommand(IVisorVineta.CAMBIARNOMBRE);
+		btnCambiarNombre.addActionListener(ctr);
+		
+		btnCambiarImagen.setActionCommand(IVisorVineta.CAMBIARIMAGEN);
+		btnCambiarImagen.addActionListener(ctr);
+		
 		
 	}
 	
 	public void SetImagen(Image img) {
-		
+		limagen.setIcon(new ImageIcon(img.getScaledInstance(ANCH_IMG, ALT_IMG, Image.SCALE_DEFAULT)));
 	}
 	
 	public void SetNombre(String name) {
 		setTitle(name);
+	}
+
+	@Override
+	public Vineta getViñeta() {
+		
+		return vineta;
 	}
 }

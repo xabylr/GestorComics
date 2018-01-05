@@ -32,7 +32,10 @@ public class CtrVentanaGaleria implements ActionListener, IObserver {
 		case IVentanaGaleria.ADD_VINETA:
 			anadirVineta();
 			break;
-		
+			
+		case IVentanaGaleria.ALARMA:
+			anadirAlarma();
+			break;
 		}
 
 	}
@@ -49,6 +52,13 @@ public class CtrVentanaGaleria implements ActionListener, IObserver {
 	private void anadirVineta() {
 		System.out.println("Añadir Viñeta");
 		new AnadirVineta(galeria);
+	}
+	
+	private void anadirAlarma() {
+		System.out.println("Añadir alarma"); //DONDE SE CREA EL MANAGER
+		AnadirAlarma alarma = new AnadirAlarma(galeria);
+		CtrAnadirAlarma ctr = new CtrAnadirAlarma(alarma);
+		alarma.controlador(ctr);
 	}
 
 	@Override

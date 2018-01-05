@@ -30,6 +30,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	
 	private final static int ANCHURA = 850;
 	private final static int ALTURA = 600;
+	private JButton btnAadirAlarma;
 
 	
 	@SuppressWarnings("unchecked")
@@ -46,6 +47,9 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		JPanel PanelBotones = new JPanel();
 		getContentPane().add(PanelBotones, BorderLayout.SOUTH);
 		
+		btnAadirAlarma = new JButton("Añadir Alarma");
+		PanelBotones.add(btnAadirAlarma);
+		
 		BTNAnadirVineta = new JButton("Añadir Viñeta");
 		PanelBotones.add(BTNAnadirVineta);
 		
@@ -54,7 +58,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		
 		panelObras = new PaneObras( (List<Obra>) (List<?>) galeria.getComics() );
 		
-		add(panelObras, BorderLayout.CENTER);
+		getContentPane().add(panelObras, BorderLayout.CENTER);
 		
 		setSize(ANCHURA, ALTURA);
 		
@@ -73,6 +77,8 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		BTNAnadirComic.addActionListener(ctr);
 		BTNAnadirVineta.setActionCommand(IVentanaGaleria.ADD_VINETA);
 		BTNAnadirVineta.addActionListener(ctr);
+		btnAadirAlarma.setActionCommand(IVentanaGaleria.ALARMA);
+		btnAadirAlarma.addActionListener(ctr);
 	}
 	
 	@Override
