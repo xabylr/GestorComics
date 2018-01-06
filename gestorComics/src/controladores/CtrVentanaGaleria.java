@@ -9,7 +9,7 @@ import gestorComics.Obra;
 import gui.*;
 
 
-public class CtrVentanaGaleria implements ActionListener, IObserver {
+public class CtrVentanaGaleria implements ActionListener, Observador {
 	IVentanaGaleria ventana;
 	IGaleria galeria;
 
@@ -45,7 +45,7 @@ public class CtrVentanaGaleria implements ActionListener, IObserver {
 		System.out.println("Añadir Comic");
 		new AnadirComic(galeria);
 		for(Comic c: galeria.getComics()) {
-			if(!c.contiene(this)) c.registrar(this);
+			if(!c.observadoPor(this)) c.registrar(this);
 		}
 	}
 	
@@ -62,10 +62,10 @@ public class CtrVentanaGaleria implements ActionListener, IObserver {
 	}
 
 	@Override
-	public void actualizar() {
+	public void notificar() {
 		ventana.refrescar();
 	}
-	
+
 
 	
 }

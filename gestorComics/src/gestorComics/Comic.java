@@ -5,18 +5,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observer;
 
-import controladores.IObserver;
 import excepciones.ExcepcionBD;
 import excepciones.RecursoNoEncontrado;
+import gui.Observador;
 
-public class Comic extends Obra implements IObservable{
+public class Comic extends Obra implements Observable, Observador{
 
 	private static final String NOMBRE_POR_DEFETO="Viñeta sin nombre";
 
 	protected IBD bd;
 	
-	private Collection<IObserver> observadores;
+	private Collection<Observador> observadores;
 	
 	private Vineta portada;
 	private List<Vineta> vinetas; //nulo si no se han obtenido
@@ -53,6 +54,7 @@ public class Comic extends Obra implements IObservable{
 	@Override
 	public void setNombre(String n) {
 		super.setNombre(n);
+		notificarTodos();
 		if(bd!=null) bd.renombrarComic(ID, n);
 		
 	}
@@ -174,23 +176,25 @@ public class Comic extends Obra implements IObservable{
 	}
 
 	@Override
-	public void notificar() {
-		for(IObserver o : observadores){
-			o.actualizar();
+	public void notificarTodos() {
+		for(Observador o : observadores){
+			o.notificar();
 		}
 	}
 
 	@Override
-	public void registrar(IObserver o) {
+	public void registrar(Observador o) {
 		observadores.add(o);
 	}
-
+	
 	@Override
-	public void darBaja(IObserver o) {
+	public void darbBaja(Observador o) {
 		observadores.remove(o);
+		
 	}
-
-	public boolean contiene(IObserver o){
+	
+	@Override
+	public boolean observadoPor(Observador o){
 		return observadores.contains(o);
 	}
 
@@ -212,6 +216,12 @@ public class Comic extends Obra implements IObservable{
 		
 		
 		return bocetos;
+	}
+
+	@Override
+	public void notificar() {
+		for (Observador o : observadores) o.notificar();
+		
 	}
 
 }

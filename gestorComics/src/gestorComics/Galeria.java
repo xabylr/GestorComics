@@ -8,19 +8,23 @@ import java.util.List;
 import excepciones.ExcepcionBD;
 import excepciones.RecursoNoEncontrado;
 import gui.IVentanaGaleria;
+import gui.Observador;
 
 
 /*
  * Colección de Obras del modelo con información de una BD y actualizando una GUI
  */
-public class Galeria implements IGaleria {
+public class Galeria implements IGaleria, Observador //, Observable (No es observable por motivos de retrocompatibilidad)
+{
 	private List<Comic> comics;
+	private List<Observador> observadores;
 	private IVentanaGaleria gui;
 	
 	private IBD bd;
 	
 	public Galeria(){
 		comics = new ArrayList<>();
+		observadores = new ArrayList<>();
 	}
 	
 	public Galeria(IBD b) {
@@ -151,6 +155,34 @@ public class Galeria implements IGaleria {
 	
 	private void refrescarGUI() {
 		if(gui!=null) gui.refrescar();
+	}
+
+	
+//No es observable porque se fusiona con la GUI 
+	/*
+	@Override
+	public void registrar(Observador o) {
+		observadores.add(o);
+	}
+
+	@Override
+	public void darbBaja(Observador o) {
+		observadores.remove(o);
+	}
+
+	@Override
+	public boolean observadoPor(Observador o) {
+		return observadores.contains(o);
+	}
+
+	@Override
+	public void notificarTodos() {
+		for (Observador o : observadores) o.notificar();
+	}
+*/
+	@Override
+	public void notificar() {
+		refrescarLista();
 	}
 	
 }

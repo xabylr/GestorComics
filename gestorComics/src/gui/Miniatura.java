@@ -157,6 +157,24 @@ public class Miniatura extends JPanel implements Visualizable, Observable{
 		for(Observador o : listaSuscritos) o.notificar();
 	}
 
+	@Override
+	public void registrar(Observador o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void darbBaja(Observador o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean observadoPor(Observador o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 
 

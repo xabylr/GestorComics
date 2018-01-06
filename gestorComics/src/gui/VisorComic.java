@@ -25,15 +25,14 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import controladores.CtrVisorComic;
-import controladores.IObserver;
-
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class VisorComic extends JFrame implements IVisorComic, IObserver{
+public class VisorComic extends JFrame implements IVisorComic, Observador{
 	
 	JButton btnCambiarNombre = new JButton("Cambiar nombre");
 	JButton btnBorrar = new JButton("Borrar comic");
+	PaneObras panevinetas;
 	Comic comic;
 	
 	//https://stackoverflow.com/questions/2745265/is-listdog-a-subclass-of-listanimal-why-arent-javas-generics-implicitly-p
@@ -46,11 +45,10 @@ public class VisorComic extends JFrame implements IVisorComic, IObserver{
 		
 		JPanel jpanelvinetas = new JPanel();
 		
-		PaneObras panelviñetas;
-		JLabel jlabelviñetas = new JLabel("Viñetas");
-		panelviñetas = new  PaneObras((List<Obra>) (List<?>) comic.getVinetas());
-		jpanelvinetas.add(jlabelviñetas, BorderLayout.NORTH);
-		jpanelvinetas.add(panelviñetas, BorderLayout.SOUTH);
+		JLabel jlabelvinetas = new JLabel("Viñetas");
+		panevinetas = new  PaneObras((List<Obra>) (List<?>) comic.getVinetas());
+		jpanelvinetas.add(jlabelvinetas, BorderLayout.NORTH);
+		jpanelvinetas.add(panevinetas, BorderLayout.SOUTH);
 		
 		getContentPane().add(jpanelvinetas, BorderLayout.NORTH);
 		
@@ -104,11 +102,7 @@ public class VisorComic extends JFrame implements IVisorComic, IObserver{
 		
 	}
 	
-	@Override
-	public void actualizar() {
-//		HACER
-	}
-	
+
 	public Comic getComic() {
 		return comic;
 	}
@@ -122,6 +116,12 @@ public class VisorComic extends JFrame implements IVisorComic, IObserver{
 	@Override
 	public void SetImagen(Image img) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notificar() {
+		panevinetas.refrescar();
 		
 	}
 	
