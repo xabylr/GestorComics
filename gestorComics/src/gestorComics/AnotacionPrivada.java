@@ -3,7 +3,7 @@ package gestorComics;
 public class AnotacionPrivada extends Anotacion {
 
 	public AnotacionPrivada(String c) {
-		super(c);
+		super(c, false);
 	}
 
 	@Override

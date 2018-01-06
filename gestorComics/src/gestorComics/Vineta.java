@@ -1,6 +1,7 @@
 package gestorComics;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Vineta extends Obra{
@@ -70,6 +71,7 @@ public class Vineta extends Obra{
 		bd = null;
 		
 	}
+	
 
 	@Override
 	public void addAnotacionPrivada(AnotacionPrivada a) {
@@ -87,6 +89,12 @@ public class Vineta extends Obra{
 	public void delAnotacionPrivada(AnotacionPrivada a) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Anotacion> getAnotaciones() {
+		List<Anotacion> list = new ArrayList<Anotacion>();
+		return list;
 	}
 
 }

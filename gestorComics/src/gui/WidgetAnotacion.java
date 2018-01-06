@@ -47,25 +47,8 @@ public class WidgetAnotacion extends JPanel {
 		JPanel panelInferior = new JPanel(new BorderLayout());
 		add (panelInferior, BorderLayout.SOUTH);
 		
-		JButton btnAnadir = new JButton("Añadir");
+		JButton btnAnadir = new JButton("Guardar");
 		panelInferior.add(btnAnadir, BorderLayout.EAST);
-		
-		//cambiar privacidad al hacer click en el icono
-		lblPrivacidad.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent mEv) {
-				publico = !publico;
-				refrescarIcono();
-			}
-		});
-		
-		//Crear una anotación en la lista de anotaciones y refrescarla de la gui al hacer click
-		btnAnadir.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			}
-		});
 		
 	
 	}
@@ -118,10 +101,10 @@ public class WidgetAnotacion extends JPanel {
 	private void refrescarIcono() {
 		if (publico) {
 			lblPrivacidad.setIcon(new ImageIcon("src/res/unlock.png"));
-			lblPrivacidad.setText("Global");
+			lblPrivacidad.setText("Publico");
 		}else {
 			lblPrivacidad.setIcon(new ImageIcon("src/res/lock.png"));
-			lblPrivacidad.setText("Local");
+			lblPrivacidad.setText("Privado");
 		}
 	}
 	

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import gestorComics.Vineta;
 
@@ -82,15 +83,21 @@ public class VisorVineta extends JFrame implements IVisorVineta {
 		
 		setTitle(v.getNombre());
 		limagen.setIcon(new ImageIcon(v.getImagen().getScaledInstance(ANCH_IMG, ALT_IMG, Image.SCALE_DEFAULT)));
-		getContentPane().add(panelVisor, BorderLayout.CENTER);
-		pack();
+		getContentPane().add(panelVisor, BorderLayout.WEST);
+		//pack();
 		
 		//CENTRADO DE VENTANA
-	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	    /*Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
 	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-	    this.setLocation(x, y);
+	    this.setLocation(x, y);*/
 	    
+		
+		//Panel de anotaciones
+		JScrollPane anotaciones = new PaneAnotaciones(v.getAnotaciones());
+		getContentPane().add(anotaciones, BorderLayout.EAST);
+		
+		
 	    
 	    JPanel panelBotones = new JPanel();
 	    panelBotones.add(btnCerrar);
@@ -100,7 +107,7 @@ public class VisorVineta extends JFrame implements IVisorVineta {
 	    
 	    add(panelBotones, BorderLayout.SOUTH);
 	    
-	    
+	    pack();
 		setVisible(true);
 	}
 

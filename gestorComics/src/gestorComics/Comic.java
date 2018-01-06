@@ -21,6 +21,8 @@ public class Comic extends Obra implements IObservable{
 	private Vineta portada;
 	private List<Vineta> vinetas; //nulo si no se han obtenido
 	
+	private List<Vineta> bocetos;
+	
 	public Comic() {
 		this(NOMBRE_POR_DEFETO);
 	}
@@ -190,6 +192,26 @@ public class Comic extends Obra implements IObservable{
 
 	public boolean contiene(IObserver o){
 		return observadores.contains(o);
+	}
+
+	@Override
+	public List<Anotacion> getAnotaciones() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<Vineta> getBocetos() {
+		bocetos = new ArrayList<Vineta>();
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		
+		
+		return bocetos;
 	}
 
 }

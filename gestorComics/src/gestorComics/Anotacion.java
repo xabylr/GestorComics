@@ -3,16 +3,19 @@ package gestorComics;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public abstract class Anotacion implements Historico {
+public class Anotacion implements Historico {
 
 	protected String comentario;
+	
+	private boolean publico;
 	/*
 	 * IMPORTANTE: usar java.sql.Time para BD
 	 */
 	protected LocalDateTime fecha;
 	
 	
-	public Anotacion(String c) {
+	public Anotacion(String c, boolean p) {
+		publico = p;
 		comentario = c;
 		fecha = LocalDateTime.now();
 	}
@@ -28,7 +31,9 @@ public abstract class Anotacion implements Historico {
 	}
 	
 	
-	public abstract boolean esPublico();
+	public  boolean esPublico() {
+		return publico;
+	}
 	
 	public String getComentario(){
 		return comentario;

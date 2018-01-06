@@ -44,9 +44,25 @@ public class VisorComic extends JFrame implements IVisorComic, IObserver{
 		setTitle(comic.getNombre());
 		setBounds(100, 100, 741, 466);
 		
-		PaneObras po;
-		po = new  PaneObras((List<Obra>) (List<?>) comic.getVinetas());
-		getContentPane().add(po, BorderLayout.CENTER);
+		JPanel jpanelvinetas = new JPanel();
+		
+		PaneObras panelviñetas;
+		JLabel jlabelviñetas = new JLabel("Viñetas");
+		panelviñetas = new  PaneObras((List<Obra>) (List<?>) comic.getVinetas());
+		jpanelvinetas.add(jlabelviñetas, BorderLayout.NORTH);
+		jpanelvinetas.add(panelviñetas, BorderLayout.SOUTH);
+		
+		getContentPane().add(jpanelvinetas, BorderLayout.NORTH);
+		
+		JPanel jpanelbocetos = new JPanel();
+		
+		PaneObras panelbocetos;
+		JLabel jlabelbocetos = new JLabel("Bocetos");
+		panelbocetos = new  PaneObras((List<Obra>) (List<?>) comic.getBocetos());
+		jpanelbocetos.add(jlabelbocetos, BorderLayout.NORTH);
+		jpanelbocetos.add(panelbocetos, BorderLayout.SOUTH);
+		
+		getContentPane().add(jpanelbocetos, BorderLayout.CENTER);
 		
 		
 		
@@ -72,6 +88,8 @@ public class VisorComic extends JFrame implements IVisorComic, IObserver{
 		CtrVisorComic ctr = new CtrVisorComic(this);
 		this.controlador(ctr);
 
+		pack();
+		
 		setVisible(true);
 
 	}

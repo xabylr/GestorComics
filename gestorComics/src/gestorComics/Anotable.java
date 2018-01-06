@@ -12,4 +12,6 @@ public interface Anotable {
 	public List<AnotacionPrivada> getAnotacionesPrivadas();
 	public void delAnotacionPrivada(AnotacionPrivada a);
 	
+	public List<Anotacion> getAnotaciones();
+	
 }
