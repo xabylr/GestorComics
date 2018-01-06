@@ -1,4 +1,4 @@
-package gui;
+	package gui;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -6,7 +6,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -25,7 +27,9 @@ import java.awt.event.MouseAdapter;
  * Esta clase es con la que trabaja la vista y tiene una obra asociada
  */
 @SuppressWarnings("serial")
-public class Miniatura extends JPanel implements Visualizable {
+public class Miniatura extends JPanel implements Visualizable, Observable{
+	
+	protected List<Observador>listaSuscritos;
 	
 	public static String RUTA_IMAGEN_POR_DEFECTO = "src/res/imagen_no_disponible.png";
 	public static String NOMBRE_POR_DEFECTO = "Sin nombre";
@@ -63,6 +67,8 @@ public class Miniatura extends JPanel implements Visualizable {
 	}
 	
 	public Miniatura(Obra o){
+		listaSuscritos = new ArrayList<>();
+		
 		//TODO reducir tamaño de la imagen
 		imagen = o.vistaPrevia();
 		nombre = o.getNombre();
@@ -142,6 +148,15 @@ public class Miniatura extends JPanel implements Visualizable {
 
 		}
 	}
+	
+	
+	public void suscribir(Observador o) {
+		listaSuscritos.add(o);
+	}
+	public void notificarTodos() {
+		for(Observador o : listaSuscritos) o.notificar();
+	}
+
 	
 
 
