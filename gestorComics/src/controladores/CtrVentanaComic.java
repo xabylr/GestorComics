@@ -10,11 +10,11 @@ import gestorComics.INombreCambiable;
 import gui.IVisorComic;
 import gui.VisorComic;
 
-public class CtrVisorComic implements ActionListener, INombreCambiable{
+public class CtrVentanaComic implements ActionListener, INombreCambiable{
 	
 	IVisorComic ventana;
 	
-	public CtrVisorComic(VisorComic vc) {
+	public CtrVentanaComic(VisorComic vc) {
 		ventana = vc;
 	}
 

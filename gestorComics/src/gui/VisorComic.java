@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
-import controladores.CtrVisorComic;
+import controladores.CtrVentanaComic;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
@@ -86,7 +86,7 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 		
 		panelCerrar.add(btnNewCerrar);
 		
-		CtrVisorComic ctr = new CtrVisorComic(this);
+		CtrVentanaComic ctr = new CtrVentanaComic(this);
 		this.controlador(ctr);
 
 		pack();

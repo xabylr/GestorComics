@@ -13,7 +13,7 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 
 import controladores.CtrAnadirAlarma;
-import controladores.CtrVisorComic;
+import controladores.CtrVentanaComic;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
