@@ -7,6 +7,7 @@ import gestorComics.Comic;
 import gestorComics.IComprobadoBorrado;
 import gestorComics.IGaleria;
 import gestorComics.ManagerAlarmas;
+import gestorComics.MedioComunicacion;
 import gestorComics.Vineta;
 
 import java.awt.BorderLayout;
@@ -25,11 +26,13 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 
 public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 	
 	ManagerAlarmas manager;
-	Date fecha;
+	public Date fecha;
+	private MedioComunicacion medio;
 	JButton btnAceptar;
 	JComboBox<Comics> comboBox;
 	JComboBox<Vinetas> comboBox_1;
@@ -37,13 +40,14 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 	IGaleria galeria;
 	private JLabel lblMedio;
 	private JComboBox comboBox_2;
+	public JTextField txtFechaAqui;
 	
 	public AnadirAlarma(IGaleria g) {
 		galeria = g;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -113,6 +117,16 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 		gbc_comboBox_2.gridy = 5;
 		getContentPane().add(comboBox_2, gbc_comboBox_2);
 		
+		txtFechaAqui = new JTextField();
+		txtFechaAqui.setText("FECHA AQUI");
+		GridBagConstraints gbc_txtFechaAqui = new GridBagConstraints();
+		gbc_txtFechaAqui.insets = new Insets(0, 0, 5, 5);
+		gbc_txtFechaAqui.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtFechaAqui.gridx = 3;
+		gbc_txtFechaAqui.gridy = 7;
+		getContentPane().add(txtFechaAqui, gbc_txtFechaAqui);
+		txtFechaAqui.setColumns(10);
+		
 		btnEscogerFecha = new JButton("Escoger fecha");
 		GridBagConstraints gbc_btnEscogerFecha = new GridBagConstraints();
 		gbc_btnEscogerFecha.insets = new Insets(0, 0, 0, 5);
@@ -155,6 +169,10 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 	
 	public Date getFecha() {
 		return fecha;
+	}
+	
+	public MedioComunicacion getMedio() {
+		return medio;
 	}
 
 
