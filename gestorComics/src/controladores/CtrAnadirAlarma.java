@@ -34,14 +34,11 @@ public class CtrAnadirAlarma implements ActionListener {
 			final JFrame f = new JFrame();
 			String datePicked = new DatePicker(f).setPickedDate();
 			alarmaVentana.txtFechaAqui.setText(datePicked);
-			Calendar calendario = Calendar.getInstance();
-			int horas = calendario.get(Calendar.HOUR_OF_DAY);
-			int minutos = calendario.get(Calendar.MINUTE);
 			
 			
 			try(Scanner sc = new Scanner(datePicked)){
 				sc.useDelimiter("-");
-				alarmaVentana.fecha = new Date(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()), horas, minutos);
+				alarmaVentana.fecha = new Date(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()), alarmaVentana.getHora(), alarmaVentana.getMinutos());
 			}
 		} else if(str.equals(IAnadirAlarma.ANADIR)) {
 //			if(alarmaVentana.getComic() != null && alarmaVentana.getVineta() != null && alarmaVentana.getFecha() != null && alarmaVentana.getMedio() != null) {

@@ -27,6 +27,9 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.JSpinner;
 
 public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 	
@@ -41,6 +44,10 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 	private JLabel lblMedio;
 	private JComboBox<Medios> comboBox_2;
 	public JTextField txtFechaAqui;
+	private JSpinner spinner;
+	private JSpinner spinner_1;
+	private JLabel lblHoras;
+	private JLabel lblMinutos;
 	
 	public AnadirAlarma(IGaleria g) {
 		galeria = g;
@@ -123,20 +130,51 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 			addMedio(m);
 		}
 		
+		
+		SpinnerModel sm = new SpinnerNumberModel(0, 0, 24, 1); //default value,lower bound,upper bound,increment by
+		
 		txtFechaAqui = new JTextField();
 		txtFechaAqui.setText("FECHA AQUI");
 		GridBagConstraints gbc_txtFechaAqui = new GridBagConstraints();
 		gbc_txtFechaAqui.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFechaAqui.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtFechaAqui.gridx = 3;
+		gbc_txtFechaAqui.gridx = 2;
 		gbc_txtFechaAqui.gridy = 7;
 		getContentPane().add(txtFechaAqui, gbc_txtFechaAqui);
 		txtFechaAqui.setColumns(10);
 		
+		SpinnerModel sm1 = new SpinnerNumberModel(0, 0, 59, 1); //default value,lower bound,upper bound,increment by
+		spinner = new JSpinner(sm);
+		GridBagConstraints gbc_spinner = new GridBagConstraints();
+		gbc_spinner.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner.gridx = 3;
+		gbc_spinner.gridy = 7;
+		getContentPane().add(spinner, gbc_spinner);
+		
+		lblHoras = new JLabel("Horas");
+		GridBagConstraints gbc_lblHoras = new GridBagConstraints();
+		gbc_lblHoras.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHoras.gridx = 4;
+		gbc_lblHoras.gridy = 7;
+		getContentPane().add(lblHoras, gbc_lblHoras);
+		spinner_1 = new JSpinner(sm1);
+		GridBagConstraints gbc_spinner_1 = new GridBagConstraints();
+		gbc_spinner_1.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner_1.gridx = 6;
+		gbc_spinner_1.gridy = 7;
+		getContentPane().add(spinner_1, gbc_spinner_1);
+		
+		lblMinutos = new JLabel("Minutos");
+		GridBagConstraints gbc_lblMinutos = new GridBagConstraints();
+		gbc_lblMinutos.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMinutos.gridx = 7;
+		gbc_lblMinutos.gridy = 7;
+		getContentPane().add(lblMinutos, gbc_lblMinutos);
+		
 		btnEscogerFecha = new JButton("Escoger fecha");
 		GridBagConstraints gbc_btnEscogerFecha = new GridBagConstraints();
 		gbc_btnEscogerFecha.insets = new Insets(0, 0, 0, 5);
-		gbc_btnEscogerFecha.gridx = 3;
+		gbc_btnEscogerFecha.gridx = 2;
 		gbc_btnEscogerFecha.gridy = 8;
 		getContentPane().add(btnEscogerFecha, gbc_btnEscogerFecha);
 		
@@ -203,7 +241,13 @@ public void setFecha(Date f) {
 	fecha = f;
 }
 
+public int getHora() {
+	return (int) spinner.getValue();
+}
 
+public int getMinutos() {
+	return (int) spinner_1.getValue();
+}
 
 }
 
