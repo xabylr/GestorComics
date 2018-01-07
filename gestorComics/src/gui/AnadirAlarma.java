@@ -44,6 +44,7 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 	
 	public AnadirAlarma(IGaleria g) {
 		galeria = g;
+		manager = galeria.getManager();
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
