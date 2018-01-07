@@ -36,5 +36,6 @@ public interface IBD {
 	public void borrarComic(int c) throws ExcepcionBD;
 	
 	void setPortadaComic(int v, int c) throws ExcepcionBD;
+	List<Vineta> getBocetos(int iD);
 
 }

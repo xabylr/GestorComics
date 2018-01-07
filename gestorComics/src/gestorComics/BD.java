@@ -362,5 +362,11 @@ try {
 		System.out.println("ACTUALIZAR IMAGEN VIÑETA EN BD NO IMPLEMENTADO");
 		
 	}
+
+	@Override
+	public List<Vineta> getBocetos(int iD) {
+		System.out.println("OBTENER LISTA DE BOCETOS EN BD NO IMPLEMENTADO");
+		return new ArrayList<>();
+	}
 	
 }

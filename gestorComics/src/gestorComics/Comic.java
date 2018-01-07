@@ -22,7 +22,7 @@ public class Comic extends Obra implements Observable, Observador{
 	private Vineta portada;
 	private List<Vineta> vinetas; //nulo si no se han obtenido
 	
-	private List<Vineta> bocetos;
+	private List<Vineta> bocetos; //nulo si no se han obtenido
 	
 	public Comic() {
 		this(NOMBRE_POR_DEFETO);
@@ -86,6 +86,14 @@ public class Comic extends Obra implements Observable, Observador{
 			}
 			else vinetas = new ArrayList<Vineta>();
 		}
+	}
+	
+	public void inicializarBocetos(){
+		
+		if (bocetos == null && bd != null) {
+		bocetos = bd.getBocetos(ID);
+		}else bocetos = new ArrayList<Vineta>();
+		
 	}
 	
 	public void addVineta(Vineta v){
@@ -201,19 +209,23 @@ public class Comic extends Obra implements Observable, Observador{
 	@Override
 	public List<Anotacion> getAnotaciones() {
 		// TODO Auto-generated method stub
+		System.out.println("OBTENER ANOTACIONES DE COMIC NO IMPLEMENTADO");
 		return null;
 	}
 	
 	public List<Vineta> getBocetos() {
-		bocetos = new ArrayList<Vineta>();
-		bocetos.add(new Vineta());
-		bocetos.add(new Vineta());
-		bocetos.add(new Vineta());
-		bocetos.add(new Vineta());
-		bocetos.add(new Vineta());
-		bocetos.add(new Vineta());
-		bocetos.add(new Vineta());
 		
+		inicializarBocetos();
+		
+		/*
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		bocetos.add(new Vineta());
+		*/
 		
 		return bocetos;
 	}

@@ -99,7 +99,6 @@ public class AnadirComic extends JFrame{
 		if(tNombre.getText().equals("")) nuevo = new Comic();
 		else nuevo = new Comic(tNombre.getText());
 		galeria.guardarComic(nuevo);
-		ventanaGaleria.addObra(nuevo);
 		
 		cerrarVentana();
 	}
