@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import gestorComics.CambioNombre;
 import gestorComics.ICambioNombre;
 import gestorComics.INombreCambiable;
 
@@ -13,9 +14,9 @@ public class CtrCambioNombre implements ActionListener{
 
 	
 	INombreCambiable nombrecambiable;
-	ICambioNombre vista;
+	CambioNombre vista;
 	
-	public CtrCambioNombre(INombreCambiable nc,ICambioNombre v) {
+	public CtrCambioNombre(INombreCambiable nc, CambioNombre v) {
 		nombrecambiable = nc;
 		vista = v;
 	}

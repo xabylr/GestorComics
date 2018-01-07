@@ -43,7 +43,7 @@ public class CtrVentanaVineta implements ActionListener, INombreCambiable, IBorr
 		}
 		
 		if(cmd.equals(IVisorVineta.CAMBIARNOMBRE)) {
-			ICambioNombre cambionombre = new CambioNombre();
+			CambioNombre cambionombre = new CambioNombre();
 			CtrCambioNombre ctrcambionombre = new CtrCambioNombre(this, cambionombre);
 			
 			cambionombre.controlador(ctrcambionombre);

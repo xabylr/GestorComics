@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class CambioNombre extends JFrame implements ICambioNombre{
+public class CambioNombre extends JFrame {
 
 	
 	private JPanel contentPane;
@@ -66,7 +66,6 @@ public class CambioNombre extends JFrame implements ICambioNombre{
 		
 	}
 
-	@Override
 	public String getNombre() {
 		String res = null;
 		

@@ -11,7 +11,7 @@ public interface IVisorComic {
 	public static final String CAMBIARNOMBRE = "CAMBIARNOMBRE";
 	public static final String BORRARCOMIC = "BORRARCOMIC";
 	void controlador(ActionListener ctr);
-	void SetNombre(String name);
+	void setNombre(String name);
 	public Comic getComic();
 	public void SetImagen(Image img);
 	public void dispose();

@@ -108,7 +108,7 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 	}
 
 	@Override
-	public void SetNombre(String name) {
+	public void setNombre(String name) {
 		this.setTitle(name);
 		
 	}

@@ -24,14 +24,14 @@ public class CtrVisorComic implements ActionListener, INombreCambiable, IBorrado
 	public void setNombre(String name) {
 		if(name == null) return;
 		ventana.getComic().setNombre(name);
-		ventana.SetNombre(name);
+		ventana.setNombre(name);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String str = e.getActionCommand();
 		if(str.equals(IVisorComic.CAMBIARNOMBRE)) {
-			ICambioNombre cambionombre = new CambioNombre();
+			CambioNombre cambionombre = new CambioNombre();
 			CtrCambioNombre ctrcambionombre = new CtrCambioNombre(this, cambionombre);
 			
 			cambionombre.controlador(ctrcambionombre);

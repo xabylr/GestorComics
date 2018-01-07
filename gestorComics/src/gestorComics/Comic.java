@@ -30,6 +30,7 @@ public class Comic extends Obra implements Observable, Observador{
 	
 	public Comic(String n) {
 		nombre=n;
+		observadores = new ArrayList<>();
 	}
 	
 	@Override
