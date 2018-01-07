@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 import gestorComics.ComprobadoBorrado;
 import gestorComics.IComprobadoBorrado;
 import gui.IVisorComic;
-import gui.VisorComic;
+import gui.VentanaComic;
 
 public class CtrVentanaComic implements ActionListener{
 	
 	IVisorComic ventana;
 	
-	public CtrVentanaComic(VisorComic vc) {
+	public CtrVentanaComic(VentanaComic vc) {
 		ventana = vc;
 	}
 
