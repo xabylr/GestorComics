@@ -49,9 +49,11 @@ public class Comic extends Obra implements Observable, Observador{
 		bd.borrarComic(ID);
 		bd=null;
 		ID=-1;
+		notificarTodosBorrado();
 		
 	}
-	
+
+
 	@Override
 	public void setNombre(String n) {
 		super.setNombre(n);
@@ -108,8 +110,6 @@ public class Comic extends Obra implements Observable, Observador{
 		
 		//Después se puede poner de portada incluso en la BD
 		if(portada == null) setPortada(v);
-		
-
 		
 	}
 	
@@ -185,12 +185,6 @@ public class Comic extends Obra implements Observable, Observador{
 		
 	}
 
-	@Override
-	public void notificarTodos() {
-		for(Observador o : observadores){
-			o.notificar();
-		}
-	}
 
 	@Override
 	public void registrar(Observador o) {
@@ -231,16 +225,31 @@ public class Comic extends Obra implements Observable, Observador{
 		
 		return bocetos;
 	}
+	
+
+	@Override
+	public void notificarTodos() {
+		for(Observador o : observadores){
+			o.notificar();
+		}
+	}
+	
+	@Override
+	public void notificarTodosBorrado() {
+		for(Observador o : observadores){
+			o.notificarBorrado(this);
+		}
+	}
 
 	@Override
 	public void notificar() {
 		inicializarVinetas();
 	}
 
+
 	@Override
-	void borrar() {
-		if (bd != null) bd.borrarComic(this.getID());
-		notificarTodos();
+	public void notificarBorrado(Observable o) {
+		inicializarVinetas();
 		
 	}
 

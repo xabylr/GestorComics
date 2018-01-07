@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import gestorComics.Comic;
 import gestorComics.Galeria;
 import gestorComics.Obra;
+import gestorComics.Observable;
 import gestorComics.Vineta;
 
 import javax.swing.JPanel;
@@ -122,6 +123,12 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 	@Override
 	public void notificar() {
 		panevinetas.refrescar();
+		
+	}
+
+	@Override
+	public void notificarBorrado(Observable o) {
+		setNombre("CÓMIC BORRADO");
 		
 	}
 	

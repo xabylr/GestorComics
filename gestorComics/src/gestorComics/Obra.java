@@ -39,8 +39,6 @@ public abstract class Obra implements Comparable<Obra>, Visualizable, Sincroniza
 	}
 
 	
-	abstract void borrar();
-	
 	@Override
 	public void setAnotacionPublica(AnotacionPublica a) {
 		anotacionPublica = a;

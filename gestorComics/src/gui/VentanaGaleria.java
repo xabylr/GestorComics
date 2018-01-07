@@ -24,7 +24,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	
 	private JButton BTNAnadirComic;
 	private JButton BTNAnadirVineta;
-	private PaneObras panelObras;
+	private PaneObras paneObras;
 	private IGaleria galeria;
 	
 	
@@ -56,9 +56,9 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		BTNAnadirComic = new JButton("Añadir Comic");
 		PanelBotones.add(BTNAnadirComic);
 		
-		panelObras = new PaneObras( (List<Obra>) (List<?>) galeria.getComics() );
+		paneObras = new PaneObras( (List<Obra>) (List<?>) galeria.getComics() );
 		
-		getContentPane().add(panelObras, BorderLayout.CENTER);
+		getContentPane().add(paneObras, BorderLayout.CENTER);
 		
 		setSize(ANCHURA, ALTURA);
 		
@@ -83,22 +83,22 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	
 	@Override
 	public void refrescar() {
-		panelObras.refrescar();
+		paneObras.refrescar();
 		validate();
 	}
 	
 	@Override
 	public void addObra(Obra obra) {
-		panelObras.addObra(obra);
+		paneObras.addObra(obra);
 	}
 	
 	@Override
 	public void addObras(List<Obra> lobras){
-		panelObras.addObras(lobras);
+		paneObras.addObras(lobras);
 	}
 
 	public void delObra(Obra obra) {
-		panelObras.delObra(obra);
+		paneObras.delObra(obra);
 	}
 
 	@Override

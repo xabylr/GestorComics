@@ -71,7 +71,7 @@ public class ComprobadoBorrado extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				obra.borrar();
+				obra.retirar();
 				dispose();
 			}
 		});

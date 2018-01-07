@@ -27,7 +27,7 @@ import java.awt.event.MouseAdapter;
  * Esta clase es con la que trabaja la vista y tiene una obra asociada
  */
 @SuppressWarnings("serial")
-public class Miniatura extends JPanel implements Visualizable, Observable{
+public class Miniatura extends JPanel implements Visualizable{
 	
 	protected List<Observador>listaSuscritos;
 	
@@ -150,30 +150,6 @@ public class Miniatura extends JPanel implements Visualizable, Observable{
 	}
 	
 	
-	public void suscribir(Observador o) {
-		listaSuscritos.add(o);
-	}
-	public void notificarTodos() {
-		for(Observador o : listaSuscritos) o.notificar();
-	}
-
-	@Override
-	public void registrar(Observador o) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void darbBaja(Observador o) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean observadoPor(Observador o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	
 

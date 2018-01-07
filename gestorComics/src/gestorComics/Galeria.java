@@ -136,10 +136,8 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 
 	@Override
 	public void borrarComic(Comic c) throws RecursoNoEncontrado {
-		c.retirar();
 		comics.remove(c);
-		refrescarGUI();
-		
+		refrescarLista();
 	}
 
 	@Override
@@ -184,6 +182,11 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 	@Override
 	public void notificar() {
 		refrescarLista();
+	}
+
+	@Override
+	public void notificarBorrado(Observable o) {
+		borrarComic((Comic) o);
 	}
 	
 }

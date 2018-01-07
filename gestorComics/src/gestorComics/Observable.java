@@ -13,5 +13,6 @@ public void darbBaja(Observador o);
 public boolean observadoPor(Observador o);
 
 void notificarTodos();
+void notificarTodosBorrado();
 
 }

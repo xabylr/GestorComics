@@ -6,10 +6,11 @@ import java.awt.event.ActionListener;
 import gestorComics.Comic;
 import gestorComics.IGaleria;
 import gestorComics.Obra;
+import gestorComics.Observable;
 import gui.*;
 
 
-public class CtrVentanaGaleria implements ActionListener, Observador {
+public class CtrVentanaGaleria implements ActionListener{
 	IVentanaGaleria ventana;
 	IGaleria galeria;
 
@@ -44,9 +45,7 @@ public class CtrVentanaGaleria implements ActionListener, Observador {
 	private void anadirComic() {
 		System.out.println("Añadir Comic");
 		new AnadirComic(galeria);
-		for(Comic c: galeria.getComics()) {
-			if(!c.observadoPor(this)) c.registrar(this);
-		}
+
 	}
 	
 	private void anadirVineta() {
@@ -61,10 +60,6 @@ public class CtrVentanaGaleria implements ActionListener, Observador {
 		alarma.controlador(ctr);
 	}
 
-	@Override
-	public void notificar() {
-		ventana.refrescar();
-	}
 
 
 	
