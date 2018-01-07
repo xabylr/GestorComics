@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
 import gestorComics.CambioNombre;
-import gestorComics.ICambioNombre;
 import gestorComics.INombreCambiable;
 
 public class CtrCambioNombre implements ActionListener{
@@ -25,13 +24,13 @@ public class CtrCambioNombre implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		
-		if(cmd.equals(ICambioNombre.ACEPTAR)) {
+		if(cmd.equals(CambioNombre.ACEPTAR)) {
 			nombrecambiable.setNombre(vista.getNombre());
 			
 			vista.dispose();
 		}
 		
-		if(cmd.equals(ICambioNombre.CANCELAR)) {
+		if(cmd.equals(CambioNombre.CANCELAR)) {
 			vista.dispose();
 		}
 	}

@@ -19,7 +19,6 @@ import javax.swing.JFrame;
 import excepciones.ExcepcionUsuario;
 import gestorComics.CambioNombre;
 import gestorComics.ComprobadoBorrado;
-import gestorComics.ICambioNombre;
 import gestorComics.IComprobadoBorrado;
 import gestorComics.IImagenCambiable;
 import gestorComics.INombreCambiable;

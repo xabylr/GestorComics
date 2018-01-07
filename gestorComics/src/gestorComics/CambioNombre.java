@@ -1,12 +1,8 @@
 package gestorComics;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import gui.IVisorVineta;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -18,6 +14,8 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class CambioNombre extends JFrame {
 
+	public static final String ACEPTAR = "ACEPTAR";
+	public static final String CANCELAR = "CANCELAR";
 	
 	private JPanel contentPane;
 	private JTextField textField;
@@ -58,10 +56,10 @@ public class CambioNombre extends JFrame {
 	}
 	
 	public void controlador(ActionListener ctr) {
-		btnAceptar.setActionCommand(ICambioNombre.ACEPTAR);
+		btnAceptar.setActionCommand(CambioNombre.ACEPTAR);
 		btnAceptar.addActionListener(ctr);
 		
-		btnCancelar.setActionCommand(ICambioNombre.CANCELAR);
+		btnCancelar.setActionCommand(CambioNombre.CANCELAR);
 		btnCancelar.addActionListener(ctr);
 		
 	}

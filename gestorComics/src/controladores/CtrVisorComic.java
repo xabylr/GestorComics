@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import gestorComics.CambioNombre;
 import gestorComics.ComprobadoBorrado;
-import gestorComics.ICambioNombre;
 import gestorComics.IComprobadoBorrado;
 import gestorComics.INombreCambiable;
 import gui.IVisorComic;

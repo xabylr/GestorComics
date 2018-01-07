@@ -39,8 +39,10 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 	//https://stackoverflow.com/questions/2745265/is-listdog-a-subclass-of-listanimal-why-arent-javas-generics-implicitly-p
 	//No pasa nada, no se añade ninguna obra a la lista de viñetas, solo se lee
 	@SuppressWarnings("unchecked") 
-	public VisorComic(Comic comic) {
-		this.comic = comic;
+	public VisorComic(Comic c) {
+		comic = c;
+		comic.registrar(this);
+		
 		setTitle(comic.getNombre());
 		setBounds(100, 100, 741, 466);
 		
@@ -128,8 +130,7 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 
 	@Override
 	public void notificarBorrado(Observable o) {
-		setNombre("CÓMIC BORRADO");
-		
+		dispose();
 	}
 	
 }
