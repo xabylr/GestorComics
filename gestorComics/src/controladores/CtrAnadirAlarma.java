@@ -2,6 +2,7 @@ package controladores;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -33,17 +34,22 @@ public class CtrAnadirAlarma implements ActionListener {
 			final JFrame f = new JFrame();
 			String datePicked = new DatePicker(f).setPickedDate();
 			alarmaVentana.txtFechaAqui.setText(datePicked);
+			Calendar calendario = Calendar.getInstance();
+			int horas = calendario.get(Calendar.HOUR_OF_DAY);
+			int minutos = calendario.get(Calendar.MINUTE);
+			
 			
 			try(Scanner sc = new Scanner(datePicked)){
 				sc.useDelimiter("-");
-				alarmaVentana.fecha = new Date(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()));
+				alarmaVentana.fecha = new Date(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()), horas, minutos);
 			}
 		} else if(str.equals(IAnadirAlarma.ANADIR)) {
-			if(alarmaVentana.getComic() != null && alarmaVentana.getVineta() != null && alarmaVentana.getFecha() != null && alarmaVentana.getMedio() != null) {
-				Alarma alarma = new Alarma (-1,alarmaVentana.getComic(),alarmaVentana.getVineta(),null, alarmaVentana.getFecha());
+//			if(alarmaVentana.getComic() != null && alarmaVentana.getVineta() != null && alarmaVentana.getFecha() != null && alarmaVentana.getMedio() != null) {
+				System.out.println("Creamos alarma");
+				Alarma alarma = new Alarma (-1,alarmaVentana.getComic(),alarmaVentana.getVineta(),alarmaVentana.getMedio(), alarmaVentana.getFecha());
 				alarmaVentana.getManager().addAlarma(alarma);
-				System.out.println(alarma.getFecha());
-			}
+				
+//			}
 		}
 		
 	}

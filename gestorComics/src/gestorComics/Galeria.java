@@ -20,6 +20,7 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 	private List<Observador> observadores;
 	private List<MedioComunicacion> medios;
 	private IVentanaGaleria gui;
+	private ManagerAlarmas manager;
 	
 	private IBD bd;
 	
@@ -27,6 +28,7 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 		comics = new ArrayList<>();
 		observadores = new ArrayList<>();
 		medios = new ArrayList<>();
+		manager = ManagerAlarmas.instance();
 	}
 	
 	public Galeria(IBD b) {
@@ -98,6 +100,10 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 		if(!encontrado) throw new RecursoNoEncontrado("Cómic (ID "+id+")");
 		
 		return comic;
+	}
+	
+	public ManagerAlarmas getManager() {
+		return manager;
 	}
 	
 	@Override

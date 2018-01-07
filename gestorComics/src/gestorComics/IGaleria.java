@@ -58,4 +58,6 @@ public interface IGaleria {
 
 	public void refrescarLista();
 
+	public ManagerAlarmas getManager();
+
 }
