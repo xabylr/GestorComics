@@ -46,6 +46,10 @@ public class Comic extends Obra implements Observable, Observador{
 
 	@Override
 	public void retirar() {
+		for(Vineta v : vinetas) {
+			v.retirarDe(this);
+		}
+		
 		bd.borrarComic(ID);
 		bd=null;
 		ID=-1;
@@ -86,10 +90,16 @@ public class Comic extends Obra implements Observable, Observador{
 				if (aux != null)
 					for (Vineta v : vinetas)
 						if(v.equals(aux)) portada = v;
+			
+			//registrar en busca de cambios
+			for(Vineta v : vinetas)v.registrar(this);
+			
+			
 			}
 			else vinetas = new ArrayList<Vineta>();
 		}
 	}
+	
 	
 	public void inicializarBocetos(){
 		
@@ -101,6 +111,7 @@ public class Comic extends Obra implements Observable, Observador{
 	
 	public void addVineta(Vineta v){
 		inicializarVinetas();
+		v.registrar(this);
 		vinetas.add(v);
 		
 		//primero guardamos la viñeta para que tenga un ID en la BD
@@ -243,14 +254,14 @@ public class Comic extends Obra implements Observable, Observador{
 
 	@Override
 	public void notificar() {
-		inicializarVinetas();
+		notificarTodos();
 	}
 
 
 	@Override
 	public void notificarBorrado(Observable o) {
-		inicializarVinetas();
-		
+		//TODO comprobar portada
+		notificarTodos();
 	}
 
 }

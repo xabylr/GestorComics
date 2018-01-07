@@ -102,7 +102,6 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 		btnBorrar.setActionCommand(IVisorComic.BORRARCOMIC);
 		btnBorrar.addActionListener(ctr);
 		
-		
 	}
 	
 

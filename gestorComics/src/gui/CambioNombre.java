@@ -1,11 +1,14 @@
-package gestorComics;
+package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import gestorComics.Obra;
+
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
@@ -22,11 +25,15 @@ public class CambioNombre extends JFrame {
 	
 	JButton btnAceptar;
 	JButton btnCancelar;
+	
+	Obra obra;
 
 	/**
 	 * Create the frame.
 	 */
-	public CambioNombre() {
+	public CambioNombre(Obra o) {
+		obra = o;
+		
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 407, 197);
 		contentPane = new JPanel();
@@ -53,14 +60,28 @@ public class CambioNombre extends JFrame {
 		contentPane.add(btnCancelar);
 		
 		setVisible(true);
+		
+		escucharBotones();
+		
 	}
 	
-	public void controlador(ActionListener ctr) {
-		btnAceptar.setActionCommand(CambioNombre.ACEPTAR);
-		btnAceptar.addActionListener(ctr);
+	public void escucharBotones() {
 		
-		btnCancelar.setActionCommand(CambioNombre.CANCELAR);
-		btnCancelar.addActionListener(ctr);
+		btnAceptar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				obra.setNombre(textField.getText());
+				dispose();
+			}
+		});
+		
+		btnCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		
 		
 	}
 

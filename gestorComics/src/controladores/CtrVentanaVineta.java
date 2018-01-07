@@ -17,20 +17,22 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import excepciones.ExcepcionUsuario;
-import gestorComics.CambioNombre;
 import gestorComics.ComprobadoBorrado;
-import gestorComics.IComprobadoBorrado;
-import gestorComics.IImagenCambiable;
-import gestorComics.INombreCambiable;
+import gestorComics.Observable;
+import gestorComics.Vineta;
 import gui.IVisorVineta;
+import gui.Observador;
 
-public class CtrVentanaVineta implements ActionListener, INombreCambiable, IImagenCambiable {
+public class CtrVentanaVineta implements ActionListener, Observador {
 
 	IVisorVineta ventana;
+	Vineta vineta;
 
 	
 	public CtrVentanaVineta(IVisorVineta ventanaVineta) {
 		ventana = ventanaVineta;
+		vineta = ventanaVineta.getVineta();
+		vineta.registrar(this);
 	}
 	
 	@Override
@@ -41,14 +43,11 @@ public class CtrVentanaVineta implements ActionListener, INombreCambiable, IImag
 		}
 		
 		if(cmd.equals(IVisorVineta.CAMBIARNOMBRE)) {
-			CambioNombre cambionombre = new CambioNombre();
-			CtrCambioNombre ctrcambionombre = new CtrCambioNombre(this, cambionombre);
-			
-			cambionombre.controlador(ctrcambionombre);
+			new gui.CambioNombre(vineta);			
 		}
 		
 		if(cmd.equals(IVisorVineta.BORRAR)) {
-			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(ventana.getVineta());
+			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(vineta);
 			
 			
 			comprobadoborrado.setTexto("¿Está seguro que desea borrar esta viñeta?");
@@ -73,20 +72,21 @@ public class CtrVentanaVineta implements ActionListener, INombreCambiable, IImag
 		
 	}
 
-	@Override
-	public void setNombre(String name) {
-		if(name == null) return;
-		ventana.getVineta().setNombre(name);
-		ventana.SetNombre(name);
-	}
-	
-	
 
-
-	@Override
 	public void setImagen(Image img) {
-		ventana.getVineta().setImagen(img);
+		vineta.setImagen(img);
 		ventana.SetImagen(img);
+	}
+
+	@Override
+	public void notificar() {
+		ventana.SetNombre(vineta.getNombre());
+		ventana.SetImagen(vineta.getImagen());
+	}
+
+	@Override
+	public void notificarBorrado(Observable o) {
+		ventana.dispose();
 	}
 
 }

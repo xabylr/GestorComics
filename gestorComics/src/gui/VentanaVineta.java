@@ -24,7 +24,7 @@ import javax.swing.GroupLayout.Alignment;
 import excepciones.RecursoNoEncontrado;
 
 @SuppressWarnings("serial")
-public class VisorVineta extends JFrame implements IVisorVineta {
+public class VentanaVineta extends JFrame implements IVisorVineta {
 	
 	private static final int ALT_IMG = 500;
 	private static final int ANCH_IMG = 500;
@@ -37,7 +37,7 @@ public class VisorVineta extends JFrame implements IVisorVineta {
 	
 	Vineta vineta;
 	
-	public VisorVineta(Vineta v) throws RecursoNoEncontrado {
+	public VentanaVineta(Vineta v) throws RecursoNoEncontrado {
 		
 		if(v==null || v.getImagen() ==null)
 			throw new RecursoNoEncontrado("No hay nada que mostrar");

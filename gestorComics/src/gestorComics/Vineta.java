@@ -23,6 +23,13 @@ public class Vineta extends Obra implements Observable{
 	public void setImagen(Image i) {
 		imagen = i;
 		if(bd!=null) bd.actualizarImagenVineta(this);
+		notificarTodos();
+	}
+	
+	@Override
+	public void setNombre(String n) {
+		super.setNombre(n);
+		notificarTodos();
 	}
 	
 	public Vineta() {
@@ -107,6 +114,7 @@ public class Vineta extends Obra implements Observable{
 
 	void retirarDe(Comic c) {
 		if(bd!=null) bd.borrarVineta(this.getID(), c.getID());
+		notificarTodosBorrado();
 		
 	}
 

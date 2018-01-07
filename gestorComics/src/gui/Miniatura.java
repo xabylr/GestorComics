@@ -140,7 +140,7 @@ public class Miniatura extends JPanel implements Visualizable{
 	
 	public void mostrarObra() {
 		if(obra instanceof Vineta) {
-			VisorVineta ventana = new VisorVineta((Vineta)obra);
+			VentanaVineta ventana = new VentanaVineta((Vineta)obra);
 			CtrVentanaVineta ctr = new CtrVentanaVineta(ventana);
 			ventana.controlador(ctr);
 		}else if(obra instanceof Comic){
