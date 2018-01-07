@@ -39,8 +39,7 @@ public class CtrAnadirAlarma implements ActionListener {
 				alarmaVentana.fecha = new Date(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()));
 			}
 		} else if(str.equals(IAnadirAlarma.ANADIR)) {
-			if(alarmaVentana.getComic() != null && alarmaVentana.getVineta() != null && alarmaVentana.getFecha() != null) {
-				//HAY QUE VER COMO VA EL CONTADOR y MEDIOS
+			if(alarmaVentana.getComic() != null && alarmaVentana.getVineta() != null && alarmaVentana.getFecha() != null && alarmaVentana.getMedio() != null) {
 				Alarma alarma = new Alarma (-1,alarmaVentana.getComic(),alarmaVentana.getVineta(),null, alarmaVentana.getFecha());
 				alarmaVentana.getManager().addAlarma(alarma);
 				System.out.println(alarma.getFecha());

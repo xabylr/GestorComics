@@ -18,6 +18,7 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 {
 	private List<Comic> comics;
 	private List<Observador> observadores;
+	private List<MedioComunicacion> medios;
 	private IVentanaGaleria gui;
 	
 	private IBD bd;
@@ -25,6 +26,7 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 	public Galeria(){
 		comics = new ArrayList<>();
 		observadores = new ArrayList<>();
+		medios = new ArrayList<>();
 	}
 	
 	public Galeria(IBD b) {
@@ -68,7 +70,9 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 		c.registrar(this);
 	}
 	
-
+	public List<MedioComunicacion> getMedios(){
+		return medios;
+	}
 	
 	@Override
 	public void cargarComics(Collection<Comic> comics){	
@@ -138,6 +142,10 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 	public void borrarComic(Comic c) throws RecursoNoEncontrado {
 		comics.remove(c);
 		refrescarLista();
+	}
+	
+	public void anadirMedio(MedioComunicacion m) {
+		medios.add(m);
 	}
 
 	@Override

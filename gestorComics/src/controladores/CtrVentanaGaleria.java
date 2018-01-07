@@ -1,10 +1,20 @@
 package controladores;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
 import gestorComics.Comic;
+import gestorComics.Galeria;
 import gestorComics.IGaleria;
+import gestorComics.MedioComunicacion;
 import gestorComics.Obra;
 import gestorComics.Observable;
 import gui.*;
@@ -37,6 +47,58 @@ public class CtrVentanaGaleria implements ActionListener{
 		case IVentanaGaleria.ALARMA:
 			anadirAlarma();
 			break;
+			
+		case IVentanaGaleria.MEDIO:
+			
+			JFrame frame = new JFrame();
+			JPanel contentPane;
+			JTextField textField;
+			
+			JButton btnAceptar;
+			JButton btnCancelar;
+			
+			frame.setBounds(102, 102, 409, 199);
+			contentPane = new JPanel();
+			contentPane.setBounds(100, 100, 407, 197);
+			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			contentPane.setLayout(null);
+			
+			JLabel lblNombre = new JLabel("Nombre:");
+			lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblNombre.setBounds(67, 43, 67, 25);
+			contentPane.add(lblNombre);
+			
+			textField = new JTextField();
+			textField.setBounds(144, 42, 171, 25);
+			contentPane.add(textField);
+			textField.setColumns(10);
+			
+			btnAceptar = new JButton("Aceptar");
+			btnAceptar.setBounds(38, 124, 89, 23);
+			contentPane.add(btnAceptar);
+			
+			btnCancelar = new JButton("Cancelar");
+			btnCancelar.setBounds(246, 124, 89, 23);
+			contentPane.add(btnCancelar);
+			
+			frame.add(contentPane);
+			
+			btnAceptar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					galeria.anadirMedio(new MedioComunicacion(textField.getText()));
+					frame.dispose();
+				}
+			});
+			
+			btnCancelar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+			
+			frame.setVisible(true);
 		}
 
 	}

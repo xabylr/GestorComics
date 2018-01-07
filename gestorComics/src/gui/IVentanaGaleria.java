@@ -12,6 +12,7 @@ public interface IVentanaGaleria{
 public static final String ADD_VINETA="ADD_VINETA";	
 public static final String ADD_COMIC = "ADD_COMIC";
 public static final String ALARMA = "ALARMA";
+public static final String MEDIO = "MEDIO";
 
 
 

@@ -42,7 +42,13 @@ public interface IGaleria {
 	public void borrarComic(Comic c) throws RecursoNoEncontrado;
 	/*
 	 * Si la viñeta no se usa en más cómics la borra completamente
-	 */
+	*/
+	
+	
+	public void anadirMedio(MedioComunicacion m);
+	
+	public List<MedioComunicacion> getMedios();
+	
 	
 	//Base de datos
 	public void conectarBD(IBD bd) throws ExcepcionBD;

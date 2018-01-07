@@ -31,6 +31,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 	private final static int ANCHURA = 850;
 	private final static int ALTURA = 600;
 	private JButton btnAadirAlarma;
+	private JButton btnAadirMedio;
 
 	
 	@SuppressWarnings("unchecked")
@@ -46,6 +47,9 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		
 		JPanel PanelBotones = new JPanel();
 		getContentPane().add(PanelBotones, BorderLayout.SOUTH);
+		
+		btnAadirMedio = new JButton("Añadir Medio");
+		PanelBotones.add(btnAadirMedio);
 		
 		btnAadirAlarma = new JButton("Añadir Alarma");
 		PanelBotones.add(btnAadirAlarma);
@@ -79,6 +83,8 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		BTNAnadirVineta.addActionListener(ctr);
 		btnAadirAlarma.setActionCommand(IVentanaGaleria.ALARMA);
 		btnAadirAlarma.addActionListener(ctr);
+		btnAadirMedio.setActionCommand(IVentanaGaleria.MEDIO);
+		btnAadirMedio.addActionListener(ctr);
 	}
 	
 	@Override

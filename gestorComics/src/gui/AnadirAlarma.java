@@ -39,7 +39,7 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 	JButton btnEscogerFecha;
 	IGaleria galeria;
 	private JLabel lblMedio;
-	private JComboBox comboBox_2;
+	private JComboBox<Medios> comboBox_2;
 	public JTextField txtFechaAqui;
 	
 	public AnadirAlarma(IGaleria g) {
@@ -117,6 +117,11 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 		gbc_comboBox_2.gridy = 5;
 		getContentPane().add(comboBox_2, gbc_comboBox_2);
 		
+		List<MedioComunicacion> lm = galeria.getMedios();
+		for(MedioComunicacion m : lm) {
+			addMedio(m);
+		}
+		
 		txtFechaAqui = new JTextField();
 		txtFechaAqui.setText("FECHA AQUI");
 		GridBagConstraints gbc_txtFechaAqui = new GridBagConstraints();
@@ -181,11 +186,17 @@ public void addVineta(Vineta v) {
 	comboBox_1.addItem(new Vinetas(v));
 }
 
+public void addMedio(MedioComunicacion m) {
+	comboBox_2.addItem(new Medios(m));
+}
+
 public Vineta getVineta() {
 	if(comboBox_1.getSelectedItem()!=null)
 		return ( (Vinetas) comboBox_1.getSelectedItem() ).getVineta();
 	else return null;
 }
+
+
 
 public void setFecha(Date f) {
 	fecha = f;
@@ -220,5 +231,18 @@ class Comics{
 		return comic.getNombre();
 	}
 	public Comic getComic() {return comic;}
+	
+}
+
+class Medios{
+	MedioComunicacion medio;
+	public Medios(MedioComunicacion m) {
+		medio = m;
+	}
+	@Override
+	public String toString() {
+		return medio.getNombre();
+	}
+	public MedioComunicacion getMedio() {return medio;}
 	
 }
