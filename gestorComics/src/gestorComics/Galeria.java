@@ -65,6 +65,7 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 	
 	private void cargarComicNoRefresco(Comic c) {
 		comics.add(c);
+		c.registrar(this);
 	}
 	
 

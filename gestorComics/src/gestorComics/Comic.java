@@ -55,8 +55,8 @@ public class Comic extends Obra implements Observable, Observador{
 	@Override
 	public void setNombre(String n) {
 		super.setNombre(n);
-		notificarTodos();
 		if(bd!=null) bd.renombrarComic(ID, n);
+		notificarTodos();
 		
 	}
 	
