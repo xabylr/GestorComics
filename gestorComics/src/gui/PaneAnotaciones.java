@@ -11,6 +11,7 @@ import javax.swing.ScrollPaneConstants;
 
 import gestorComics.Anotacion;
 import gestorComics.Obra;
+import java.awt.BorderLayout;
 
 /*
  * Contiene una lista de anotaciones provenientes del modelo
@@ -21,8 +22,6 @@ public class PaneAnotaciones extends JScrollPane {
 
 	JPanel panelAnotaciones; //panel descendente de anotaciones
 	List<Anotacion> listaAnotaciones; //almacenamos el origen de las obras
-	
-	GridBagLayout gbl;
 	GridBagConstraints gbc ;
 	
 	public PaneAnotaciones(List<Anotacion> list) {
@@ -30,10 +29,7 @@ public class PaneAnotaciones extends JScrollPane {
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		panelAnotaciones = new JPanel();
-		gbl = new GridBagLayout();
 		gbc = new GridBagConstraints();
-		
-		panelAnotaciones.setLayout(gbl);
 	
 		setViewportView(panelAnotaciones);
 		//Hacemos un poco más rápido el scroll
@@ -43,7 +39,15 @@ public class PaneAnotaciones extends JScrollPane {
 		//Código para añadir recuadrobs (de momento inerte) para añadir comentarios
 		addAnotaciones(listaAnotaciones);
 		gbc.gridy = panelAnotaciones.getComponentCount();
-				panelAnotaciones.add(new WidgetAnotacion(), gbc);
+		WidgetAnotacion wAPublica = new WidgetAnotacion(true);
+		
+		WidgetAnotacion wAPrivada = new WidgetAnotacion(false);
+		panelAnotaciones.setLayout(new BorderLayout(0, 0));
+		
+		panelAnotaciones.add(wAPublica, BorderLayout.NORTH);
+		panelAnotaciones.add(wAPrivada, BorderLayout.SOUTH);
+				
+		
 	}
 	
 	

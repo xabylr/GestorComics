@@ -34,8 +34,11 @@ public class WidgetAnotacion extends JPanel {
 	JTextArea txtComentario;
 	
 	//Espacio para escribir un comentario
-	public WidgetAnotacion() { //debe recibir un panel gui y una lista de anotaciones
-		publico=false;
+	/**
+	 * @wbp.parser.constructor
+	 */
+	public WidgetAnotacion(boolean publicidad) { //debe recibir un panel gui y una lista de anotaciones
+		publico=publicidad;
 
 		inicializar();
 		

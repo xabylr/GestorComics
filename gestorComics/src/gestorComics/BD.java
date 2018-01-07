@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import javax.imageio.ImageIO;
 import excepciones.ExcepcionBD;
@@ -367,6 +368,24 @@ try {
 	public List<Vineta> getBocetos(int iD) {
 		System.out.println("OBTENER LISTA DE BOCETOS EN BD NO IMPLEMENTADO");
 		return new ArrayList<>();
+	}
+
+	@Override
+	public void insertarAnotacion(Comic comic, Vineta vineta, Vineta boceto, String comentario) {
+		System.out.println("INSERTAR ANOTACION EN BD NO IMPLEMENTADO");
+	}
+	
+	@Override
+	public Anotacion obtenerAnotacion(Comic comic, Vineta vineta, Vineta boceto) {
+		System.out.println("OBTENER ANOTACION EN BD NO IMPLEMENTADO");
+		return null;
+		
+	}
+
+	@Override
+	public void borrarAnotacion(Comic comic, Vineta vineta, Vineta boceto) {
+		System.out.println("BORRAR ANOTACION EN BD NO IMPLEMENTADO");
+		
 	}
 	
 }

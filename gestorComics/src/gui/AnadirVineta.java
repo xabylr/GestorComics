@@ -30,12 +30,15 @@ import javax.swing.SwingConstants;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import javax.swing.JList;
 
 @SuppressWarnings("serial")
 public class AnadirVineta extends JFrame implements IAnadirVineta {
 	
 	private JLabel lblAlert;
 	private JComboBox<ContenedorComic> listaComics;
+	JList<Comic> selectorComics;
+	
 	private JTextField tfNombre;
 	private Image imagen;
 	private Miniatura miniatura;
@@ -63,6 +66,7 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		
 		listaComics = new JComboBox<ContenedorComic>();
 		
+		selectorComics = new JList<>();
 		
 		List<Comic> lc = galeria.getComics();
 		for(Comic c : lc) {
@@ -75,6 +79,9 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		panelSelSubir.add(lblCmic);
 		
 		panelSelSubir.add(listaComics);
+		
+		
+		panelSelSubir.add(selectorComics);
 		
 		JPanel panelNombreVineta = new JPanel();
 		panelSelComic.add(panelNombreVineta);
