@@ -5,14 +5,13 @@ import java.awt.event.ActionListener;
 
 import gestorComics.CambioNombre;
 import gestorComics.ComprobadoBorrado;
-import gestorComics.IBorradoComprobable;
 import gestorComics.ICambioNombre;
 import gestorComics.IComprobadoBorrado;
 import gestorComics.INombreCambiable;
 import gui.IVisorComic;
 import gui.VisorComic;
 
-public class CtrVisorComic implements ActionListener, INombreCambiable, IBorradoComprobable{
+public class CtrVisorComic implements ActionListener, INombreCambiable{
 	
 	IVisorComic ventana;
 	
@@ -36,20 +35,11 @@ public class CtrVisorComic implements ActionListener, INombreCambiable, IBorrado
 			
 			cambionombre.controlador(ctrcambionombre);
 		} else if(str.equals(IVisorComic.BORRARCOMIC)) {
-			IComprobadoBorrado comprobadoborrado = new ComprobadoBorrado();
+			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(ventana.getComic());
 			
-			CtrComprobadoBorrado strcomprobadoborrado = new CtrComprobadoBorrado(this, comprobadoborrado);
-			
-			comprobadoborrado.controlador(strcomprobadoborrado);
-			
-			comprobadoborrado.setTexto("¿Está seguro que desea borrar esta cómic?");
+			comprobadoborrado.setTexto("¿Está seguro que desea borrar el cómic "+ventana.getComic()+"?");
 		}
 	}
-	
-	@Override
-	public void Borrar() {
-		
-		ventana.dispose();
-	}
+
 
 }

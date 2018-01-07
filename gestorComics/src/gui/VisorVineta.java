@@ -137,7 +137,7 @@ public class VisorVineta extends JFrame implements IVisorVineta {
 	}
 
 	@Override
-	public Vineta getViñeta() {
+	public Vineta getVineta() {
 		
 		return vineta;
 	}

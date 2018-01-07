@@ -2,6 +2,7 @@ package gestorComics;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -12,7 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import gui.IVisorVineta;
 
-public class ComprobadoBorrado extends JFrame implements IComprobadoBorrado{
+public class ComprobadoBorrado extends JFrame{
 
 	private JPanel contentPane;
 	private JLabel texto;
@@ -20,11 +21,18 @@ public class ComprobadoBorrado extends JFrame implements IComprobadoBorrado{
 	private JButton btnAceptar;
 	private JButton btnCancelar;
 	
-
+	Obra obra;
+	
+	public static final String ACEPTAR = "ACEPTAR";
+	public static final String CANCELAR = "CANCELAR";
+	
+	
 	/**
-	 * Create the frame.
+	 * Crea una ventana para confirmar el borrado de una Obra
 	 */
-	public ComprobadoBorrado() {
+	public ComprobadoBorrado(Obra o) {
+		obra = o;
+		
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -48,6 +56,8 @@ public class ComprobadoBorrado extends JFrame implements IComprobadoBorrado{
 		add(pbotones, BorderLayout.SOUTH);
 		
 		setVisible(true);
+		
+		controlarBotones();
 	}
 
 
@@ -55,14 +65,23 @@ public class ComprobadoBorrado extends JFrame implements IComprobadoBorrado{
 		texto.setText(s);
 	}
 	
-	@Override
-	public void controlador(ActionListener ctr) {
+	public void controlarBotones() {
 		
-		btnAceptar.setActionCommand(IComprobadoBorrado.ACEPTAR);
-		btnAceptar.addActionListener(ctr);
+		btnAceptar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				obra.borrar();
+				dispose();
+			}
+		});
 		
-		btnCancelar.setActionCommand(IComprobadoBorrado.CANCELAR);
-		btnCancelar.addActionListener(ctr);
+		btnCancelar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 		
 	}
 

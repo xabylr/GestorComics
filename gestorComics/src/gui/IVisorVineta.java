@@ -20,5 +20,5 @@ public interface IVisorVineta {
 	
 	public void dispose();
 	
-	public Vineta getViñeta();
+	public Vineta getVineta();
 }

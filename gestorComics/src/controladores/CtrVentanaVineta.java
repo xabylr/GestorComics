@@ -19,14 +19,13 @@ import javax.swing.JFrame;
 import excepciones.ExcepcionUsuario;
 import gestorComics.CambioNombre;
 import gestorComics.ComprobadoBorrado;
-import gestorComics.IBorradoComprobable;
 import gestorComics.ICambioNombre;
 import gestorComics.IComprobadoBorrado;
 import gestorComics.IImagenCambiable;
 import gestorComics.INombreCambiable;
 import gui.IVisorVineta;
 
-public class CtrVentanaVineta implements ActionListener, INombreCambiable, IBorradoComprobable, IImagenCambiable {
+public class CtrVentanaVineta implements ActionListener, INombreCambiable, IImagenCambiable {
 
 	IVisorVineta ventana;
 
@@ -50,11 +49,8 @@ public class CtrVentanaVineta implements ActionListener, INombreCambiable, IBorr
 		}
 		
 		if(cmd.equals(IVisorVineta.BORRAR)) {
-			IComprobadoBorrado comprobadoborrado = new ComprobadoBorrado();
+			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(ventana.getVineta());
 			
-			CtrComprobadoBorrado strcomprobadoborrado = new CtrComprobadoBorrado(this, comprobadoborrado);
-			
-			comprobadoborrado.controlador(strcomprobadoborrado);
 			
 			comprobadoborrado.setTexto("¿Está seguro que desea borrar esta viñeta?");
 		}
@@ -81,21 +77,16 @@ public class CtrVentanaVineta implements ActionListener, INombreCambiable, IBorr
 	@Override
 	public void setNombre(String name) {
 		if(name == null) return;
-		ventana.getViñeta().setNombre(name);
+		ventana.getVineta().setNombre(name);
 		ventana.SetNombre(name);
 	}
 	
 	
 
-	@Override
-	public void Borrar() {
-		//BORRAR DE COMIC
-		ventana.dispose();
-	}
 
 	@Override
 	public void setImagen(Image img) {
-		ventana.getViñeta().setImagen(img);
+		ventana.getVineta().setImagen(img);
 		ventana.SetImagen(img);
 	}
 

@@ -4,6 +4,10 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
+import excepciones.ExcepcionBD;
+
 public class Vineta extends Obra{
 	
 	private IBD bd;
@@ -95,6 +99,16 @@ public class Vineta extends Obra{
 	public List<Anotacion> getAnotaciones() {
 		List<Anotacion> list = new ArrayList<Anotacion>();
 		return list;
+	}
+
+	@Override
+	void borrar() {
+		System.out.println("ERROR, usar borrarDe en su lugar para borrar viñeta");
+		throw new RuntimeException("ERROR, usar borrarDe en su lugar para borrar viñeta");
+	}
+	
+	void borrarDe(Comic c) {
+		if(bd!=null) bd.borrarVineta(this.getID(), c.getID());
 	}
 
 }
