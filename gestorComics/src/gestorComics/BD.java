@@ -322,8 +322,17 @@ try {
 
 	@Override
 	public void renombrarVineta(Vineta v, String n) throws ExcepcionBD {
-		// TODO Auto-generated method stub
-		System.out.println("RENOMBAR VIÑETA EN BD NO IMPLEMENTADO");
+		try {
+			PreparedStatement psmnt = con.prepareStatement(
+					"UPDATE VINETA SET NOMBRE=? WHERE ID=?");
+			psmnt.setString(1, n);
+			psmnt.setInt(2, v.ID);
+			psmnt.executeQuery();
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al renombrar viñeta (ID: "+v+") ("+e.getMessage()+")");
+		}
 	}
 
 	@Override
