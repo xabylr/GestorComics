@@ -15,6 +15,8 @@ public interface IBD {
 	public List<Comic> getComics() throws ExcepcionBD;
 	public List<Vineta> getVinetas(int c) throws ExcepcionBD;
 	public Vineta getPortada(int c) throws ExcepcionBD;
+	public int getEnlaces(int vineta);
+	
 	
 	//Modificación
 	/*
@@ -37,6 +39,7 @@ public interface IBD {
 	public void borrarComic(int c) throws ExcepcionBD;
 	
 	void setPortadaComic(Vineta v, Comic c) throws ExcepcionBD;
+	void insertarBoceto(Vineta boceto, Comic comic);
 	List<Vineta> getBocetos(int iD);
 	/*
 	 * Si el comic es null es una anotación privada
@@ -54,4 +57,5 @@ public interface IBD {
 	public List<Alarma> getAlarmas();
 	public int addAlarma(Alarma a);
 	public void removeAlarma(Alarma a);
+	
 }

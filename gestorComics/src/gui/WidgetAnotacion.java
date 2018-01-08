@@ -28,10 +28,12 @@ public class WidgetAnotacion extends JPanel {
 	private JPanel panelSuperior;
 	private JLabel lblTitulo;
 	private JLabel lblPrivacidad;
+	private JPanel panelInferior;
 	private boolean publico;
 	
 	JButton btnGuardar;
 	JButton btnEditar;
+	JButton btnBorrar;
 	
 	JTextArea txtComentario;
 	Comic comic;
@@ -54,8 +56,6 @@ public class WidgetAnotacion extends JPanel {
 		
 		lblTitulo.setText("Nuevo comentario:");
 
-		JPanel panelInferior = new JPanel(new BorderLayout());
-		add (panelInferior, BorderLayout.SOUTH);
 		
 		btnGuardar = new JButton("Guardar");
 		panelInferior.add(btnGuardar, BorderLayout.EAST);
@@ -64,7 +64,10 @@ public class WidgetAnotacion extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				vineta.setAnotacion(new Anotacion(comic, vineta, null, publico));
+				anotacion = new Anotacion(comic, vineta, null, publico);
+				vineta.setAnotacion(anotacion);
+				lblTitulo.setText("Comentario guardado, editar: ");
+				mostrarBorrar();
 			}
 		});
 	
@@ -74,6 +77,8 @@ public class WidgetAnotacion extends JPanel {
 	//Mostrar anotación ya existente
 	public WidgetAnotacion(Anotacion a) {
 		anotacion = a;
+		comic = a.getComic();
+		vineta = a.getVineta();
 		
 		publico = anotacion.esPublico();
 		inicializar();
@@ -97,8 +102,26 @@ public class WidgetAnotacion extends JPanel {
 			}
 		});
 		
+		mostrarBorrar();
+		
 	}
 	
+	
+	private void mostrarBorrar() {
+		btnBorrar = new JButton("Borrar");
+		panelInferior.add(btnGuardar, BorderLayout.EAST);
+		
+		btnBorrar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (anotacion.esPublico()) vineta.delAnotacionPublica(comic);
+				else vineta.delAnotacionPrivada();
+				txtComentario.setText("");
+				lblTitulo.setText("Nuevo comentario:");
+			}
+		});
+	}
 	
 	private void inicializar() {
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -121,6 +144,9 @@ public class WidgetAnotacion extends JPanel {
 		JScrollPane jsp = new JScrollPane(txtComentario);
 		
 		add(jsp, BorderLayout.CENTER);
+		
+		panelInferior = new JPanel(new BorderLayout());
+		add (panelInferior, BorderLayout.SOUTH);
 		
 		refrescarIcono();
 		

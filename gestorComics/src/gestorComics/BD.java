@@ -121,31 +121,48 @@ public class BD implements IBD{
 		
 	}
 	
-	
+
 	@Override
 	public void insertarVineta(Vineta vineta, int comic) throws ExcepcionBD {
 		//Convertimos la imagen a un archivo png en memoria ( stream de array de bytes y a un inputstream ) para subir
 		
-		//if(v.getID() > ultimoIdVineta) ultimoIdVineta=v.getID();
+		int enlaces = getEnlaces(vineta.getID()); //si la viñeta tiene id =-1 hay 0 enlaces
+		
 		PreparedStatement psmnt = null;
-try {
-		if(vineta.getID()==-1) {
-			vineta.setID(++ultimoIdVineta);
-			
-		}
+	try {
 	
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write((BufferedImage)vineta.getImagen(), "png", baos);
-		InputStream is = new ByteArrayInputStream(baos.toByteArray());
+	//Añadimos tupla a la lista de viñetas o aumentamos sus enlaces
+		
+		if (enlaces == 0) { //viñeta nueva, insertar imagen y asignar ID
+			
+				if(vineta.getID()==-1) {
+					vineta.setID(++ultimoIdVineta);
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					ImageIO.write((BufferedImage)vineta.getImagen(), "png", baos);
+					InputStream is = new ByteArrayInputStream(baos.toByteArray());
 
-		//creamos la sentencia SQL para subir la imagen	
+					//creamos la sentencia SQL para subir la imagen	
+						psmnt = con.prepareStatement(
+							"INSERT INTO VINETA (NOMBRE, ID, IMAGEN, ENLACES) VALUES (?,?,?)");
+						psmnt.setString(1, vineta.getNombre());
+						psmnt.setInt(2, vineta.getID());
+						psmnt.setBinaryStream(3, is, baos.size() );
+						psmnt.setInt(4, 1); //un enlace
+							
+					psmnt.executeUpdate(); 
+				}
+			
+		}else {
 			psmnt = con.prepareStatement(
-				"INSERT INTO VINETA (NOMBRE, ID, IMAGEN) VALUES (?,?,?)");
-			psmnt.setString(1, vineta.getNombre());
+					"UPDATE VINETA SET ENLACES=? WHERE ID=?");
+			psmnt.setInt(1, enlaces+1);
 			psmnt.setInt(2, vineta.getID());
-			psmnt.setBinaryStream(3, is, baos.size() );
-				
-		psmnt.executeUpdate(); 
+			psmnt.executeUpdate();
+		}
+		
+		psmnt.close(); //lo cerramos porque vamos a cambiar de objeto
+		
+		//Añadimos al cómic la viñeta en cuestión
 	
 			psmnt = con.prepareStatement(
 					"INSERT INTO COMIC_VINETA (VINETA_ID, COMIC_ID) VALUES(?,?)");
@@ -167,6 +184,29 @@ try {
 	
 	}
 	
+	@Override
+	public int getEnlaces(int vineta) {
+		PreparedStatement psmnt = null;
+		int enlaces = -1;
+		if (vineta == -1) enlaces = 0;
+		else {
+			try {
+				psmnt = con.prepareStatement(
+					"SELECT ENLACES FROM VINETA WHERE ID = ?");
+				if(psmnt.getFetchSize()==0) enlaces=0;
+				else {
+					psmnt.setInt(1, vineta);
+					enlaces = psmnt.executeQuery().getInt(1);
+				}
+		
+			}catch (SQLException e) {
+				throw new ExcepcionBD("Error al obtener núm de enlaces("+e.getMessage()+")");
+			}
+		}
+		
+		return enlaces;
+		
+	}
 	
 	@Override
 	public void insertarComic(Comic comic) throws ExcepcionBD  {
@@ -439,29 +479,26 @@ try {
 	 * Decrementar en uno el contador de enlaces y cuando sea 1, Borrar la tupla de la base de datos
 	 * 
 	 */
-	@SuppressWarnings("resource")
 	@Override
 	public void borrarVineta(int v, int c) throws ExcepcionBD {
 
+		int enlaces = getEnlaces(v);
+		
 		PreparedStatement psmnt = null;
 		try {
-			psmnt = con.prepareStatement(
-					"SELECT ENLACES FROM VINETA WHERE ID = ?");
-			psmnt.setInt(1, v);
-			int enlaces = psmnt.executeQuery().getInt(1);
 			
 			if(enlaces==1) {
 				psmnt = con.prepareStatement(
 						"DELETE FROM VINETA WHERE ID = ?");
 				psmnt.setInt(1, v);
 				psmnt.execute();
-			}else {
+			}else if(enlaces>=1) {
 				psmnt = con.prepareStatement(
 						"UPDATE VINETA SET ENLACES=? WHERE ID = ?");
 				psmnt.setInt(1, enlaces-1);
 				psmnt.setInt(2, v);
 				psmnt.execute();
-			}
+			}else throw new ExcepcionBD("Error de número de enlaces de viñeta con ID: "+v);
 			
 			
 			
@@ -515,7 +552,6 @@ try {
 //				try {
 //					imagen = ImageIO.read(rs.getBinaryStream("IMAGEN"));
 //				} catch (IOException e) {
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
 //				 
@@ -542,8 +578,12 @@ try {
 		
 	}
 
+	
+	/*
+	 * Inserta una lista de viñetas para un cómic dado (enlaces=1);
+	 */
 	@Override
-	public void insertarVinetas(List<Vineta> vs, int c) { //POR COMPLETAR
+	public void insertarVinetas(List<Vineta> vs, int c) {
 		PreparedStatement psmnt = null;
 		try {
 			psmnt = con.prepareStatement(
@@ -555,7 +595,6 @@ try {
 				try {
 					ImageIO.write((BufferedImage)v.getImagen(), "png", baos);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				InputStream is = new ByteArrayInputStream(baos.toByteArray());
@@ -564,18 +603,16 @@ try {
 				try {
 					psmnt.setInt(1, v.getID());
 					psmnt.setString(2, v.getNombre());
-//					psmnt.setInt(3,v.);
+					psmnt.setInt(3,1); //se considera que cada viñeta es solo de ese cómic
 					psmnt.setBinaryStream(4, is, baos.size() );
 					psmnt.executeUpdate();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 				}
 			
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}finally {
 			try {
@@ -601,7 +638,6 @@ try {
 			try {
 				ImageIO.write((BufferedImage)v.getImagen(), "png", baos);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			InputStream is = new ByteArrayInputStream(baos.toByteArray());
@@ -622,6 +658,50 @@ try {
 		
 	}
 
+	/*
+	 * El boceto se comporta como una viñeta en el programa
+	 * 
+	 */
+	@Override
+	public void insertarBoceto(Vineta boceto, Comic comic) {
+		PreparedStatement psmnt=null;
+		try {
+			psmnt = con.prepareStatement(
+					"INSERT INTO BOCETO (ID,COMIC_ID,IMAGEN) VALUES (?,?,?)");
+				
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				try {
+					ImageIO.write((BufferedImage)boceto.getImagen(), "png", baos);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				InputStream is = new ByteArrayInputStream(baos.toByteArray());
+					
+				
+				try {
+					psmnt.setInt(1, boceto.getID());
+					psmnt.setString(2, boceto.getNombre());
+					psmnt.setBinaryStream(3, is, baos.size() );
+					psmnt.executeUpdate();
+				} catch (SQLException e) {
+					throw new ExcepcionBD(
+							"Error al insertar boceto (ID: "+boceto.getID()+") "
+									+ "("+e.getMessage()+")");
+				}
+			
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
+		}
+			
+	}
+	
+	
 	@Override
 	public List<Vineta> getBocetos(int iD) {
 		List<Vineta> resultado = new ArrayList<>();
@@ -635,7 +715,6 @@ try {
 				try {
 					resultado.add(new Vineta(ImageIO.read(rs.getBinaryStream("IMAGEN"))));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -683,6 +762,8 @@ try {
 		}
 		
 	}
+	
+	
 	
 	@Override
 	public Anotacion obtenerAnotacion(Comic comic, Vineta vineta, Vineta boceto) {
