@@ -36,7 +36,7 @@ public interface IBD {
 	public void borrarVineta(int v, int c) throws ExcepcionBD;
 	public void borrarComic(int c) throws ExcepcionBD;
 	
-	void setPortadaComic(int v, int c) throws ExcepcionBD;
+	void setPortadaComic(Vineta v, Comic c) throws ExcepcionBD;
 	List<Vineta> getBocetos(int iD);
 	/*
 	 * Si el comic es null es una anotación privada

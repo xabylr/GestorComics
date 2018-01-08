@@ -161,7 +161,7 @@ public class Comic extends Obra implements Observable, Observador{
 	}
 	
 	public void setPortada(Vineta v) {
-		if (bd != null) bd.setPortadaComic(v.getID(), ID);
+		if (bd != null) bd.setPortadaComic(v, this);
 		portada=v;
 		notificarTodos();
 	}
@@ -246,8 +246,22 @@ public class Comic extends Obra implements Observable, Observador{
 	public void notificarBorrado(Observable o) {
 		//TODO comprobar portada
 		vinetas.remove((Vineta)o);
-		if (vinetas.isEmpty()) portada = null;
+		boolean encontrado=false;
+		if(portada !=null) {
+			for (Vineta v : vinetas)
+				if (v.getID()==portada.getID())
+					encontrado=true;
+		}else encontrado = true;
+			
+		if(!encontrado) {
+			if (vinetas.isEmpty()) setPortada(null);
+			else setPortada(vinetas.get(1));
+				
 		notificarTodos();
+		}
+		
+		
+		
 	}
 
 }

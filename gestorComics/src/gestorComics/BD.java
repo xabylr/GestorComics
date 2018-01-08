@@ -307,10 +307,15 @@ try {
 	
 
 	@Override
-	public void setPortadaComic(int v, int c) {
+	public void setPortadaComic(Vineta v, Comic c) {
 		try {
 			PreparedStatement psmnt = con.prepareStatement(
-					"UPDATE COMIC SET PORTADA="+v+" WHERE ID="+c);
+					"UPDATE COMIC SET PORTADA=? WHERE ID=?");
+			if(v!=null)psmnt.setInt(1, v.getID());
+			else psmnt.setNull(1, java.sql.Types.NULL);
+			
+			psmnt.setInt(2, c.getID());
+			
 			psmnt.executeUpdate();
 
 		} catch (SQLException e) {
