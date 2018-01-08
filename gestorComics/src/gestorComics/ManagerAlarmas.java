@@ -33,6 +33,7 @@ public class ManagerAlarmas {
 	
 	public void addAlarma(Alarma a) {
 		
+		if(bd!=null)
 		a.setIdentificador(bd.addAlarma(a));
 		startAlarma(a);
 	}
@@ -46,6 +47,7 @@ public class ManagerAlarmas {
 		
 		GuiAlarma guialarma = new GuiAlarma(a);
 		
+		if(bd!=null)
 		bd.removeAlarma(a);
 	}
 }
