@@ -327,7 +327,7 @@ try {
 					"UPDATE VINETA SET NOMBRE=? WHERE ID=?");
 			psmnt.setString(1, n);
 			psmnt.setInt(2, v.getID());
-			psmnt.executeQuery();
+			psmnt.execute();
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -342,7 +342,7 @@ try {
 					"UPDATE COMIC SET NOMBRE=? WHERE ID=?");
 			psmnt.setString(1, n);
 			psmnt.setInt(2, c);
-			psmnt.executeQuery();
+			psmnt.execute();
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
