@@ -57,6 +57,11 @@ public class Comic extends Obra implements Observable, Observador{
 		
 	}
 
+	public void retirarVineta(Vineta v) {
+		v.retirarDe(this);
+		vinetas.remove(v);
+		notificarBorrado(v);
+	}
 
 	@Override
 	public void setNombre(String n) {
@@ -92,7 +97,10 @@ public class Comic extends Obra implements Observable, Observador{
 						if(v.equals(aux)) portada = v;
 			
 			//registrar en busca de cambios
-			for(Vineta v : vinetas)v.registrar(this);
+			for(Vineta v : vinetas) {
+				v.registrar(this);
+				v.conectar(bd);
+			}
 			
 			
 			}
@@ -178,23 +186,6 @@ public class Comic extends Obra implements Observable, Observador{
 		return getPortada().vistaPrevia();
 	}
 
-	@Override
-	public void addAnotacionPrivada(AnotacionPrivada a) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<AnotacionPrivada> getAnotacionesPrivadas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delAnotacionPrivada(AnotacionPrivada a) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override
@@ -211,13 +202,6 @@ public class Comic extends Obra implements Observable, Observador{
 	@Override
 	public boolean observadoPor(Observador o){
 		return observadores.contains(o);
-	}
-
-	@Override
-	public List<Anotacion> getAnotaciones() {
-		// TODO Auto-generated method stub
-		System.out.println("OBTENER ANOTACIONES DE COMIC NO IMPLEMENTADO");
-		return null;
 	}
 	
 	public List<Vineta> getBocetos() {

@@ -81,6 +81,9 @@ public class CtrVentanaVineta implements ActionListener, Observador {
 		vineta.setImagen(img);
 		ventana.SetImagen(img);
 	}
+	
+	
+	
 
 	@Override
 	public void notificar() {

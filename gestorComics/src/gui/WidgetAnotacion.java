@@ -5,6 +5,8 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import gestorComics.Anotacion;
+import gestorComics.Comic;
+import gestorComics.Vineta;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,14 +14,11 @@ import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.color.ColorSpace;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.border.EtchedBorder;
 import javax.swing.JTextArea;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class WidgetAnotacion extends JPanel {
@@ -31,13 +30,21 @@ public class WidgetAnotacion extends JPanel {
 	private JLabel lblPrivacidad;
 	private boolean publico;
 	
+	JButton btnGuardar;
+	JButton btnEditar;
+	
 	JTextArea txtComentario;
+	Comic comic;
+	Vineta vineta;
 	
 	//Espacio para escribir un comentario
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public WidgetAnotacion(boolean publicidad) { //debe recibir un panel gui y una lista de anotaciones
+	public WidgetAnotacion(Comic c, Vineta v, boolean publicidad) { //debe recibir un panel gui y una lista de anotaciones
+		comic = c;
+		vineta = v;
+		
 		publico=publicidad;
 
 		inicializar();
@@ -50,9 +57,16 @@ public class WidgetAnotacion extends JPanel {
 		JPanel panelInferior = new JPanel(new BorderLayout());
 		add (panelInferior, BorderLayout.SOUTH);
 		
-		JButton btnAnadir = new JButton("Guardar");
-		panelInferior.add(btnAnadir, BorderLayout.EAST);
+		btnGuardar = new JButton("Guardar");
+		panelInferior.add(btnGuardar, BorderLayout.EAST);
 		
+		btnGuardar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				vineta.setAnotacion(new Anotacion(comic, vineta, null, publico));
+			}
+		});
 	
 	}
 	
@@ -64,12 +78,24 @@ public class WidgetAnotacion extends JPanel {
 		publico = anotacion.esPublico();
 		inicializar();
 		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/LLLL/yyyy (HH:mm)");
-		
-		lblTitulo.setText(anotacion.getFecha().format(dtf));
+		lblTitulo.setText("Editar anotación:");
 		
 		txtComentario.setText(anotacion.getComentario());
-		txtComentario.setEditable(false);
+		txtComentario.setEditable(true);
+		
+		JPanel panelInferior = new JPanel(new BorderLayout());
+		add (panelInferior, BorderLayout.SOUTH);
+		
+		btnGuardar = new JButton("Editar");
+		panelInferior.add(btnGuardar, BorderLayout.EAST);
+		
+		btnGuardar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				a.setComentario(txtComentario.getText());
+			}
+		});
 		
 	}
 	

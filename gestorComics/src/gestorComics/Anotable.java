@@ -4,14 +4,13 @@ import java.util.List;
 
 public interface Anotable {
 
-	public void setAnotacionPublica(AnotacionPublica a);
-	public AnotacionPublica getAnotacionPublica();
-	public void delAnotacionPublica();
+	public Anotacion getAnotacionPublica(Comic c);
+	public Anotacion getAnotacionPrivada();
 	
-	public void addAnotacionPrivada(AnotacionPrivada a);
-	public List<AnotacionPrivada> getAnotacionesPrivadas();
-	public void delAnotacionPrivada(AnotacionPrivada a);
+	void delAnotacionPrivada();
+	void delAnotacionPublica(Comic c);
+	void setAnotacion(Anotacion a);
+
 	
-	public List<Anotacion> getAnotaciones();
 	
 }

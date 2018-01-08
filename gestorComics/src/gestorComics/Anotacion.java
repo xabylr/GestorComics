@@ -1,9 +1,6 @@
 package gestorComics;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-public class Anotacion implements Historico, Sincronizable {
+public class Anotacion implements Sincronizable {
 
 	protected String comentario;
 	
@@ -13,29 +10,9 @@ public class Anotacion implements Historico, Sincronizable {
 	private IBD bd;
 	
 	private boolean publico;
-	/*
-	 * IMPORTANTE: usar java.sql.Time para BD
-	 */
-	protected LocalDateTime fecha;
 	
 	public Anotacion(Comic c, Vineta v, Vineta b,  boolean p) {
 		comic = c; vineta=v; boceto = b; publico = p;
-	}
-	
-	public Anotacion(String c, boolean p) {
-		publico = p;
-		comentario = c;
-		fecha = LocalDateTime.now();
-	}
-	
-	
-	@Override
-	public void setFecha(LocalDateTime f) {
-		fecha = f;
-	}
-	@Override
-	public LocalDateTime getFecha() {
-		return fecha;
 	}
 	
 	
@@ -47,9 +24,22 @@ public class Anotacion implements Historico, Sincronizable {
 		return comentario;
 	}
 	
+	public Comic getComic() {
+		return comic;
+	}
+	
+	public Vineta getVineta() {
+		return vineta;
+	}
+	
+	public Vineta getBoceto() {
+		return boceto;
+	}
+	
 	public void setComentario(String c) {
-		fecha = LocalDateTime.now();
 		comentario = c;
+		
+		if(bd!=null)bd.insertarAnotacion(comic, vineta, boceto, c);
 	}
 
 	@Override

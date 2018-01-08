@@ -10,7 +10,10 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import gestorComics.Anotacion;
+import gestorComics.Comic;
 import gestorComics.Obra;
+import gestorComics.Vineta;
+
 import java.awt.BorderLayout;
 
 /*
@@ -21,11 +24,19 @@ import java.awt.BorderLayout;
 public class PaneAnotaciones extends JScrollPane {
 
 	JPanel panelAnotaciones; //panel descendente de anotaciones
-	List<Anotacion> listaAnotaciones; //almacenamos el origen de las obras
 	GridBagConstraints gbc ;
 	
-	public PaneAnotaciones(List<Anotacion> list) {
-		listaAnotaciones=list;
+	WidgetAnotacion wAPublica;
+	WidgetAnotacion wAPrivada;
+	
+	Comic comic;
+	Vineta vineta;
+	
+	public PaneAnotaciones(Comic c, Vineta v) {
+		comic =c;
+		vineta = v;
+		
+		
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		panelAnotaciones = new JPanel();
@@ -37,11 +48,10 @@ public class PaneAnotaciones extends JScrollPane {
 		
 		
 		//Código para añadir recuadrobs (de momento inerte) para añadir comentarios
-		addAnotaciones(listaAnotaciones);
 		gbc.gridy = panelAnotaciones.getComponentCount();
-		WidgetAnotacion wAPublica = new WidgetAnotacion(true);
+		wAPublica = new WidgetAnotacion(comic, vineta, true);
 		
-		WidgetAnotacion wAPrivada = new WidgetAnotacion(false);
+		wAPrivada = new WidgetAnotacion(comic, vineta, false);
 		panelAnotaciones.setLayout(new BorderLayout(0, 0));
 		
 		panelAnotaciones.add(wAPublica, BorderLayout.NORTH);
@@ -52,35 +62,25 @@ public class PaneAnotaciones extends JScrollPane {
 	
 	
 	public void refrescar() {
-		panelAnotaciones.removeAll();
-		addAnotaciones(listaAnotaciones);
-	}
-	
-	public void addAnotacion(Anotacion anotacion) {
-		addAnotacionNoValidate(anotacion);
 		validate();
 	}
 	
-	private void addAnotacionNoValidate(Anotacion anotacion) {
-		gbc.gridy = panelAnotaciones.getComponentCount();
-		
-		panelAnotaciones.add(new WidgetAnotacion(anotacion), gbc);
-
-		
-	}
-	public void addAnotaciones(List<Anotacion> l) {
-			Iterator<Anotacion> it = l.iterator();
-			while(it.hasNext()) {
-				addAnotacionNoValidate(it.next() );
-			}
-		
+	public void setAnotacion(Anotacion anotacion) {
+		if (anotacion.esPublico()) wAPublica = new WidgetAnotacion(anotacion);
+		else wAPrivada = new WidgetAnotacion(anotacion);
 		validate();
 	}
 	
-	public void delAnotacion(WidgetAnotacion wa) {
-		//TODO crear un equals de la miniatura
-		System.err.println("HAY QUE CREAR UN EQUALS DE OBRA PARA PODER ENCONTRAR LA OBRA");
-		panelAnotaciones.remove(wa);
-		validate();
+	
+	public void delAnotacionPublica() {
+		wAPublica = new WidgetAnotacion(comic, vineta, true);
+		refrescar();
 	}
+	
+	public void delAnotacionPrivada() {
+		wAPrivada = new WidgetAnotacion(comic, vineta, false);
+		refrescar();
+	}
+	
+	
 }

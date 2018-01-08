@@ -6,11 +6,11 @@ import java.util.List;
  * Esta clase abstracta no contiene sentencias para sincronizar con la galería.
  * Esto debe de hacerlo cada implementación concreta.
  */
-public abstract class Obra implements Comparable<Obra>, Visualizable, Sincronizable, Anotable{
+public abstract class Obra implements Comparable<Obra>, Visualizable, Sincronizable{
 	
 	protected int ID=-1;
 	protected String nombre;
-	protected AnotacionPublica anotacionPublica;
+	protected Anotacion anotacionPublica;
 	
 	
 	@Override
@@ -38,22 +38,6 @@ public abstract class Obra implements Comparable<Obra>, Visualizable, Sincroniza
 		ID = id;
 	}
 
-	
-	@Override
-	public void setAnotacionPublica(AnotacionPublica a) {
-		anotacionPublica = a;
-	}
-	
-	@Override
-	public AnotacionPublica getAnotacionPublica() {
-		return anotacionPublica;
-	}
-	
-	@Override
-	public void delAnotacionPublica() {
-		anotacionPublica=null;
-		
-	}
 	
 	@Override
 	public boolean equals(Object obj) {
