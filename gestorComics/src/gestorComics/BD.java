@@ -656,7 +656,32 @@ try {
 
 	@Override
 	public void insertarAnotacion(Comic comic, Vineta vineta, Vineta boceto, String comentario) {
-		System.out.println("INSERTAR ANOTACION EN BD NO IMPLEMENTADO");
+		PreparedStatement psmnt=null;
+		try {
+			psmnt = con.prepareStatement(
+					"INSERT INTO ANOTACION (COMIC_ID, VINETA_ID, BOCETO_ID, TEXTO) VALUES (?, ?, ?, ?)");
+			if(comic!=null)psmnt.setInt(1, comic.getID());
+			else psmnt.setNull(1, java.sql.Types.NULL);
+			
+			if(vineta!=null)psmnt.setInt(2, vineta.getID());
+			else psmnt.setNull(2, java.sql.Types.NULL);
+			
+			if(boceto != null)psmnt.setInt(3, boceto.ID);
+			else psmnt.setNull(3, java.sql.Types.NULL);
+			
+			psmnt.setString(4, comentario);
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al obtener el último ID de la BD",e);
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
+		}
+		
 	}
 	
 	@Override
