@@ -3,18 +3,22 @@ package gestorComics;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.management.RuntimeErrorException;
 
 import excepciones.ExcepcionBD;
 import gui.Observador;
 
-public class Vineta extends Obra implements Observable{
+public class Vineta extends Obra implements Observable, Anotable{
 	
 	private IBD bd;
 	private Image imagen;
 	private Collection<Observador> observadores;
+	private Anotacion anotacionPrivada;
+	private Map<Comic, Anotacion> anotacionesPublicas;
 
 	public Image getImagen() {
 		return imagen;
@@ -34,6 +38,7 @@ public class Vineta extends Obra implements Observable{
 	
 	public Vineta() {
 		observadores = new ArrayList<>();
+		anotacionesPublicas = new HashMap<>();
 	}
 
 	public Vineta(String n) {
@@ -82,29 +87,34 @@ public class Vineta extends Obra implements Observable{
 
 
 	@Override
-	public void addAnotacionPrivada(AnotacionPrivada a) {
-		// TODO Auto-generated method stub
+	public void setAnotacion(Anotacion a) {
+		if(a.esPublico()) anotacionesPublicas.put(a.getComic(), a);
+		else anotacionPrivada = a;
 		
+		if(bd!=null)
+		bd.insertarAnotacion(a.getComic(), this, null, a.getComentario());
 	}
 
 	@Override
-	public List<AnotacionPrivada> getAnotacionesPrivadas() {
-		// TODO Auto-generated method stub
-		return null;
+	public Anotacion getAnotacionPrivada() {
+		return anotacionPrivada;
+	}
+	
+	@Override
+	public Anotacion getAnotacionPublica(Comic c) {
+		return anotacionesPublicas.get(c);
 	}
 
 	@Override
-	public void delAnotacionPrivada(AnotacionPrivada a) {
-		// TODO Auto-generated method stub
-		
+	public void delAnotacionPublica(Comic c){
+		anotacionesPublicas.remove(c);
 	}
-
+	
 	@Override
-	public List<Anotacion> getAnotaciones() {
-		List<Anotacion> list = new ArrayList<Anotacion>();
-		return list;
+	public void delAnotacionPrivada() {
+		anotacionPrivada = null;
 	}
-
+	
 	
 	@Override
 	public void retirar() {
@@ -114,6 +124,7 @@ public class Vineta extends Obra implements Observable{
 
 	void retirarDe(Comic c) {
 		if(bd!=null) bd.borrarVineta(this.getID(), c.getID());
+		
 		notificarTodosBorrado();
 		
 	}

@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 import gestorComics.ComprobadoBorrado;
 import gestorComics.IComprobadoBorrado;
 import gui.IVisorComic;
-import gui.VisorComic;
+import gui.VentanaComic;
 
 public class CtrVentanaComic implements ActionListener{
 	
 	IVisorComic ventana;
 	
-	public CtrVentanaComic(VisorComic vc) {
+	public CtrVentanaComic(VentanaComic vc) {
 		ventana = vc;
 	}
 
@@ -30,7 +30,7 @@ public class CtrVentanaComic implements ActionListener{
 			 new gui.CambioNombre(ventana.getComic());
 
 		} else if(str.equals(IVisorComic.BORRARCOMIC)) {
-			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(ventana.getComic());
+			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(ventana.getComic(), null);
 			
 			comprobadoborrado.setTexto("¿Está seguro que desea borrar el cómic "+ventana.getComic()+"?");
 		}

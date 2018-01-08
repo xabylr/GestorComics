@@ -1,33 +1,18 @@
 package gestorComics;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-public class Anotacion implements Historico {
+public class Anotacion implements Sincronizable {
 
 	protected String comentario;
 	
+	private Comic comic;
+	private Vineta vineta;
+	private Vineta boceto;
+	private IBD bd;
+	
 	private boolean publico;
-	/*
-	 * IMPORTANTE: usar java.sql.Time para BD
-	 */
-	protected LocalDateTime fecha;
 	
-	
-	public Anotacion(String c, boolean p) {
-		publico = p;
-		comentario = c;
-		fecha = LocalDateTime.now();
-	}
-	
-	
-	@Override
-	public void setFecha(LocalDateTime f) {
-		fecha = f;
-	}
-	@Override
-	public LocalDateTime getFecha() {
-		return fecha;
+	public Anotacion(Comic c, Vineta v, Vineta b,  boolean p) {
+		comic = c; vineta=v; boceto = b; publico = p;
 	}
 	
 	
@@ -39,9 +24,51 @@ public class Anotacion implements Historico {
 		return comentario;
 	}
 	
+	public Comic getComic() {
+		return comic;
+	}
+	
+	public Vineta getVineta() {
+		return vineta;
+	}
+	
+	public Vineta getBoceto() {
+		return boceto;
+	}
+	
 	public void setComentario(String c) {
-		fecha = LocalDateTime.now();
 		comentario = c;
+		
+		if(bd!=null)bd.insertarAnotacion(comic, vineta, boceto, c);
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setID(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void conectar(IBD b) {
+		bd = b;
+	}
+
+	@Override
+	public void subir() {
+		bd.insertarAnotacion(comic, vineta, boceto, comentario);
+		
+	}
+
+	@Override
+	public void retirar() {
+		bd.borrarAnotacion(comic, vineta, boceto);
+		
 	}
 	
 	

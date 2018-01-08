@@ -60,7 +60,7 @@ public class VentanaGaleria extends JFrame implements IVentanaGaleria{
 		BTNAnadirComic = new JButton("Añadir Comic");
 		PanelBotones.add(BTNAnadirComic);
 		
-		paneObras = new PaneObras( (List<Obra>) (List<?>) galeria.getComics() );
+		paneObras = new PaneObras( (List<Obra>) (List<?>) galeria.getComics(), null );
 		
 		getContentPane().add(paneObras, BorderLayout.CENTER);
 		

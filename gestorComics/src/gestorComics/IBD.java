@@ -1,5 +1,6 @@
 package gestorComics;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import excepciones.ExcepcionBD;
@@ -37,5 +38,17 @@ public interface IBD {
 	
 	void setPortadaComic(int v, int c) throws ExcepcionBD;
 	List<Vineta> getBocetos(int iD);
+	/*
+	 * Si el comic es null es una anotación privada
+	 */
+	void insertarAnotacion(Comic comic, Vineta vineta, Vineta boceto, String comentario);
+	
+	/*
+	 * Si el comic es null es una anotación privada
+	 */
+	Anotacion obtenerAnotacion(Comic comic, Vineta vineta, Vineta boceto);
+	
+	
+	void borrarAnotacion(Comic comic, Vineta vineta, Vineta boceto);
 
 }

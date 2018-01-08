@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import javax.imageio.ImageIO;
 import excepciones.ExcepcionBD;
@@ -321,15 +322,16 @@ try {
 
 	@Override
 	public void renombrarVineta(Vineta v, String n) throws ExcepcionBD {
-		
-		PreparedStatement psmnt;
 		try {
-			psmnt = con.prepareStatement(
-					"UPDATE VINETA SET NOMBRE = "+n+" WHERE ID = "+v.getID());
-			psmnt.executeUpdate();
-		} catch (SQLException e) {
+			PreparedStatement psmnt = con.prepareStatement(
+					"UPDATE VINETA SET NOMBRE=? WHERE ID=?");
+			psmnt.setString(1, n);
+			psmnt.setInt(2, v.ID);
+			psmnt.executeQuery();
+			
+		}catch (SQLException e) {
 			e.printStackTrace();
-			throw new ExcepcionBD("Error al renombrar la viñeta");
+			throw new ExcepcionBD("Error al renombrar viñeta (ID: "+v+") ("+e.getMessage()+")");
 		}
 	}
 
@@ -401,6 +403,24 @@ try {
 	public List<Vineta> getBocetos(int iD) {
 		System.out.println("OBTENER LISTA DE BOCETOS EN BD NO IMPLEMENTADO");
 		return new ArrayList<>();
+	}
+
+	@Override
+	public void insertarAnotacion(Comic comic, Vineta vineta, Vineta boceto, String comentario) {
+		System.out.println("INSERTAR ANOTACION EN BD NO IMPLEMENTADO");
+	}
+	
+	@Override
+	public Anotacion obtenerAnotacion(Comic comic, Vineta vineta, Vineta boceto) {
+		System.out.println("OBTENER ANOTACION EN BD NO IMPLEMENTADO");
+		return null;
+		
+	}
+
+	@Override
+	public void borrarAnotacion(Comic comic, Vineta vineta, Vineta boceto) {
+		System.out.println("BORRAR ANOTACION EN BD NO IMPLEMENTADO");
+		
 	}
 	
 }

@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import excepciones.ExcepcionUsuario;
+import gestorComics.Comic;
 import gestorComics.ComprobadoBorrado;
 import gestorComics.Observable;
 import gestorComics.Vineta;
@@ -27,12 +28,15 @@ public class CtrVentanaVineta implements ActionListener, Observador {
 
 	IVisorVineta ventana;
 	Vineta vineta;
+	Comic comic;
 
 	
-	public CtrVentanaVineta(IVisorVineta ventanaVineta) {
+	public CtrVentanaVineta(IVisorVineta ventanaVineta, Comic c) {
 		ventana = ventanaVineta;
 		vineta = ventanaVineta.getVineta();
 		vineta.registrar(this);
+		
+		comic = c;
 	}
 	
 	@Override
@@ -47,7 +51,7 @@ public class CtrVentanaVineta implements ActionListener, Observador {
 		}
 		
 		if(cmd.equals(IVisorVineta.BORRAR)) {
-			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(vineta);
+			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(vineta, comic);
 			
 			
 			comprobadoborrado.setTexto("¿Está seguro que desea borrar esta viñeta?");
@@ -77,6 +81,9 @@ public class CtrVentanaVineta implements ActionListener, Observador {
 		vineta.setImagen(img);
 		ventana.SetImagen(img);
 	}
+	
+	
+	
 
 	@Override
 	public void notificar() {

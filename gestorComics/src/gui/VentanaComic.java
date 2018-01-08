@@ -29,7 +29,7 @@ import controladores.CtrVentanaComic;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class VisorComic extends JFrame implements IVisorComic, Observador{
+public class VentanaComic extends JFrame implements IVisorComic, Observador{
 	
 	JButton btnCambiarNombre = new JButton("Cambiar nombre");
 	JButton btnBorrar = new JButton("Borrar comic");
@@ -39,7 +39,7 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 	//https://stackoverflow.com/questions/2745265/is-listdog-a-subclass-of-listanimal-why-arent-javas-generics-implicitly-p
 	//No pasa nada, no se añade ninguna obra a la lista de viñetas, solo se lee
 	@SuppressWarnings("unchecked") 
-	public VisorComic(Comic c) {
+	public VentanaComic(Comic c) {
 		comic = c;
 		comic.registrar(this);
 		
@@ -49,7 +49,7 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 		JPanel jpanelvinetas = new JPanel();
 		
 		JLabel jlabelvinetas = new JLabel("Viñetas");
-		panevinetas = new  PaneObras((List<Obra>) (List<?>) comic.getVinetas());
+		panevinetas = new  PaneObras((List<Obra>) (List<?>) comic.getVinetas(), comic);
 		jpanelvinetas.add(jlabelvinetas, BorderLayout.NORTH);
 		jpanelvinetas.add(panevinetas, BorderLayout.SOUTH);
 		
@@ -59,7 +59,7 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 		
 		PaneObras panelbocetos;
 		JLabel jlabelbocetos = new JLabel("Bocetos");
-		panelbocetos = new  PaneObras((List<Obra>) (List<?>) comic.getBocetos());
+		panelbocetos = new  PaneObras((List<Obra>) (List<?>) comic.getBocetos(), comic);
 		jpanelbocetos.add(jlabelbocetos, BorderLayout.NORTH);
 		jpanelbocetos.add(panelbocetos, BorderLayout.SOUTH);
 		
@@ -76,7 +76,7 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispatchEvent( new WindowEvent(VisorComic.this, WindowEvent.WINDOW_CLOSING) );
+				dispatchEvent( new WindowEvent(VentanaComic.this, WindowEvent.WINDOW_CLOSING) );
 				
 			}
 		});
@@ -124,6 +124,7 @@ public class VisorComic extends JFrame implements IVisorComic, Observador{
 	@Override
 	public void notificar() {
 		panevinetas.refrescar();
+		setNombre(comic.getNombre());
 		
 	}
 

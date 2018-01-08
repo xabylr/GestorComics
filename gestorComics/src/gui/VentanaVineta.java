@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import gestorComics.Anotacion;
+import gestorComics.Comic;
 import gestorComics.Vineta;
 
 import javax.swing.JButton;
@@ -36,14 +38,19 @@ public class VentanaVineta extends JFrame implements IVisorVineta {
 	private JButton btnCambiarImagen;
 	
 	Vineta vineta;
+	Comic comic;
 	
-	public VentanaVineta(Vineta v) throws RecursoNoEncontrado {
+	PaneAnotaciones paneAnotaciones;
+	
+	public VentanaVineta(Vineta v, Comic c) throws RecursoNoEncontrado {
+
 		
 		if(v==null || v.getImagen() ==null)
 			throw new RecursoNoEncontrado("No hay nada que mostrar");
 
 		
 		vineta = v;
+		comic = c;
 		
 		btnCerrar = new JButton("Cerrar");
 		
@@ -94,8 +101,17 @@ public class VentanaVineta extends JFrame implements IVisorVineta {
 	    
 		
 		//Panel de anotaciones
-		JScrollPane anotaciones = new PaneAnotaciones(v.getAnotaciones());
-		getContentPane().add(anotaciones, BorderLayout.EAST);
+		paneAnotaciones = new PaneAnotaciones(comic, vineta);
+		
+		Anotacion aprivada = vineta.getAnotacionPrivada();
+		Anotacion apublica = vineta.getAnotacionPublica(comic);
+		
+		if(aprivada!=null)
+			paneAnotaciones.setAnotacion(aprivada);
+		if(apublica !=null)
+		paneAnotaciones.setAnotacion(apublica);
+		
+		getContentPane().add(paneAnotaciones, BorderLayout.EAST);
 		
 		
 	    
@@ -135,10 +151,13 @@ public class VentanaVineta extends JFrame implements IVisorVineta {
 	public void SetNombre(String name) {
 		setTitle(name);
 	}
+	
+	
 
 	@Override
 	public Vineta getVineta() {
 		
 		return vineta;
 	}
+	
 }

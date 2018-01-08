@@ -22,6 +22,7 @@ public class ComprobadoBorrado extends JFrame{
 	private JButton btnCancelar;
 	
 	Obra obra;
+	Comic comic;
 	
 	public static final String ACEPTAR = "ACEPTAR";
 	public static final String CANCELAR = "CANCELAR";
@@ -30,8 +31,9 @@ public class ComprobadoBorrado extends JFrame{
 	/**
 	 * Crea una ventana para confirmar el borrado de una Obra
 	 */
-	public ComprobadoBorrado(Obra o) {
+	public ComprobadoBorrado(Obra o, Comic c) {
 		obra = o;
+		comic = c;
 		
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -71,7 +73,9 @@ public class ComprobadoBorrado extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				obra.retirar();
+				if(comic == null)obra.retirar();
+				else ((Vineta)obra).retirarDe(comic);
+				
 				dispose();
 			}
 		});
