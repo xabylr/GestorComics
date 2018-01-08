@@ -337,6 +337,7 @@ try {
 
 	@Override
 	public void renombrarComic(int c, String n) throws ExcepcionBD {
+<<<<<<< HEAD
 		try {
 			PreparedStatement psmnt = con.prepareStatement(
 					"UPDATE COMIC SET NOMBRE=? WHERE ID=?");
@@ -348,6 +349,19 @@ try {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al renombrar comic (ID: "+c+") ("+e.getMessage()+")");
 		}
+=======
+
+		PreparedStatement psmnt;
+		try {
+			psmnt = con.prepareStatement(
+					"UPDATE COMIC SET NOMBRE = "+n+" WHERE ID = "+c);
+			psmnt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al renombrar el comic");
+		}
+		
+>>>>>>> branch 'iteracion2' of https://github.com/xabylr/GestorComics
 	}
 
 	/*
@@ -356,15 +370,32 @@ try {
 	 */
 	@Override
 	public void borrarVineta(int v, int c) throws ExcepcionBD {
-		// TODO Auto-generated method stub
-		System.out.println("BORRAR VIÑETA EN BD NO IMPLEMENTADO");
+
+		PreparedStatement psmnt;
+		try {
+			psmnt = con.prepareStatement(
+					"DELETE FROM VINETA WHERE ID = "+v);
+			psmnt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al borrar viñeta");
+		}
 		
 	}
 
 	@Override
 	public void borrarComic(int c) throws ExcepcionBD {
-		// TODO Auto-generated method stub
-		System.out.println("BORRAR CÓMIC EN BD NO IMPLEMENTADO");
+		
+		PreparedStatement psmnt;
+		try {
+			psmnt = con.prepareStatement(
+					"DELETE FROM COMIC WHERE ID = "+c);
+			psmnt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al borrar comic");
+		}
+		
 	}
 
 	@Override
