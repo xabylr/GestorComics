@@ -2,9 +2,12 @@ package gestorComics;
 
 import java.util.List;
 
+import gui.GuiAlarma;
+
 public class ManagerAlarmas {
 	
 	static ManagerAlarmas instance;
+	static IBD bd;
 	
 	public static ManagerAlarmas instance() {
 		
@@ -19,23 +22,30 @@ public class ManagerAlarmas {
 		
 	}
 	
+	public void setBD(IBD db) {
+		bd = db;
+		
+		for(Alarma a : bd.getAlarmas()) {
+			
+			startAlarma(a);
+		}
+	}
+	
 	public void addAlarma(Alarma a) {
 		
-		
-		a.start();
+		a.setIdentificador(bd.addAlarma(a));
+		startAlarma(a);
 	}
 	
-	public void addAlarma(List<Alarma> list) {
-		
-		for(Alarma a : list) {
+	public void startAlarma(Alarma a) {
 			
-			a.start();
-		}
-		
-		
+			a.start();		
 	}
 	
-	public void removeAlarma(Alarma a) {
+	public void activarAlarma(Alarma a) {
 		
+		GuiAlarma guialarma = new GuiAlarma(a);
+		
+		bd.removeAlarma(a);
 	}
 }

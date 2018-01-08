@@ -672,4 +672,24 @@ try {
 		
 	}
 	
+
+	@Override
+	public List<Alarma> getAlarmas() {
+		// TODO Auto-generated method stub
+		return new ArrayList<Alarma>();
+	}
+
+	@Override
+	public int addAlarma(Alarma a) {
+		// TODO Auto-generated method stub
+		
+		return -1;//Devuelve el ID de la Alarma creada en la tabla
+	}
+
+	@Override
+	public void removeAlarma(Alarma a) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

@@ -1,5 +1,6 @@
 package gestorComics;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import gestorComics.*;
@@ -11,17 +12,40 @@ public class Alarma extends Thread{
 	Comic comic;
 	Vineta vineta;
 	MedioComunicacion medio;
-	Date fecha;
+	int ano;
+	int mes;
+	int dia;
+	int hora;
+	int minuto;
 	
-	public Alarma(int i, Comic c, Vineta v, MedioComunicacion m, Date f) {
+	public Alarma(int i, Comic c, Vineta v, MedioComunicacion mc, int a, int m, int d, int h, int min) {
 		
 		identificador = i;
 		
 		comic = c;
 		vineta  = v;
-		medio = m;
-		fecha = f;
+		medio = mc;
+		ano = a;
+		mes = m;
+		dia = d;
+		hora = h;
+		minuto = min;
 	}
+	
+	public Alarma(Comic c, Vineta v, MedioComunicacion mc, int a, int m, int d, int h, int min) {
+		
+		identificador = 0;
+		
+		comic = c;
+		vineta  = v;
+		medio = mc;
+		ano = a;
+		mes = m;
+		dia = d;
+		hora = h;
+		minuto = min;
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -37,11 +61,9 @@ public class Alarma extends Thread{
 	@Override
 	public void run() {
 		while(!listo()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.yield();
+			/*LocalDateTime now = LocalDateTime.now();
+			System.out.println(now.getYear());*/
 		}
 		
 		if(listo()) {
@@ -51,6 +73,42 @@ public class Alarma extends Thread{
 	
 	private boolean listo() {
 		boolean res = false;
+		LocalDateTime fecha = LocalDateTime.now();
+		//System.out.println(fecha.getYear());
+		//System.out.println(ano);
+		
+		if(ano < fecha.getYear()) {
+			
+			res = true;
+			System.out.println("Año: " + fecha.getYear());
+			
+		}else if (ano == fecha.getYear()) {
+			
+			if(mes < fecha.getMonthValue()) {
+				res = true;
+				System.out.println(mes);
+				System.out.println("Mes: " + fecha.getMonthValue());
+			}else if(mes == fecha.getMonthValue()) {
+				
+				if(dia < fecha.getDayOfMonth()) {
+					res = true;
+					System.out.println("Dia: " + fecha.getDayOfMonth());
+				}else if(dia == fecha.getDayOfMonth()) {
+					
+					if(hora < fecha.getHour()) {
+						res = true;
+						System.out.println(fecha.getHour());
+					}else if(hora == fecha.getHour()) {
+						
+						if(minuto <= fecha.getMinute()) {
+							res = true;
+							System.out.println(fecha.getMinute());
+						}
+					}
+					
+				}
+			}
+		}
 		
 		return res;
 	}
@@ -58,14 +116,47 @@ public class Alarma extends Thread{
 	private void Activar() {
 		
 		
-		ManagerAlarmas.instance().removeAlarma(this);
+		ManagerAlarmas.instance().activarAlarma(this);
 	}
 	
 	public int getIdentificador() {
 		return identificador;
 	}
 	
-	public Date getFecha() {
-		return fecha;
+	public void setIdentificador(int id) {
+		identificador = id;
 	}
+	
+	public Comic getComic() {
+		return comic;
+	}
+	
+	public Vineta getVineta() {
+		return vineta;
+	}
+	
+	public MedioComunicacion getMedioComunicacion() {
+		return medio;
+	}
+	
+	public int getAno() {
+		return ano;
+	}
+	
+	public int getMes() {
+		return mes;
+	}
+	
+	public int getDia() {
+		return dia;
+	}
+	
+	public int getHora() {
+		return hora;
+	}
+	
+	public int getMinuto() {
+		return minuto;
+	}
+	
 }

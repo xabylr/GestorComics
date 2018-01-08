@@ -3,10 +3,14 @@ package gestorComics;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import controladores.CtrAnadirAlarma;
  
 //create class
 public class DatePicker 
 {
+	CtrAnadirAlarma ctranadiralarma;
+	
 	//define variables
         int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
         int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
@@ -19,8 +23,9 @@ public class DatePicker
         //create object of JButton
         JButton[] button = new JButton[49];
  
-        public DatePicker(JFrame parent)//create constructor 
+        public DatePicker(JFrame parent, CtrAnadirAlarma ctraa)//create constructor 
         {
+        	ctranadiralarma = ctraa;
         	//create object
                 d = new JDialog();
                 //set modal true
@@ -135,6 +140,9 @@ public class DatePicker
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
             java.util.Calendar cal = java.util.Calendar.getInstance();
             cal.set(year, month, Integer.parseInt(day));
+            
+            ctranadiralarma.setFecha(year, month+1, Integer.parseInt(day));
+            
             return sdf.format(cal.getTime());
         }
 }
@@ -165,7 +173,7 @@ class Picker
         		public void actionPerformed(ActionEvent ae) 
         		{
         			//set text i.e. date
-        			text.setText(new DatePicker(f).setPickedDate());
+        			//text.setText(new DatePicker(f).setPickedDate());
         		}
             });
         }

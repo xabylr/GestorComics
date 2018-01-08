@@ -216,7 +216,9 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 	}
 	
 	public MedioComunicacion getMedio() {
-		return medio;
+		if(comboBox_2.getSelectedItem()!=null)
+			return ( (Medios) comboBox_2.getSelectedItem() ).getMedio();
+		else return null;
 	}
 
 

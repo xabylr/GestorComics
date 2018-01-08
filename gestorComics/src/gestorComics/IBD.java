@@ -50,5 +50,8 @@ public interface IBD {
 	
 	
 	void borrarAnotacion(Comic comic, Vineta vineta, Vineta boceto);
-
+	
+	public List<Alarma> getAlarmas();
+	public int addAlarma(Alarma a);
+	public void removeAlarma(Alarma a);
 }

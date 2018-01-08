@@ -14,12 +14,17 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import gestorComics.Alarma;
 import gestorComics.DatePicker;
+import gestorComics.ManagerAlarmas;
 import gui.AnadirAlarma;
 import gui.IAnadirAlarma;
 
 public class CtrAnadirAlarma implements ActionListener {
 	
 	AnadirAlarma alarmaVentana;
+	
+	int ano;
+	int mes;
+	int dia;
 	
 	public CtrAnadirAlarma(AnadirAlarma a) {
 		alarmaVentana = a;
@@ -32,23 +37,32 @@ public class CtrAnadirAlarma implements ActionListener {
 		if(str.equals(IAnadirAlarma.FECHA)) {
 
 			final JFrame f = new JFrame();
-			String datePicked = new DatePicker(f).setPickedDate();
+			String datePicked = new DatePicker(f, this).setPickedDate();
 			alarmaVentana.txtFechaAqui.setText(datePicked);
 			
 			
-			try(Scanner sc = new Scanner(datePicked)){
+			/*try(Scanner sc = new Scanner(datePicked)){
 				sc.useDelimiter("-");
 				alarmaVentana.fecha = new Date(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()), alarmaVentana.getHora(), alarmaVentana.getMinutos());
-			}
+			}*/
+			
+			
 		} else if(str.equals(IAnadirAlarma.ANADIR)) {
 //			if(alarmaVentana.getComic() != null && alarmaVentana.getVineta() != null && alarmaVentana.getFecha() != null && alarmaVentana.getMedio() != null) {
-				System.out.println("Creamos alarma");
-				Alarma alarma = new Alarma (-1,alarmaVentana.getComic(),alarmaVentana.getVineta(),alarmaVentana.getMedio(), alarmaVentana.getFecha());
-				alarmaVentana.getManager().addAlarma(alarma);
 				
+				Alarma alarma = new Alarma (alarmaVentana.getComic(),alarmaVentana.getVineta(),alarmaVentana.getMedio(), ano, mes, dia, alarmaVentana.getHora(), alarmaVentana.getMinutos());
+				ManagerAlarmas.instance().addAlarma(alarma);
+				System.out.println("Creamos alarma");
+				alarmaVentana.dispose();
 //			}
 		}
 		
+	}
+	
+	public void setFecha(int a, int m, int d) {
+		ano = a;
+		mes = m;
+		dia = d;
 	}
 
 }
