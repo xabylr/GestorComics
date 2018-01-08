@@ -57,5 +57,7 @@ public interface IBD {
 	public List<Alarma> getAlarmas();
 	public int addAlarma(Alarma a);
 	public void removeAlarma(Alarma a);
+	List<MedioComunicacion> getMedios();
+	void addMedio(MedioComunicacion m);
 	
 }

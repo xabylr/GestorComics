@@ -7,6 +7,7 @@ import gestorComics.Comic;
 import gestorComics.IComprobadoBorrado;
 import gestorComics.IGaleria;
 import gestorComics.ManagerAlarmas;
+import gestorComics.ManagerMedios;
 import gestorComics.MedioComunicacion;
 import gestorComics.Vineta;
 
@@ -125,7 +126,7 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 		gbc_comboBox_2.gridy = 5;
 		getContentPane().add(comboBox_2, gbc_comboBox_2);
 		
-		List<MedioComunicacion> lm = galeria.getMedios();
+		List<MedioComunicacion> lm = ManagerMedios.instance().getMedios();
 		for(MedioComunicacion m : lm) {
 			addMedio(m);
 		}

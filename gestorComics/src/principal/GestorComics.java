@@ -6,6 +6,8 @@ import gestorComics.BD;
 import gestorComics.Galeria;
 import gestorComics.IBD;
 import gestorComics.IGaleria;
+import gestorComics.ManagerAlarmas;
+import gestorComics.ManagerMedios;
 import gui.*;
 
 public class GestorComics {
@@ -20,6 +22,9 @@ public class GestorComics {
 			CtrVentanaGaleria ctr = new CtrVentanaGaleria(galeria, vg);
 			vg.setControlador(ctr);
 
+			
+			ManagerAlarmas.instance().setBD(bd);
+			ManagerMedios.instance().setBD(bd);
 			
 	}
 
