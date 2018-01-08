@@ -8,6 +8,9 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import javax.imageio.ImageIO;
+
+import org.sqlite.SQLiteException;
+
 import excepciones.ExcepcionBD;
 
 public class BD implements IBD{
@@ -751,7 +754,6 @@ try {
 			psmnt.setString(4, comentario);
 			
 		}catch (SQLException e) {
-			e.printStackTrace();
 			throw new ExcepcionBD("Error al obtener el último ID de la BD",e);
 		}finally {
 			try {
@@ -764,11 +766,38 @@ try {
 	}
 	
 	
-	
 	@Override
 	public Anotacion obtenerAnotacion(Comic comic, Vineta vineta, Vineta boceto) {
-		System.out.println("OBTENER ANOTACION EN BD NO IMPLEMENTADO");
-		return null;
+		Anotacion anotacion=null;
+		boolean publico=true;
+		if(comic == null) publico = false;
+		
+		anotacion = new Anotacion(comic, vineta, boceto, publico);
+		
+		PreparedStatement psmnt=null;
+		try {
+			psmnt = con.prepareStatement(
+					"SELECT TEXTO FROM ANOTACION WHERE COMIC_ID=? AND VINETA_ID=? AND BOCETO_ID=?");
+			if(comic!=null) psmnt.setInt(1, comic.getID());
+			else psmnt.setNull(1, java.sql.Types.NULL);
+			
+			if(vineta!=null) psmnt.setInt(2, vineta.getID());
+			else psmnt.setNull(2, java.sql.Types.NULL);
+			
+			if(boceto!=null) psmnt.setInt(3, boceto.getID());
+			else psmnt.setNull(3, java.sql.Types.NULL);
+		}catch(SQLException e){
+			throw new ExcepcionBD("Error al obtener anotación (Comic, vineta, boceto): ("+
+		comic.getID()+", "+vineta.getID()+", "+boceto.getID()+")",e);
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
+		}
+		
+		return anotacion;
 		
 	}
 
