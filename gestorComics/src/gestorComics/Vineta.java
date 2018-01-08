@@ -33,6 +33,7 @@ public class Vineta extends Obra implements Observable, Anotable{
 	@Override
 	public void setNombre(String n) {
 		super.setNombre(n);
+		bd.renombrarVineta(this, n);
 		notificarTodos();
 	}
 	
