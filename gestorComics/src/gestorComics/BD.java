@@ -48,16 +48,23 @@ public class BD implements IBD{
 	}
 	
 	private void Conectar() {
+		PreparedStatement psmnt = null;
 		try
 		{
         // create a connection to the database
 			con = DriverManager.getConnection(STR_SQLITE+URL_BD);
-			PreparedStatement psmnt = con.prepareStatement("PRAGMA FOREIGN_KEY=ON");
+			psmnt = con.prepareStatement("PRAGMA FOREIGN_KEY=ON");
 			psmnt.executeUpdate();
 		}
 		catch (SQLException ex)
 		{
 			throw new Error("Error al Conectar con la base de datos." + ex.getMessage());
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 	}
 	
@@ -75,9 +82,10 @@ public class BD implements IBD{
 		
 	
 	private void GenerarBaseDatos() {
+		Statement stmt =null;
 		try {
 			archivoDDL.setReadable(true);
-			Statement stmt = con.createStatement();
+			stmt = con.createStatement();
 			
 			Scanner sc = new Scanner(new FileReader(archivoDDL));
 			sc.useDelimiter(";");
@@ -90,6 +98,12 @@ public class BD implements IBD{
 			sc.close();
 		}catch(Exception e) {
 			throw new ExcepcionBD("Error al general la BD", e);
+		}finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 	}
 	
@@ -113,6 +127,7 @@ public class BD implements IBD{
 		//Convertimos la imagen a un archivo png en memoria ( stream de array de bytes y a un inputstream ) para subir
 		
 		//if(v.getID() > ultimoIdVineta) ultimoIdVineta=v.getID();
+		PreparedStatement psmnt = null;
 try {
 		if(vineta.getID()==-1) {
 			vineta.setID(++ultimoIdVineta);
@@ -124,7 +139,7 @@ try {
 		InputStream is = new ByteArrayInputStream(baos.toByteArray());
 
 		//creamos la sentencia SQL para subir la imagen	
-		PreparedStatement psmnt = con.prepareStatement(
+			psmnt = con.prepareStatement(
 				"INSERT INTO VINETA (NOMBRE, ID, IMAGEN) VALUES (?,?,?)");
 			psmnt.setString(1, vineta.getNombre());
 			psmnt.setInt(2, vineta.getID());
@@ -142,6 +157,12 @@ try {
 	
 }catch (SQLException | IOException e) {
 	throw new ExcepcionBD("Error al insertar  "+vineta, e);
+}finally {
+	try {
+		psmnt.close();
+	} catch (SQLException e) {
+		throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+	}
 }
 	
 	}
@@ -149,12 +170,13 @@ try {
 	
 	@Override
 	public void insertarComic(Comic comic) throws ExcepcionBD  {
+		PreparedStatement psmnt = null;
 try {
 	
 		if(comic.getID()==-1)comic.setID(++ultimoIdComic);
 	
 
-		PreparedStatement psmnt = con.prepareStatement(
+			psmnt = con.prepareStatement(
 			"INSERT INTO COMIC (ID, NOMBRE, PORTADA) VALUES (?,?,?)");
 			
 			psmnt.setInt(1, comic.getID() );
@@ -171,6 +193,12 @@ try {
 		} catch (ExcepcionBD | SQLException e) {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al insertar "+comic, e);
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 		
 	}
@@ -179,10 +207,10 @@ try {
 	public List<Comic> getComics() throws ExcepcionBD{
 		//lista a devolver de cómics
 		List<Comic> resultado = new ArrayList<>();
-		
+		PreparedStatement psmnt=null;
 		try {
 		//obtener cómics con su viñeta de portada
-		PreparedStatement psmnt = con.prepareStatement("SELECT ID, NOMBRE, PORTADA FROM COMIC");
+		psmnt = con.prepareStatement("SELECT ID, NOMBRE, PORTADA FROM COMIC");
 		ResultSet rs = psmnt.executeQuery();
 		
 		while(rs.next() ) {
@@ -203,6 +231,12 @@ try {
 		
 		}catch (SQLException e) {
 			throw new ExcepcionBD("Error en la base de datos", e);
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 		
 			return resultado;	
@@ -212,9 +246,9 @@ try {
 	
 	private Vineta getVineta(int id) throws ExcepcionBD  {
 		if (id == -1) return null;
-		
+		PreparedStatement psmnt=null;
 		try {
-			PreparedStatement psmnt = con.prepareStatement("SELECT IMAGEN, NOMBRE, ID"
+			psmnt = con.prepareStatement("SELECT IMAGEN, NOMBRE, ID"
 					+ " FROM VINETA WHERE ID="+id);
 			ResultSet rs = psmnt.executeQuery();
 			
@@ -232,6 +266,12 @@ try {
 			
 		} catch (SQLException | IOException e) {
 			throw new ExcepcionBD("Error al encontrar la viñeta con id "+id, e);
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 	}
 /*
@@ -244,10 +284,10 @@ try {
 	public List<Vineta> getVinetas(int comic) throws ExcepcionBD  {
 		
 		List<Vineta> resultado = new ArrayList<>();
-		
+		PreparedStatement psmnt = null;
 		try {
 		//SELECT * FROM VINETA, COMIC_VINETA WHERE COMIC_VINETA.COMIC_ID = ?;
-		PreparedStatement psmnt = con.prepareStatement(
+		psmnt = con.prepareStatement(
 				"SELECT V.IMAGEN, V.NOMBRE, V.ID FROM VINETA V, COMIC_VINETA CV"
 				+ " WHERE CV.VINETA_ID=V.ID AND  CV.COMIC_ID = ?");
 		psmnt.setInt(1, comic);
@@ -267,6 +307,12 @@ try {
 				
 		} catch (IOException | SQLException e) {
 			throw new ExcepcionBD("Error al obtener las viñetas del cómic "+comic, e);
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}		
 		
 		return resultado;
@@ -275,14 +321,21 @@ try {
 	@Override
 	public int getUltimoIdComic() {
 		int resultado=-1;
+		PreparedStatement psmnt = null;
 	try {
-			PreparedStatement psmnt = con.prepareStatement(
+			psmnt = con.prepareStatement(
 					"SELECT MAX (ID) FROM COMIC");
 			ResultSet rs = psmnt.executeQuery();
 			if(rs.next()) resultado = rs.getInt(1);
 			
 	} catch (SQLException e) {
 		throw new ExcepcionBD("Error al obtener el último ID de la BD", e);
+	}finally {
+		try {
+			psmnt.close();
+		} catch (SQLException e) {
+			throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+		}
 	}
 		
 		return resultado;
@@ -291,8 +344,9 @@ try {
 	@Override
 	public int getUltimoIdVineta() {
 		int resultado=-1;
+		PreparedStatement psmnt = null;
 	try {
-			PreparedStatement psmnt = con.prepareStatement(
+			psmnt = con.prepareStatement(
 					"SELECT MAX (ID) FROM VINETA");
 			ResultSet rs = psmnt.executeQuery();
 			if(rs.next()) resultado = rs.getInt(1);
@@ -300,6 +354,12 @@ try {
 	} catch (SQLException e) {
 		e.printStackTrace();
 		throw new ExcepcionBD("Error al obtener el último ID de la BD",e);
+	}finally {
+		try {
+			psmnt.close();
+		} catch (SQLException e) {
+			throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+		}
 	}
 		
 		return resultado;
@@ -308,8 +368,9 @@ try {
 
 	@Override
 	public void setPortadaComic(Vineta v, Comic c) {
+		PreparedStatement psmnt = null;
 		try {
-			PreparedStatement psmnt = con.prepareStatement(
+			psmnt = con.prepareStatement(
 					"UPDATE COMIC SET PORTADA=? WHERE ID=?");
 			if(v!=null)psmnt.setInt(1, v.getID());
 			else psmnt.setNull(1, java.sql.Types.NULL);
@@ -321,14 +382,21 @@ try {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al poner portada (ID: "+v+") en comic (ID: "+c+") ("+e.getMessage()+")");
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 		
 	}
 
 	@Override
 	public void renombrarVineta(Vineta v, String n) throws ExcepcionBD {
+		PreparedStatement psmnt=null;
 		try {
-			PreparedStatement psmnt = con.prepareStatement(
+			psmnt = con.prepareStatement(
 					"UPDATE VINETA SET NOMBRE=? WHERE ID=?");
 			psmnt.setString(1, n);
 			psmnt.setInt(2, v.getID());
@@ -337,12 +405,18 @@ try {
 		}catch (SQLException e) {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al renombrar viñeta (ID: "+v+") ("+e.getMessage()+")");
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 	}
 
 	@Override
 	public void renombrarComic(int c, String n) throws ExcepcionBD {
-		PreparedStatement psmnt;
+		PreparedStatement psmnt=null;
 		try {
 			psmnt = con.prepareStatement(
 					"UPDATE COMIC SET NOMBRE = ? WHERE ID = ?");
@@ -352,6 +426,12 @@ try {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al renombrar el comic (ID: "+c+") ("+e.getMessage()+")");
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 	}
 
@@ -359,18 +439,41 @@ try {
 	 * Decrementar en uno el contador de enlaces y cuando sea 1, Borrar la tupla de la base de datos
 	 * 
 	 */
+	@SuppressWarnings("resource")
 	@Override
 	public void borrarVineta(int v, int c) throws ExcepcionBD {
 
-		PreparedStatement psmnt;
+		PreparedStatement psmnt = null;
 		try {
 			psmnt = con.prepareStatement(
-					"DELETE FROM VINETA WHERE ID = ?");
+					"SELECT ENLACES FROM VINETA WHERE ID = ?");
 			psmnt.setInt(1, v);
-			psmnt.execute();
+			int enlaces = psmnt.executeQuery().getInt(1);
+			
+			if(enlaces==1) {
+				psmnt = con.prepareStatement(
+						"DELETE FROM VINETA WHERE ID = ?");
+				psmnt.setInt(1, v);
+				psmnt.execute();
+			}else {
+				psmnt = con.prepareStatement(
+						"UPDATE VINETA SET ENLACES=? WHERE ID = ?");
+				psmnt.setInt(1, enlaces-1);
+				psmnt.setInt(2, v);
+				psmnt.execute();
+			}
+			
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al borrar viñeta (ID: "+v+") ("+e.getMessage()+")");
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 		
 	}
@@ -378,7 +481,7 @@ try {
 	@Override
 	public void borrarComic(int c) throws ExcepcionBD {
 		
-		PreparedStatement psmnt;
+		PreparedStatement psmnt=null;
 		try {
 			psmnt = con.prepareStatement(
 					"DELETE FROM COMIC WHERE ID = ?");
@@ -387,15 +490,22 @@ try {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al borrar comic (ID: "+c+") ("+e.getMessage()+")");
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
+		
 	}
 
 	@Override
 	public Vineta getPortada(int c) throws ExcepcionBD {
 		return null;
-//
+//		PreparedStatement psmnt = null;
 //		try {
-//			PreparedStatement psmnt = con.prepareStatement(
+//			psmnt = con.prepareStatement(
 //					"SELECT * FROM VINETA WHERE ID = (SELECT PORTADA FROM COMIC WHERE ID = "+c);
 ////			psmnt.setInt(1, c);
 //			ResultSet rs = psmnt.executeQuery();
@@ -422,15 +532,20 @@ try {
 //		} catch (SQLException e) {
 //			e.printStackTrace();
 //			throw new ExcepcionBD("Error al borrar comic (ID: "+c+") ("+e.getMessage()+")");
+//		}finally {
+//		try {
+//			psmnt.close();
+//		} catch (SQLException e) {
+//			throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
 //		}
+//	}
 		
 	}
 
 	@Override
 	public void insertarVinetas(List<Vineta> vs, int c) { //POR COMPLETAR
-		
+		PreparedStatement psmnt = null;
 		try {
-			PreparedStatement psmnt;
 			psmnt = con.prepareStatement(
 					"INSERT INTO VINETA (ID,NOMBRE,ENLACES,IMAGEN) VALUES (?,?,?,?)");
 			
@@ -462,6 +577,12 @@ try {
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 		
 		
@@ -471,7 +592,7 @@ try {
 	@Override
 	public void actualizarImagenVineta(Vineta v) {
 
-		PreparedStatement psmnt;
+		PreparedStatement psmnt = null;
 		try {
 			psmnt = con.prepareStatement(
 					"UPDATE VINETA SET IMAGEN = ? WHERE ID = ?");
@@ -491,6 +612,12 @@ try {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al renombrar el comic (ID: "+v.getID()+") ("+e.getMessage()+")");
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
 		}
 		
 	}
@@ -498,8 +625,9 @@ try {
 	@Override
 	public List<Vineta> getBocetos(int iD) {
 		List<Vineta> resultado = new ArrayList<>();
+		PreparedStatement psmnt=null;
 		try {
-			PreparedStatement psmnt = con.prepareStatement(
+			psmnt = con.prepareStatement(
 					"SELECT * FROM BOCETO WHERE ID = ?");
 			psmnt.setInt(1, iD);
 			ResultSet rs = psmnt.executeQuery();
@@ -515,7 +643,14 @@ try {
 	} catch (SQLException e) {
 		e.printStackTrace();
 		throw new ExcepcionBD("Error al obtener el último ID de la BD",e);
+	}finally {
+		try {
+			psmnt.close();
+		} catch (SQLException e) {
+			throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+		}
 	}
+		
 		return resultado;
 	}
 
