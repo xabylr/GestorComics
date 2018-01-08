@@ -30,7 +30,7 @@ public class CtrVentanaComic implements ActionListener{
 			 new gui.CambioNombre(ventana.getComic());
 
 		} else if(str.equals(IVisorComic.BORRARCOMIC)) {
-			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(ventana.getComic());
+			ComprobadoBorrado comprobadoborrado = new ComprobadoBorrado(ventana.getComic(), null);
 			
 			comprobadoborrado.setTexto("¿Está seguro que desea borrar el cómic "+ventana.getComic()+"?");
 		}

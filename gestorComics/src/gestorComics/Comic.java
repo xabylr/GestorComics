@@ -261,6 +261,8 @@ public class Comic extends Obra implements Observable, Observador{
 	@Override
 	public void notificarBorrado(Observable o) {
 		//TODO comprobar portada
+		vinetas.remove((Vineta)o);
+		if (vinetas.isEmpty()) portada = null;
 		notificarTodos();
 	}
 

@@ -25,8 +25,12 @@ public class PaneObras extends JScrollPane {
 	GridBagLayout gbl;
 	GridBagConstraints gbc ;
 	
-	public PaneObras(List<Obra> list) {
+	Comic comic;
+	
+	public PaneObras(List<Obra> list, Comic c) {
 		listaObras=list;
+		comic = c; //chapuza
+				
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		panelObras = new JPanel();
@@ -58,7 +62,7 @@ public class PaneObras extends JScrollPane {
 		gbc.gridx = panelObras.getComponentCount()%NCOL;
 		gbc.gridy = panelObras.getComponentCount()/NCOL;
 		
-		panelObras.add(new Miniatura(obra), gbc );
+		panelObras.add(new Miniatura(obra, comic), gbc );
 
 		
 	}
@@ -74,7 +78,7 @@ public class PaneObras extends JScrollPane {
 	public void delObra(Obra obra) {
 		//TODO crear un equals de la miniatura
 		System.err.println("HAY QUE CREAR UN EQUALS DE OBRA PARA PODER ENCONTRAR LA OBRA");
-		panelObras.remove(new Miniatura(obra) );
+		panelObras.remove(new Miniatura(obra, comic) );
 		validate();
 	}
 }

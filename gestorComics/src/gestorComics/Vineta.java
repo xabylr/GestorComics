@@ -114,6 +114,7 @@ public class Vineta extends Obra implements Observable{
 
 	void retirarDe(Comic c) {
 		if(bd!=null) bd.borrarVineta(this.getID(), c.getID());
+		
 		notificarTodosBorrado();
 		
 	}

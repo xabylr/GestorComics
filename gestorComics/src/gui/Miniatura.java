@@ -57,6 +57,7 @@ public class Miniatura extends JPanel implements Visualizable{
 	Image imagen;
 	String nombre;
 	Obra obra;
+	Comic comic; //sí, es una chapuza
 	
 	public Miniatura(){
 
@@ -66,13 +67,15 @@ public class Miniatura extends JPanel implements Visualizable{
 		procesarMarco();
 	}
 	
-	public Miniatura(Obra o){
+	public Miniatura(Obra o, Comic c){
 		listaSuscritos = new ArrayList<>();
 		
 		//TODO reducir tamaño de la imagen
 		imagen = o.vistaPrevia();
 		nombre = o.getNombre();
 		obra = o;
+		
+		comic = c;
 		
 		procesarMarco();
 	}
@@ -141,7 +144,7 @@ public class Miniatura extends JPanel implements Visualizable{
 	public void mostrarObra() {
 		if(obra instanceof Vineta) {
 			VentanaVineta ventana = new VentanaVineta((Vineta)obra);
-			CtrVentanaVineta ctr = new CtrVentanaVineta(ventana);
+			CtrVentanaVineta ctr = new CtrVentanaVineta(ventana, comic);
 			ventana.controlador(ctr);
 		}else if(obra instanceof Comic){
 			new VentanaComic( (Comic) obra);

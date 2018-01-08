@@ -49,7 +49,7 @@ public class VentanaComic extends JFrame implements IVisorComic, Observador{
 		JPanel jpanelvinetas = new JPanel();
 		
 		JLabel jlabelvinetas = new JLabel("Viñetas");
-		panevinetas = new  PaneObras((List<Obra>) (List<?>) comic.getVinetas());
+		panevinetas = new  PaneObras((List<Obra>) (List<?>) comic.getVinetas(), comic);
 		jpanelvinetas.add(jlabelvinetas, BorderLayout.NORTH);
 		jpanelvinetas.add(panevinetas, BorderLayout.SOUTH);
 		
@@ -59,7 +59,7 @@ public class VentanaComic extends JFrame implements IVisorComic, Observador{
 		
 		PaneObras panelbocetos;
 		JLabel jlabelbocetos = new JLabel("Bocetos");
-		panelbocetos = new  PaneObras((List<Obra>) (List<?>) comic.getBocetos());
+		panelbocetos = new  PaneObras((List<Obra>) (List<?>) comic.getBocetos(), comic);
 		jpanelbocetos.add(jlabelbocetos, BorderLayout.NORTH);
 		jpanelbocetos.add(panelbocetos, BorderLayout.SOUTH);
 		

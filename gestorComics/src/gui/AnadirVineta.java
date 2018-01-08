@@ -147,7 +147,7 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 					nuevaVineta = new Vineta(imagen, tfNombre.getText());
 					
 					if(miniatura!=null) panelSubir.remove(miniatura);	
-					miniatura = new Miniatura(nuevaVineta);
+					miniatura = new Miniatura(nuevaVineta, null);
 					
 					panelSubir.add(miniatura);
 					pack();
