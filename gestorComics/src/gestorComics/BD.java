@@ -326,8 +326,8 @@ try {
 			PreparedStatement psmnt = con.prepareStatement(
 					"UPDATE VINETA SET NOMBRE=? WHERE ID=?");
 			psmnt.setString(1, n);
-			psmnt.setInt(2, v.ID);
-			psmnt.executeQuery();
+			psmnt.setInt(2, v.getID());
+			psmnt.execute();
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -337,7 +337,6 @@ try {
 
 	@Override
 	public void renombrarComic(int c, String n) throws ExcepcionBD {
-
 		PreparedStatement psmnt;
 		try {
 			psmnt = con.prepareStatement(
@@ -349,9 +348,12 @@ try {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al renombrar el comic (ID: "+c+") ("+e.getMessage()+")");
 		}
-		
 	}
 
+	/*
+	 * Decrementar en uno el contador de enlaces y cuando sea 1, Borrar la tupla de la base de datos
+	 * 
+	 */
 	@Override
 	public void borrarVineta(int v, int c) throws ExcepcionBD {
 
@@ -381,7 +383,6 @@ try {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al borrar comic (ID: "+c+") ("+e.getMessage()+")");
 		}
-		
 	}
 
 	@Override
