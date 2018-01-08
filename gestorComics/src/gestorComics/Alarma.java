@@ -53,7 +53,7 @@ public class Alarma extends Thread{
 		
 		res = "Tiene que presentar la viñeta '" + vineta.getNombre() 
 		+ "' perteneciente al comic '" + comic.getNombre() 
-		+ "' a las " + "' para el medio de difusion '" + medio.getNombre() + "'.";
+		+ "' para el medio de difusion '" + medio.getNombre() + "'.";
 		
 		return res;
 	}
