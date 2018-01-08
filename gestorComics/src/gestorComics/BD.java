@@ -341,11 +341,13 @@ try {
 		PreparedStatement psmnt;
 		try {
 			psmnt = con.prepareStatement(
-					"UPDATE COMIC SET NOMBRE = "+n+" WHERE ID = "+c);
+					"UPDATE COMIC SET NOMBRE = ? WHERE ID = ?");
+			psmnt.setString(1, n);
+			psmnt.setInt(2, c);
 			psmnt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new ExcepcionBD("Error al renombrar el comic");
+			throw new ExcepcionBD("Error al renombrar el comic (ID: "+c+") ("+e.getMessage()+")");
 		}
 		
 	}
@@ -356,11 +358,12 @@ try {
 		PreparedStatement psmnt;
 		try {
 			psmnt = con.prepareStatement(
-					"DELETE FROM VINETA WHERE ID = "+v);
+					"DELETE FROM VINETA WHERE ID = ?");
+			psmnt.setInt(1, v);
 			psmnt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new ExcepcionBD("Error al borrar viñeta");
+			throw new ExcepcionBD("Error al borrar viñeta (ID: "+v+") ("+e.getMessage()+")");
 		}
 		
 	}
@@ -371,38 +374,143 @@ try {
 		PreparedStatement psmnt;
 		try {
 			psmnt = con.prepareStatement(
-					"DELETE FROM COMIC WHERE ID = "+c);
+					"DELETE FROM COMIC WHERE ID = ?");
+			psmnt.setInt(1, c);
 			psmnt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new ExcepcionBD("Error al borrar comic");
+			throw new ExcepcionBD("Error al borrar comic (ID: "+c+") ("+e.getMessage()+")");
 		}
 		
 	}
 
 	@Override
 	public Vineta getPortada(int c) throws ExcepcionBD {
-		// TODO Auto-generated method stub
-		System.out.println("CONSEGUIR PORTADA EN BD NO IMPLEMENTADO");
 		return null;
+//
+//		try {
+//			PreparedStatement psmnt = con.prepareStatement(
+//					"SELECT * FROM VINETA WHERE ID = (SELECT PORTADA FROM COMIC WHERE ID = "+c);
+////			psmnt.setInt(1, c);
+//			ResultSet rs = psmnt.executeQuery();
+//
+//			if(rs.next()) {
+//				Image imagen = null;
+//				try {
+//					imagen = ImageIO.read(rs.getBinaryStream("IMAGEN"));
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				 
+//				String nombre = rs.getString("NOMBRE");
+//				
+//				int id = rs.getInt("ID");
+//
+//				Vineta v = new Vineta(imagen, nombre);
+//				v.setID(id);
+//				
+//				return v;
+//			} else return null;
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new ExcepcionBD("Error al borrar comic (ID: "+c+") ("+e.getMessage()+")");
+//		}
+		
 	}
 
 	@Override
-	public void insertarVinetas(List<Vineta> vs, int c) {
-		// TODO Auto-generated method stub
-		System.out.println("INSERTAR VIÑETAS EN BD NO IMPLEMENTADO");
+	public void insertarVinetas(List<Vineta> vs, int c) { //POR COMPLETAR
+		
+		try {
+			PreparedStatement psmnt;
+			psmnt = con.prepareStatement(
+					"INSERT INTO VINETA (ID,NOMBRE,ENLACES,IMAGEN) VALUES (?,?,?,?)");
+			
+			for(Vineta v : vs) {
+				
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				try {
+					ImageIO.write((BufferedImage)v.getImagen(), "png", baos);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				InputStream is = new ByteArrayInputStream(baos.toByteArray());
+					
+				
+				try {
+					psmnt.setInt(1, v.getID());
+					psmnt.setString(2, v.getNombre());
+//					psmnt.setInt(3,v.);
+					psmnt.setBinaryStream(4, is, baos.size() );
+					psmnt.executeUpdate();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				}
+			
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+		
 	}
 
 	@Override
 	public void actualizarImagenVineta(Vineta v) {
-		System.out.println("ACTUALIZAR IMAGEN VIÑETA EN BD NO IMPLEMENTADO");
+
+		PreparedStatement psmnt;
+		try {
+			psmnt = con.prepareStatement(
+					"UPDATE VINETA SET IMAGEN = ? WHERE ID = ?");
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try {
+				ImageIO.write((BufferedImage)v.getImagen(), "png", baos);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			InputStream is = new ByteArrayInputStream(baos.toByteArray());
+			
+			psmnt.setBinaryStream(1, is, baos.size() );
+			psmnt.setInt(2, v.getID());
+			psmnt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al renombrar el comic (ID: "+v.getID()+") ("+e.getMessage()+")");
+		}
 		
 	}
 
 	@Override
 	public List<Vineta> getBocetos(int iD) {
-		System.out.println("OBTENER LISTA DE BOCETOS EN BD NO IMPLEMENTADO");
-		return new ArrayList<>();
+		List<Vineta> resultado = new ArrayList<>();
+		try {
+			PreparedStatement psmnt = con.prepareStatement(
+					"SELECT * FROM BOCETO WHERE ID = ?");
+			psmnt.setInt(1, iD);
+			ResultSet rs = psmnt.executeQuery();
+			if(rs.next()) {
+				try {
+					resultado.add(new Vineta(ImageIO.read(rs.getBinaryStream("IMAGEN"))));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+	} catch (SQLException e) {
+		e.printStackTrace();
+		throw new ExcepcionBD("Error al obtener el último ID de la BD",e);
+	}
+		return resultado;
 	}
 
 	@Override
