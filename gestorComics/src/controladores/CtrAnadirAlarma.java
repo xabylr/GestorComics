@@ -41,10 +41,10 @@ public class CtrAnadirAlarma implements ActionListener {
 			alarmaVentana.txtFechaAqui.setText(datePicked);
 			
 			
-			/*try(Scanner sc = new Scanner(datePicked)){
+			try(Scanner sc = new Scanner(datePicked)){
 				sc.useDelimiter("-");
-				alarmaVentana.fecha = new Date(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()), alarmaVentana.getHora(), alarmaVentana.getMinutos());
-			}*/
+				setFecha(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()));
+			}
 			
 			
 		} else if(str.equals(IAnadirAlarma.ANADIR)) {
