@@ -933,7 +933,7 @@ try {
 		
 	}
 	
-	public void addMedio(MedioComunicacion m) {
+public void addMedio(MedioComunicacion m) {
 		
 PreparedStatement psmnt = null;
 		
