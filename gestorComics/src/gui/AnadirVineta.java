@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.awt.event.ActionEvent;
@@ -36,17 +37,21 @@ import javax.swing.JList;
 public class AnadirVineta extends JFrame implements IAnadirVineta {
 	
 	private JLabel lblAlert;
-	private JComboBox<ContenedorComic> listaComics;
-	JList<Comic> selectorComics;
+	private JComboBox<ContenedorComic> desplegableComics;
 	
 	private JTextField tfNombre;
 	private Image imagen;
 	private Miniatura miniatura;
 	private IGaleria galeria;
 	
+	private List<ContenedorComic> listacomics;
+	JLabel txtListaComics;
+	
 	private Vineta nuevaVineta;
 	
 	public AnadirVineta(IGaleria g) {
+		listacomics = new ArrayList<ContenedorComic>();
+		
 		galeria = g;
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -57,16 +62,14 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		JPanel panelDesc = new JPanel();
 		panelSelComic.add(panelDesc);
 		
-		JLabel lbSelComic = new JLabel("Selecciona un cómic o crea una viñeta suelta");
+		JLabel lbSelComic = new JLabel("Elige uno o más cómics");
 		panelDesc.add(lbSelComic);
 		lbSelComic.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		JPanel panelSelSubir = new JPanel();
 		panelSelComic.add(panelSelSubir);
 		
-		listaComics = new JComboBox<ContenedorComic>();
-		
-		selectorComics = new JList<>();
+		desplegableComics = new JComboBox<ContenedorComic>();
 		
 		List<Comic> lc = galeria.getComics();
 		for(Comic c : lc) {
@@ -78,10 +81,16 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		JLabel lblCmic = new JLabel("Cómic: ");
 		panelSelSubir.add(lblCmic);
 		
-		panelSelSubir.add(listaComics);
+		panelSelSubir.add(desplegableComics);
 		
+		JButton btnAadir = new JButton("Añadir");
+		panelSelSubir.add(btnAadir);
 		
-		panelSelSubir.add(selectorComics);
+		JPanel panelListaComics = new JPanel();
+		panelSelComic.add(panelListaComics);
+		
+		txtListaComics = new JLabel("lista de cómics");
+		panelListaComics.add(txtListaComics);
 		
 		JPanel panelNombreVineta = new JPanel();
 		panelSelComic.add(panelNombreVineta);
@@ -124,6 +133,17 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		panelBtn.add(btnCrearVineta);
 		
 		pack();
+		
+		//Botón añadir cómic
+		btnAadir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				listacomics.add(new ContenedorComic(getComic()));
+				refrescarListaComics();
+				pack();
+				
+			}
+		});
 		
 		//Botón seleccionar imagen
 		btnSelImg.addActionListener(new ActionListener() {
@@ -170,10 +190,12 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 				
 					Comic aComic = getComic();
 					try {
-					if(nuevaVineta == null || aComic == null)
-						throw new ExcepcionUsuario("Selecciona un cómic y una imagen");
-				
-						aComic.addVineta(nuevaVineta);
+					if(nuevaVineta == null || listacomics.size() == 0)
+						throw new ExcepcionUsuario("Selecciona al menos un cómic y una imagen");
+						
+						for (ContenedorComic c : listacomics)
+							c.getComic().addVineta(nuevaVineta);
+	
 						galeria.refrescarLista();
 						//cerramos la ventana
 						dispatchEvent( new WindowEvent(AnadirVineta.this, WindowEvent.WINDOW_CLOSING) );
@@ -194,6 +216,11 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 	    setTitle("Añadir viñeta");
 	}
 
+	
+	private void refrescarListaComics(){
+		txtListaComics.setText("Cómics seleccionados:\n"+listacomics);
+	}
+	
 	@Override
 	public void alert(String error) {
 		lblAlert.setVisible(true);
@@ -204,13 +231,13 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 
 	@Override
 	public void addComic(Comic c) {
-		listaComics.addItem(new ContenedorComic(c));
+		desplegableComics.addItem(new ContenedorComic(c));
 	}
 
 	@Override
 	public Comic getComic() {
-		if(listaComics.getSelectedItem()!=null)
-			return ( (ContenedorComic) listaComics.getSelectedItem() ).getComic();
+		if(desplegableComics.getSelectedItem()!=null)
+			return ( (ContenedorComic) desplegableComics.getSelectedItem() ).getComic();
 		else return null;
 	}
 
