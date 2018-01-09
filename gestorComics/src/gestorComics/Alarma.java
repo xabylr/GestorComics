@@ -1,8 +1,7 @@
 package gestorComics;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Alarma extends Thread{
 
@@ -60,7 +59,8 @@ public class Alarma extends Thread{
 	@Override
 	public void run() {
 		while(!listo()) {
-			Thread.yield();
+
+			//Thread.yield();
 			/*LocalDateTime now = LocalDateTime.now();
 			System.out.println(now.getYear());*/
 		}
@@ -71,18 +71,24 @@ public class Alarma extends Thread{
 	}
 	
 	private boolean listo() {
-		boolean res = false;
-		LocalDateTime fecha = LocalDateTime.now();
+		//boolean res = false;
+		//LocalDateTime fecha = LocalDateTime.now();
 		//System.out.println(fecha.getYear());
 		//System.out.println(ano);
-		
-		System.out.println("ANo: "+ano);
-		System.out.println("Mes: "+mes);
-		System.out.println("Dia: "+dia);
-		
+	
 		
 		LocalDateTime fechaInsertada =  LocalDateTime.of(ano,mes,dia, hora, minuto );
-		System.out.println(fechaInsertada);
+		
+		long diff = LocalDateTime.now().until(fechaInsertada, ChronoUnit.MILLIS);
+
+				//fechaInsertada.until(LocalDateTime.now(), ChronoUnit.MILLIS);
+		if(diff>0)
+			try {
+				Thread.sleep(diff);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		/*
 		if(ano < fecha.getYear()) {

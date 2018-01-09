@@ -84,6 +84,7 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 		getContentPane().add(lblVieta, gbc_lblVieta);
 		
 		comboBox_1 = new JComboBox<Vinetas>();
+
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.gridwidth = 4;
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
@@ -91,6 +92,12 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 		gbc_comboBox_1.gridx = 4;
 		gbc_comboBox_1.gridy = 3;
 		getContentPane().add(comboBox_1, gbc_comboBox_1);
+		
+		List<Vineta> lv = getComic().getVinetas();
+		for(Vineta c : lv) {
+			addVineta(c);
+		}
+	
 		
 		comboBox.addActionListener(new ActionListener() {
 

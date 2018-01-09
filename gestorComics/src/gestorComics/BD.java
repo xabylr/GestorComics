@@ -1044,7 +1044,7 @@ PreparedStatement psmnt = null;
 					"SELECT NOMBRE from MEDIO_DIFUSION");
 			ResultSet rs = psmnt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				resultado.add(new MedioComunicacion(rs.getString("NOMBRE")));
 			}
 		} catch (SQLException e) {
