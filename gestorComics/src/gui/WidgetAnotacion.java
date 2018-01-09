@@ -65,6 +65,7 @@ public class WidgetAnotacion extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				anotacion = new Anotacion(comic, vineta, null, publico);
+				anotacion.setComentario(txtComentario.getText());
 				vineta.setAnotacion(anotacion);
 				lblTitulo.setText("Comentario guardado, editar: ");
 				mostrarBorrar();
@@ -109,7 +110,7 @@ public class WidgetAnotacion extends JPanel {
 	
 	private void mostrarBorrar() {
 		btnBorrar = new JButton("Borrar");
-		panelInferior.add(btnGuardar, BorderLayout.EAST);
+		panelInferior.add(btnBorrar, BorderLayout.WEST);
 		
 		btnBorrar.addActionListener(new ActionListener() {
 			

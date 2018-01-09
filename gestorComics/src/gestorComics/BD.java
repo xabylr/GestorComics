@@ -146,7 +146,7 @@ public class BD implements IBD{
 
 					//creamos la sentencia SQL para subir la imagen	
 						psmnt = con.prepareStatement(
-							"INSERT INTO VINETA (NOMBRE, ID, IMAGEN, ENLACES) VALUES (?,?,?)");
+							"INSERT INTO VINETA (NOMBRE, ID, IMAGEN, ENLACES) VALUES (?,?,?,?)");
 						psmnt.setString(1, vineta.getNombre());
 						psmnt.setInt(2, vineta.getID());
 						psmnt.setBinaryStream(3, is, baos.size() );
@@ -182,6 +182,8 @@ public class BD implements IBD{
 		psmnt.close();
 	} catch (SQLException e) {
 		throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+	} catch (NullPointerException e){
+		//(?)
 	}
 }
 	
@@ -228,11 +230,7 @@ try {
 				psmnt.setInt(3, comic.getPortada().getID());
 			}
 			psmnt.executeUpdate();
-			
-			
-			
-			
-		
+	
 		} catch (ExcepcionBD | SQLException e) {
 			e.printStackTrace();
 			throw new ExcepcionBD("Error al insertar "+comic, e);
@@ -738,6 +736,7 @@ try {
 
 	@Override
 	public void insertarAnotacion(Comic comic, Vineta vineta, Vineta boceto, String comentario) {
+		System.out.println("INSERTANDO ANOTACION");
 		PreparedStatement psmnt=null;
 		try {
 			psmnt = con.prepareStatement(
@@ -752,6 +751,9 @@ try {
 			else psmnt.setNull(3, java.sql.Types.NULL);
 			
 			psmnt.setString(4, comentario);
+			System.out.println(comentario);
+			
+			psmnt.executeUpdate();
 			
 		}catch (SQLException e) {
 			throw new ExcepcionBD("Error al obtener el último ID de la BD",e);
@@ -768,24 +770,44 @@ try {
 	
 	@Override
 	public Anotacion obtenerAnotacion(Comic comic, Vineta vineta, Vineta boceto) {
+
 		Anotacion anotacion=null;
 		boolean publico=true;
 		if(comic == null) publico = false;
 		
-		anotacion = new Anotacion(comic, vineta, boceto, publico);
 		
 		PreparedStatement psmnt=null;
 		try {
-			psmnt = con.prepareStatement(
-					"SELECT TEXTO FROM ANOTACION WHERE COMIC_ID=? AND VINETA_ID=? AND BOCETO_ID=?");
-			if(comic!=null) psmnt.setInt(1, comic.getID());
-			else psmnt.setNull(1, java.sql.Types.NULL);
+			String consulta = "SELECT TEXTO FROM ANOTACION WHERE COMIC_ID";
+			int cursor = 1;
+		
+			if(comic!=null) consulta = consulta +"=?";
+			else consulta = consulta +" IS NULL";
 			
-			if(vineta!=null) psmnt.setInt(2, vineta.getID());
-			else psmnt.setNull(2, java.sql.Types.NULL);
+			consulta = consulta +" AND VINETA_ID";
+			if(vineta!=null)consulta = consulta +"=?";
+			else consulta = consulta +" IS NULL";
 			
-			if(boceto!=null) psmnt.setInt(3, boceto.getID());
-			else psmnt.setNull(3, java.sql.Types.NULL);
+			consulta = consulta +" AND BOCETO_ID";
+			if(boceto!=null)consulta = consulta +"=?";
+			else consulta = consulta +" IS NULL";
+			
+			System.out.println(consulta);
+			
+			psmnt = con.prepareStatement(consulta);
+			
+			if(comic!=null)	psmnt.setInt(cursor++, comic.getID());
+			if(vineta!=null) psmnt.setInt(cursor++, vineta.getID());
+			if(boceto!=null)psmnt.setInt(cursor++, boceto.getID());
+			
+			ResultSet salida = psmnt.getResultSet();
+			
+			if (salida.next() ) {
+				anotacion = new Anotacion(comic, vineta, boceto, publico);
+				anotacion.setComentario(salida.getString("TEXTO"));
+			}
+
+		
 		}catch(SQLException e){
 			throw new ExcepcionBD("Error al obtener anotación (Comic, vineta, boceto): ("+
 		comic.getID()+", "+vineta.getID()+", "+boceto.getID()+")",e);
@@ -803,8 +825,40 @@ try {
 
 	@Override
 	public void borrarAnotacion(Comic comic, Vineta vineta, Vineta boceto) {
-		System.out.println("BORRAR ANOTACION EN BD NO IMPLEMENTADO");
-		
+		PreparedStatement psmnt=null;
+		try {
+					String consulta = "DELETE FROM ANOTACION WHERE COMIC_ID";
+					int cursor = 1;
+				
+					if(comic!=null) consulta = consulta +"=?";
+					else consulta = consulta +" IS NULL";
+					
+					consulta = consulta +" AND VINETA_ID";
+					if(vineta!=null)consulta = consulta +"=?";
+					else consulta = consulta +" IS NULL";
+					
+					consulta = consulta +" AND BOCETO_ID";
+					if(boceto!=null)consulta = consulta +"=?";
+					else consulta = consulta +" IS NULL";
+					
+					psmnt = con.prepareStatement(consulta);
+					
+					if(comic!=null)	psmnt.setInt(cursor++, comic.getID());
+					if(vineta!=null) psmnt.setInt(cursor++, vineta.getID());
+					if(boceto!=null)psmnt.setInt(cursor++, boceto.getID());
+					
+					psmnt.executeUpdate();
+		}catch(SQLException e){
+			throw new ExcepcionBD("Error al borrar anotación (Comic, vineta, boceto): ("+
+		comic.getID()+", "+vineta.getID()+", "+boceto.getID()+")",e);
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
+		}		
+					
 	}
 	
 

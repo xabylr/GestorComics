@@ -51,7 +51,7 @@ public class PaneAnotaciones extends JScrollPane {
 		gbc.gridy = panelAnotaciones.getComponentCount();
 		wAPublica = new WidgetAnotacion(comic, vineta, true);
 		
-		wAPrivada = new WidgetAnotacion(comic, vineta, false);
+		wAPrivada = new WidgetAnotacion(null, vineta, false);
 		panelAnotaciones.setLayout(new BorderLayout(0, 0));
 		
 		panelAnotaciones.add(wAPublica, BorderLayout.NORTH);
