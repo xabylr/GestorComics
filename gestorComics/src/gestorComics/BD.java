@@ -864,21 +864,112 @@ try {
 
 	@Override
 	public List<Alarma> getAlarmas() {
-		// TODO Auto-generated method stub
+
+//		List<Alarma> resultado = new ArrayList<>();
+//		PreparedStatement psmnt = null;
+//		try {
+//				psmnt = con.prepareStatement(
+//						"SELECT * from ALARMAS");
+//				ResultSet rs = psmnt.executeQuery();
+//				
+//				if(rs.next()) {
+//					java.util.Date time=new java.util.Date((long)rs.getInt("FECHA")*1000);
+//					PreparedStatement psmnt2 = con.prepareStatement("Select ID from Comic c, vineta v, comic_vineta cv where v.id = cv.vineta_id and c.id = cv.comic_id");
+//					ResultSet rs2 = psmnt2.executeQuery();
+//					resultado.add(new Alarma(rs2.getInt("ID"), rs.getInt("ID"),));
+//				}
+//				
+//				
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new ExcepcionBD("Error al obtener el último ID de la BD",e);
+//		}finally {
+//			try {
+//				psmnt.close();
+//			} catch (SQLException e) {
+//				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+//			}
+//		}
+//			
+//			return resultado;
+		
 		return new ArrayList<Alarma>();
 	}
 
 	@Override
 	public int addAlarma(Alarma a) {
-		// TODO Auto-generated method stub
-		
-		return -1;//Devuelve el ID de la Alarma creada en la tabla
+
+		PreparedStatement psmnt = null;
+
+		try {
+			psmnt = con.prepareStatement("INSERT INTO ALARMA (ID, FECHA, VINETA_ID) VALUES (?,?,?)");
+
+			psmnt.setInt(1, a.getIdentificador());
+			psmnt.setString(2, new String(
+					a.getAno() + "-" + a.getMes() + "-" + a.getDia() + " " + a.getHora() + ":" + a.getMinuto()));
+			psmnt.setInt(3, a.getVineta().getID());
+
+			psmnt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return a.getIdentificador();
 	}
 
 	@Override
 	public void removeAlarma(Alarma a) {
-		// TODO Auto-generated method stub
+
+		PreparedStatement psmnt = null;
+		
+		try {
+			psmnt = con.prepareStatement("DELETE FROM Alarma WHERE ID = ?");
+			psmnt.setInt(1, a.getIdentificador());
+			psmnt.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
+	public void addMedio(MedioComunicacion m) {
+		
+PreparedStatement psmnt = null;
+		
+		try {
+			psmnt = con.prepareStatement(
+					"INSERT INTO MEDIO_DIFUSION (ID,NOMBRE) VALUES (?,?)");
+			PreparedStatement psmnt2 = con.prepareStatement("Select MAX(ID) FROM MEDIO_DIFUSION");
+			ResultSet rs = psmnt2.executeQuery();
+			psmnt.setInt(1, rs.getInt("ID"));
+			psmnt.setString(2, m.getNombre());
+			psmnt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public List<MedioComunicacion> getMedios(){
+		List<MedioComunicacion> resultado = new ArrayList<>();
+		PreparedStatement psmnt = null;
+		
+		try {
+			psmnt = con.prepareStatement(
+					"SELECT * from MEDIO_DIFUSION");
+			ResultSet rs = psmnt.executeQuery();
+			
+			if(rs.next()) {
+				resultado.add(new MedioComunicacion(rs.getString("NOMBRE")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+
 }
