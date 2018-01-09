@@ -89,17 +89,17 @@ public class WidgetAnotacion extends JPanel {
 		txtComentario.setText(anotacion.getComentario());
 		txtComentario.setEditable(true);
 		
-		JPanel panelInferior = new JPanel(new BorderLayout());
+		panelInferior = new JPanel(new BorderLayout());
 		add (panelInferior, BorderLayout.SOUTH);
 		
-		btnGuardar = new JButton("Editar");
-		panelInferior.add(btnGuardar, BorderLayout.EAST);
+		btnEditar = new JButton("Editar");
+		panelInferior.add(btnEditar, BorderLayout.EAST);
 		
-		btnGuardar.addActionListener(new ActionListener() {
+		btnEditar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				a.setComentario(txtComentario.getText());
+				anotacion.setComentario(txtComentario.getText());
 			}
 		});
 		

@@ -107,8 +107,11 @@ public class VentanaVineta extends JFrame implements IVisorVineta {
 		Anotacion apublica = vineta.getAnotacionPublica(comic);
 		
 		
-		if(aprivada!=null)
+		if(aprivada!=null) {
 			paneAnotaciones.setAnotacion(aprivada);
+		}
+		
+		
 		if(apublica !=null)
 		paneAnotaciones.setAnotacion(apublica);
 		

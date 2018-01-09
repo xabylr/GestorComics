@@ -66,9 +66,15 @@ public class PaneAnotaciones extends JScrollPane {
 	}
 	
 	public void setAnotacion(Anotacion anotacion) {
-		if (anotacion.esPublico()) wAPublica = new WidgetAnotacion(anotacion);
-		else wAPrivada = new WidgetAnotacion(anotacion);
-		validate();
+		if (anotacion.esPublico()) {
+			wAPublica = new WidgetAnotacion(anotacion);
+			panelAnotaciones.add(wAPublica, BorderLayout.NORTH);
+		}
+		else {
+			wAPrivada = new WidgetAnotacion(anotacion);
+			panelAnotaciones.add(wAPrivada, BorderLayout.SOUTH);
+		}
+		refrescar();
 	}
 	
 	

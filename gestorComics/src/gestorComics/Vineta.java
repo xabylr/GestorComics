@@ -98,14 +98,20 @@ public class Vineta extends Obra implements Observable, Anotable{
 
 	@Override
 	public Anotacion getAnotacionPrivada() {
-		if(bd != null && anotacionPrivada == null) bd.obtenerAnotacion(null, this, null);
+		if(bd != null && anotacionPrivada == null) {
+			anotacionPrivada = bd.obtenerAnotacion(null, this, null);
+			anotacionPrivada.conectar(bd);
+		}
 		return anotacionPrivada;
 	}
 	
 	@Override
 	public Anotacion getAnotacionPublica(Comic c) {
-		if(bd != null && anotacionesPublicas.get(c) == null )
+		if(bd != null && anotacionesPublicas.get(c) == null ) {
 			anotacionesPublicas.put(c, bd.obtenerAnotacion(c, this, null));
+			anotacionesPublicas.get(c).conectar(bd);
+		}
+			
 			
 		return anotacionesPublicas.get(c);
 	}

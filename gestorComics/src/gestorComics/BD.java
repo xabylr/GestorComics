@@ -736,22 +736,70 @@ try {
 
 	@Override
 	public void insertarAnotacion(Comic comic, Vineta vineta, Vineta boceto, String comentario) {
-		System.out.println("INSERTANDO ANOTACION");
+		Anotacion aux = obtenerAnotacion(comic, vineta, boceto);
+		if (aux != null) {
+			actualizarAnotacion(comic, vineta, boceto, comentario);
+		}else {
+			
+			PreparedStatement psmnt=null;
+			try {
+				psmnt = con.prepareStatement(
+						"INSERT INTO ANOTACION (COMIC_ID, VINETA_ID, BOCETO_ID, TEXTO) VALUES (?, ?, ?, ?)");
+				if(comic!=null)psmnt.setInt(1, comic.getID());
+				else psmnt.setNull(1, java.sql.Types.NULL);
+				
+				if(vineta!=null)psmnt.setInt(2, vineta.getID());
+				else psmnt.setNull(2, java.sql.Types.NULL);
+				
+				if(boceto != null)psmnt.setInt(3, boceto.ID);
+				else psmnt.setNull(3, java.sql.Types.NULL);
+				
+				psmnt.setString(4, comentario);
+				System.out.println(comentario);
+				
+				psmnt.executeUpdate();
+				
+			}catch (SQLException e) {
+				throw new ExcepcionBD("Error al obtener el último ID de la BD",e);
+			}finally {
+				try {
+					psmnt.close();
+				} catch (SQLException e) {
+					throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+				}
+			}
+		}
+		
+		
+	}
+	
+	
+	private void actualizarAnotacion(Comic comic, Vineta vineta, Vineta boceto, String comentario) {
 		PreparedStatement psmnt=null;
 		try {
-			psmnt = con.prepareStatement(
-					"INSERT INTO ANOTACION (COMIC_ID, VINETA_ID, BOCETO_ID, TEXTO) VALUES (?, ?, ?, ?)");
-			if(comic!=null)psmnt.setInt(1, comic.getID());
-			else psmnt.setNull(1, java.sql.Types.NULL);
+			String consulta= "UPDATE ANOTACION SET TEXTO =? WHERE COMIC_ID";
+			int cursor = 1;
 			
-			if(vineta!=null)psmnt.setInt(2, vineta.getID());
-			else psmnt.setNull(2, java.sql.Types.NULL);
+			if(comic!=null) consulta = consulta +"=?";
+			else consulta = consulta +" IS NULL";
 			
-			if(boceto != null)psmnt.setInt(3, boceto.ID);
-			else psmnt.setNull(3, java.sql.Types.NULL);
+			consulta = consulta +" AND VINETA_ID";
+			if(vineta!=null)consulta = consulta +"=?";
+			else consulta = consulta +" IS NULL";
 			
-			psmnt.setString(4, comentario);
-			System.out.println(comentario);
+			consulta = consulta +" AND BOCETO_ID";
+			if(boceto!=null)consulta = consulta +"=?";
+			else consulta = consulta +" IS NULL";
+			
+			
+			psmnt = con.prepareStatement(consulta);
+			
+			psmnt.setString(cursor++, comentario);
+			
+			if(comic!=null)	psmnt.setInt(cursor++, comic.getID());
+		
+			if(vineta!=null) psmnt.setInt(cursor++, vineta.getID());
+			if(boceto!=null)psmnt.setInt(cursor++, boceto.getID());
 			
 			psmnt.executeUpdate();
 			
@@ -764,9 +812,7 @@ try {
 				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
 			}
 		}
-		
 	}
-	
 	
 	@Override
 	public Anotacion obtenerAnotacion(Comic comic, Vineta vineta, Vineta boceto) {
@@ -792,16 +838,17 @@ try {
 			if(boceto!=null)consulta = consulta +"=?";
 			else consulta = consulta +" IS NULL";
 			
-			System.out.println(consulta);
 			
 			psmnt = con.prepareStatement(consulta);
 			
 			if(comic!=null)	psmnt.setInt(cursor++, comic.getID());
+		
 			if(vineta!=null) psmnt.setInt(cursor++, vineta.getID());
 			if(boceto!=null)psmnt.setInt(cursor++, boceto.getID());
 			
-			ResultSet salida = psmnt.getResultSet();
 			
+			ResultSet salida = psmnt.executeQuery();
+	
 			if (salida.next() ) {
 				anotacion = new Anotacion(comic, vineta, boceto, publico);
 				anotacion.setComentario(salida.getString("TEXTO"));
@@ -809,8 +856,7 @@ try {
 
 		
 		}catch(SQLException e){
-			throw new ExcepcionBD("Error al obtener anotación (Comic, vineta, boceto): ("+
-		comic.getID()+", "+vineta.getID()+", "+boceto.getID()+")",e);
+			throw new ExcepcionBD("Error al obtener anotación",e);
 		}finally {
 			try {
 				psmnt.close();
