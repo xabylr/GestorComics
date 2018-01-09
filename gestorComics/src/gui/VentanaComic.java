@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import gestorComics.Comic;
 import gestorComics.Obra;
 import gestorComics.Observable;
+import gestorComics.Vineta;
+
 import javax.swing.JPanel;
 import controladores.CtrVentanaComic;
 import javax.swing.JButton;
@@ -23,6 +25,8 @@ public class VentanaComic extends JFrame implements IVisorComic, Observador{
 	JButton btnCambiarNombre = new JButton("Cambiar nombre");
 	JButton btnBorrar = new JButton("Borrar comic");
 	PaneObras panevinetas;
+	JPanel jpanelbocetos;
+	PaneObras panebocetos;
 	Comic comic;
 	
 	//https://stackoverflow.com/questions/2745265/is-listdog-a-subclass-of-listanimal-why-arent-javas-generics-implicitly-p
@@ -44,13 +48,12 @@ public class VentanaComic extends JFrame implements IVisorComic, Observador{
 		
 		getContentPane().add(jpanelvinetas, BorderLayout.NORTH);
 		
-		JPanel jpanelbocetos = new JPanel();
+		jpanelbocetos = new JPanel();
 		
-		PaneObras panelbocetos;
 		JLabel jlabelbocetos = new JLabel("Bocetos");
-		panelbocetos = new  PaneObras((List<Obra>) (List<?>) comic.getBocetos(), comic);
+		panebocetos = new  PaneObras((List<Obra>) (List<?>) comic.getBocetos(), comic);
 		jpanelbocetos.add(jlabelbocetos, BorderLayout.NORTH);
-		jpanelbocetos.add(panelbocetos, BorderLayout.SOUTH);
+		jpanelbocetos.add(panebocetos, BorderLayout.SOUTH);
 		
 		getContentPane().add(jpanelbocetos, BorderLayout.CENTER);
 		
@@ -71,6 +74,14 @@ public class VentanaComic extends JFrame implements IVisorComic, Observador{
 		});
 		
 		panelCerrar.add(btnCambiarNombre);
+		
+		JButton btnInsertarBoceto = new JButton("Insertar Boceto");
+		btnInsertarBoceto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new AnadirBoceto(comic);
+			}
+		});
+		panelCerrar.add(btnInsertarBoceto);
 		panelCerrar.add(btnBorrar);
 		
 		panelCerrar.add(btnNewCerrar);
@@ -113,6 +124,15 @@ public class VentanaComic extends JFrame implements IVisorComic, Observador{
 	@Override
 	public void notificar() {
 		panevinetas.refrescar();
+		/*for(Vineta b : comic.getBocetos() )
+			panelbocetos.addObra(obra);*/
+		panebocetos.refrescar();
+		repaint();
+		validate();
+		pack();
+		
+		System.out.println(comic.getBocetos() );
+		
 		setNombre(comic.getNombre());
 		
 	}

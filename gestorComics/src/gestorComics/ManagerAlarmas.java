@@ -1,5 +1,7 @@
 package gestorComics;
 
+import gui.GuiAlarma;
+
 public class ManagerAlarmas {
 	
 	static ManagerAlarmas instance;
@@ -29,8 +31,9 @@ public class ManagerAlarmas {
 	
 	public void addAlarma(Alarma a) {
 		
-		if(bd!=null)
-		a.setIdentificador(bd.addAlarma(a));
+		//TODO arreglar base de datos
+	//	if(bd!=null)
+		//a.setIdentificador(bd.addAlarma(a));
 		startAlarma(a);
 	}
 	
@@ -41,7 +44,7 @@ public class ManagerAlarmas {
 	
 	public void activarAlarma(Alarma a) {
 		
-		//GuiAlarma guialarma = new GuiAlarma(a);
+		new GuiAlarma(a);
 		
 		if(bd!=null)
 		bd.removeAlarma(a);

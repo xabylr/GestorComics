@@ -106,10 +106,13 @@ public class Comic extends Obra implements Observable, Observador{
 	
 	
 	public void inicializarBocetos(){
+		if (bocetos == null)
+			bocetos = new ArrayList<>();
 		
+		/*
 		if (bocetos == null && bd != null) {
 		bocetos = bd.getBocetos(ID);
-		}else bocetos = new ArrayList<Vineta>();
+		}else bocetos = new ArrayList<Vineta>();*/
 		
 	}
 	
@@ -198,6 +201,15 @@ public class Comic extends Obra implements Observable, Observador{
 	@Override
 	public boolean observadoPor(Observador o){
 		return observadores.contains(o);
+	}
+	public void insertarBoceto(Vineta boceto) {
+		inicializarBocetos();
+		bocetos.add(boceto);
+		
+		//TODO crear tabla bocetoComic en BD y asignar un ID
+		//if(bd!=null)bd.insertarBoceto(boceto, this);
+		
+		notificarTodos();
 	}
 	
 	public List<Vineta> getBocetos() {

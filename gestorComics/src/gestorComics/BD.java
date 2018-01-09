@@ -1019,15 +1019,20 @@ PreparedStatement psmnt = null;
 					"INSERT INTO MEDIO_DIFUSION (ID,NOMBRE) VALUES (?,?)");
 			PreparedStatement psmnt2 = con.prepareStatement("Select MAX(ID) FROM MEDIO_DIFUSION");
 			ResultSet rs = psmnt2.executeQuery();
-			psmnt.setInt(1, rs.getInt("ID"));
+			psmnt.setInt(1, rs.getInt(1)+1);
 			psmnt.setString(2, m.getNombre());
 			psmnt.executeUpdate();
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		}catch(SQLException e){
+			throw new ExcepcionBD("Error al insertar medio de difusión", e);
 		
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}
+		}
 	}
 	
 	public List<MedioComunicacion> getMedios(){
@@ -1036,7 +1041,7 @@ PreparedStatement psmnt = null;
 		
 		try {
 			psmnt = con.prepareStatement(
-					"SELECT * from MEDIO_DIFUSION");
+					"SELECT NOMBRE from MEDIO_DIFUSION");
 			ResultSet rs = psmnt.executeQuery();
 			
 			if(rs.next()) {

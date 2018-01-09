@@ -127,7 +127,7 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 		}
 		
 		
-		SpinnerModel sm = new SpinnerNumberModel(0, 0, 24, 1); //default value,lower bound,upper bound,increment by
+		SpinnerModel sm = new SpinnerNumberModel(0, 0, 23, 1); //default value,lower bound,upper bound,increment by
 		
 		txtFechaAqui = new JTextField();
 		txtFechaAqui.setText("FECHA AQUI");

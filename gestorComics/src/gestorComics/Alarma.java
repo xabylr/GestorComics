@@ -1,6 +1,8 @@
 package gestorComics;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Alarma extends Thread{
 
@@ -74,6 +76,15 @@ public class Alarma extends Thread{
 		//System.out.println(fecha.getYear());
 		//System.out.println(ano);
 		
+		System.out.println("ANo: "+ano);
+		System.out.println("Mes: "+mes);
+		System.out.println("Dia: "+dia);
+		
+		
+		LocalDateTime fechaInsertada =  LocalDateTime.of(ano,mes,dia, hora, minuto );
+		System.out.println(fechaInsertada);
+		
+		/*
 		if(ano < fecha.getYear()) {
 			
 			res = true;
@@ -105,9 +116,9 @@ public class Alarma extends Thread{
 					
 				}
 			}
-		}
+		}*/
 		
-		return res;
+		return fechaInsertada.isBefore(LocalDateTime.now());
 	}
 	
 	private void Activar() {

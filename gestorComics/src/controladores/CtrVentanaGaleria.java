@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import gestorComics.IGaleria;
+import gestorComics.ManagerMedios;
 import gestorComics.MedioComunicacion;
 import gui.*;
 
@@ -82,7 +83,8 @@ public class CtrVentanaGaleria implements ActionListener{
 			btnAceptar.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					galeria.anadirMedio(new MedioComunicacion(textField.getText()));
+					ManagerMedios.instance().addMedio(new MedioComunicacion(textField.getText()));
+					//galeria.anadirMedio();
 					frame.dispose();
 				}
 			});

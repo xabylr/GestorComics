@@ -31,7 +31,7 @@ public class DatePicker
                 //set modal true
                 d.setModal(true);
                 //define string
-                String[] header = { "Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat" };
+                String[] header = { "Do", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb" };
                 //create JPanel object and set layout
                 JPanel p1 = new JPanel(new GridLayout(7, 7));
                 //set size
@@ -71,7 +71,7 @@ public class DatePicker
                 JPanel p2 = new JPanel(new GridLayout(1, 3));
                 
                 //create object of button for previous month
-                JButton previous = new JButton("<< Previous");
+                JButton previous = new JButton("<< Anterior");
                 //add action command
                 previous.addActionListener(new ActionListener() 
                 {
@@ -86,7 +86,7 @@ public class DatePicker
                 p2.add(previous);//add button
                 p2.add(l);//add label
                 //create object of button for next month
-                JButton next = new JButton("Next >>");
+                JButton next = new JButton("Siguiente >>");
                 //add action command
                 next.addActionListener(new ActionListener()
                 {
@@ -129,7 +129,7 @@ public class DatePicker
         	button[x].setText("" + day);
         	l.setText(sdf.format(cal.getTime()));
         	//set title
-        	d.setTitle("Date Picker");
+        	d.setTitle("Elige una fecha");
         }
  
         public String setPickedDate() 
@@ -152,7 +152,7 @@ class Picker
         public static void main(String[] args) // main method
         {
         	//create object of JLabel and set label
-        	JLabel label = new JLabel("Selected Date:");
+        	JLabel label = new JLabel("Fecha Seleccionada:");
         	//create object of JTextField and declare it final
         	final JTextField text = new JTextField(20);
         	//create object of JButton

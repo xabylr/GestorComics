@@ -2,8 +2,6 @@ package controladores;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
-
 import javax.swing.JFrame;
 
 import gestorComics.Alarma;
@@ -35,10 +33,10 @@ public class CtrAnadirAlarma implements ActionListener {
 			alarmaVentana.txtFechaAqui.setText(datePicked);
 			
 			
-			try(Scanner sc = new Scanner(datePicked)){
+			/*try(Scanner sc = new Scanner(datePicked)){
 				sc.useDelimiter("-");
-				setFecha(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()));
-			}
+				alarmaVentana.fecha = new Date(Integer.parseInt(sc.next())-1900,Integer.parseInt(sc.next()),Integer.parseInt(sc.next()), alarmaVentana.getHora(), alarmaVentana.getMinutos());
+			}*/
 			
 			
 		} else if(str.equals(IAnadirAlarma.ANADIR)) {
