@@ -1,9 +1,6 @@
 package gestorComics;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-
-import gestorComics.*;
 
 public class Alarma extends Thread{
 

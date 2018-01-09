@@ -5,11 +5,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.*;
 import javax.imageio.ImageIO;
-
-import org.sqlite.SQLiteException;
 
 import excepciones.ExcepcionBD;
 
@@ -140,6 +137,7 @@ public class BD implements IBD{
 			
 				if(vineta.getID()==-1) {
 					vineta.setID(++ultimoIdVineta);
+					vineta.conectar(this);
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					ImageIO.write((BufferedImage)vineta.getImagen(), "png", baos);
 					InputStream is = new ByteArrayInputStream(baos.toByteArray());
@@ -154,7 +152,6 @@ public class BD implements IBD{
 							
 					psmnt.executeUpdate(); 
 				}
-			
 		}else {
 			psmnt = con.prepareStatement(
 					"UPDATE VINETA SET ENLACES=? WHERE ID=?");
@@ -198,10 +195,14 @@ public class BD implements IBD{
 			try {
 				psmnt = con.prepareStatement(
 					"SELECT ENLACES FROM VINETA WHERE ID = ?");
-				if(psmnt.getFetchSize()==0) enlaces=0;
+				psmnt.setInt(1, vineta);
+				ResultSet rs = psmnt.executeQuery();
+				
+				if(rs.next()) {
+					enlaces = rs.getInt("ENLACES");
+				}
 				else {
-					psmnt.setInt(1, vineta);
-					enlaces = psmnt.executeQuery().getInt(1);
+					enlaces=0;
 				}
 		
 			}catch (SQLException e) {
@@ -341,6 +342,7 @@ try {
 			
 			Vineta v = new Vineta(imagen, nombre);
 			v.setID(id);
+			v.conectar(this);
 			
 			resultado.add(v);
 		} 
@@ -482,8 +484,10 @@ try {
 	 */
 	@Override
 	public void borrarVineta(int v, int c) throws ExcepcionBD {
-
+		
 		int enlaces = getEnlaces(v);
+		
+		borrarTablaComicVineta(c, v);
 		
 		PreparedStatement psmnt = null;
 		try {
@@ -493,7 +497,7 @@ try {
 						"DELETE FROM VINETA WHERE ID = ?");
 				psmnt.setInt(1, v);
 				psmnt.execute();
-			}else if(enlaces>=1) {
+			}else if(enlaces>1) {
 				psmnt = con.prepareStatement(
 						"UPDATE VINETA SET ENLACES=? WHERE ID = ?");
 				psmnt.setInt(1, enlaces-1);
@@ -511,9 +515,35 @@ try {
 				psmnt.close();
 			} catch (SQLException e) {
 				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}catch (NullPointerException e) {
+				//(?)
 			}
 		}
 		
+	}
+	
+	
+	private void borrarTablaComicVineta(int comic, int vineta) {
+		PreparedStatement psmnt=null;
+		try{
+			psmnt = con.prepareStatement(
+				"DELETE FROM COMIC_VINETA WHERE COMIC_ID=? AND VINETA_ID=?");
+		psmnt.setInt(1, comic);
+		psmnt.setInt(2, vineta);
+		
+		psmnt.executeUpdate();
+		}  catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcepcionBD("Error al borrar tabla comic viñeta ("+e.getMessage()+")");
+		}finally {
+			try {
+				psmnt.close();
+			} catch (SQLException e) {
+				throw new ExcepcionBD("Error al finalizar sentencia("+e.getMessage()+")");
+			}catch (NullPointerException e) {
+				//(?)
+			}
+		}
 	}
 
 	@Override
@@ -852,6 +882,7 @@ try {
 			if (salida.next() ) {
 				anotacion = new Anotacion(comic, vineta, boceto, publico);
 				anotacion.setComentario(salida.getString("TEXTO"));
+				anotacion.conectar(this);
 			}
 
 		

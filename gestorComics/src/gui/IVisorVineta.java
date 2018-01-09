@@ -16,7 +16,7 @@ public interface IVisorVineta {
 	
 	public void SetImagen(Image img);
 	
-	public void SetNombre(String name);
+	public void setNombre(String name);
 	
 	public void dispose();
 	

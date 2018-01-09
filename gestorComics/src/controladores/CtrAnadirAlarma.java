@@ -2,15 +2,9 @@ package controladores;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
-
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
 import gestorComics.Alarma;
 import gestorComics.DatePicker;

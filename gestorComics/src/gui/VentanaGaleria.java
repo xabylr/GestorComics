@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import gestorComics.Comic;
 import gestorComics.IGaleria;
 import gestorComics.Obra;
 

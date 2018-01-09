@@ -1,30 +1,19 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Font;
 import java.awt.Image;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import gestorComics.Comic;
-import gestorComics.Galeria;
 import gestorComics.Obra;
 import gestorComics.Observable;
-import gestorComics.Vineta;
-
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-
 import controladores.CtrVentanaComic;
 import javax.swing.JButton;
 

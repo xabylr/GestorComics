@@ -4,12 +4,8 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
-
-import excepciones.ExcepcionBD;
 import gui.Observador;
 
 public class Vineta extends Obra implements Observable, Anotable{
@@ -100,7 +96,6 @@ public class Vineta extends Obra implements Observable, Anotable{
 	public Anotacion getAnotacionPrivada() {
 		if(bd != null && anotacionPrivada == null) {
 			anotacionPrivada = bd.obtenerAnotacion(null, this, null);
-			anotacionPrivada.conectar(bd);
 		}
 		return anotacionPrivada;
 	}
@@ -109,7 +104,6 @@ public class Vineta extends Obra implements Observable, Anotable{
 	public Anotacion getAnotacionPublica(Comic c) {
 		if(bd != null && anotacionesPublicas.get(c) == null ) {
 			anotacionesPublicas.put(c, bd.obtenerAnotacion(c, this, null));
-			anotacionesPublicas.get(c).conectar(bd);
 		}
 			
 			
@@ -135,7 +129,6 @@ public class Vineta extends Obra implements Observable, Anotable{
 
 	void retirarDe(Comic c) {
 		if(bd!=null) bd.borrarVineta(this.getID(), c.getID());
-		
 		notificarTodosBorrado();
 		
 	}

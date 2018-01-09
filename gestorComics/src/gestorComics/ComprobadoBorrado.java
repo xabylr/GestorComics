@@ -1,7 +1,6 @@
 package gestorComics;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,8 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import gui.IVisorVineta;
-
+@SuppressWarnings("serial")
 public class ComprobadoBorrado extends JFrame{
 
 	private JPanel contentPane;

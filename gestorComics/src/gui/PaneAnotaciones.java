@@ -1,17 +1,12 @@
 package gui;
 
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import gestorComics.Anotacion;
 import gestorComics.Comic;
-import gestorComics.Obra;
 import gestorComics.Vineta;
 
 import java.awt.BorderLayout;

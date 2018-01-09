@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import gestorComics.ComprobadoBorrado;
-import gestorComics.IComprobadoBorrado;
 import gui.IVisorComic;
 import gui.VentanaComic;
 

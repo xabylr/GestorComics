@@ -2,20 +2,14 @@ package gui;
 
 import javax.swing.JFrame;
 
-import gestorComics.Alarma;
 import gestorComics.Comic;
-import gestorComics.IComprobadoBorrado;
 import gestorComics.IGaleria;
 import gestorComics.ManagerAlarmas;
 import gestorComics.ManagerMedios;
 import gestorComics.MedioComunicacion;
 import gestorComics.Vineta;
 
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
-
-import controladores.CtrAnadirAlarma;
-import controladores.CtrVentanaComic;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -32,11 +26,12 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JSpinner;
 
+@SuppressWarnings("serial")
 public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 	
 	ManagerAlarmas manager;
 	public Date fecha;
-	private MedioComunicacion medio;
+//	private MedioComunicacion medio;
 	JButton btnAceptar;
 	JComboBox<Comics> comboBox;
 	JComboBox<Vinetas> comboBox_1;
@@ -67,7 +62,7 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 		gbc_lblCmic.gridy = 1;
 		getContentPane().add(lblCmic, gbc_lblCmic);
 		
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<Comics>();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 4;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
@@ -88,7 +83,7 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 		gbc_lblVieta.gridy = 3;
 		getContentPane().add(lblVieta, gbc_lblVieta);
 		
-		comboBox_1 = new JComboBox();
+		comboBox_1 = new JComboBox<Vinetas>();
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.gridwidth = 4;
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
@@ -117,7 +112,7 @@ public class AnadirAlarma extends JFrame implements IAnadirAlarma {
 		gbc_lblMedio.gridy = 5;
 		getContentPane().add(lblMedio, gbc_lblMedio);
 		
-		comboBox_2 = new JComboBox();
+		comboBox_2 = new JComboBox<Medios>();
 		GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
 		gbc_comboBox_2.gridwidth = 4;
 		gbc_comboBox_2.insets = new Insets(0, 0, 5, 5);

@@ -1,7 +1,5 @@
 package gestorComics;
 
-import java.util.List;
-
 public interface Anotable {
 
 	public Anotacion getAnotacionPublica(Comic c);

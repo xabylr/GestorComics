@@ -2,9 +2,7 @@ package principal;
 
 import java.io.IOException;
 import controladores.*;
-import gestorComics.BD;
 import gestorComics.Galeria;
-import gestorComics.IBD;
 import gestorComics.IGaleria;
 import gui.*;
 

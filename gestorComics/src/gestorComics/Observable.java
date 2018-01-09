@@ -1,8 +1,5 @@
 package gestorComics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gui.Observador;
 
 public interface Observable {

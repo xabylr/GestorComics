@@ -29,7 +29,6 @@ public class AnadirComic extends JFrame{
 	private JPanel panelNombre;
 	private JLabel lblNombre;
 	private IGaleria galeria;
-	private IVentanaGaleria ventanaGaleria;
 	
 	public AnadirComic(IGaleria g) {
 		galeria = g;

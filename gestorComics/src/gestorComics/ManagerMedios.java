@@ -19,7 +19,7 @@ public class ManagerMedios {
 	}
 
 	public List<MedioComunicacion> getMedios(){
-		List<MedioComunicacion> res = new ArrayList();
+		List<MedioComunicacion> res = new ArrayList<MedioComunicacion>();
 		
 		res = bd.getMedios();
 		

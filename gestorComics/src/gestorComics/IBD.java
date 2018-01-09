@@ -1,6 +1,5 @@
 package gestorComics;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import excepciones.ExcepcionBD;

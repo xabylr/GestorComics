@@ -7,7 +7,6 @@ import gestorComics.*;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.ScrollPaneConstants;

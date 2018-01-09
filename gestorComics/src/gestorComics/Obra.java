@@ -1,7 +1,6 @@
 package gestorComics;
 
 import java.util.Comparator;
-import java.util.List;
 /*
  * Esta clase abstracta no contiene sentencias para sincronizar con la galería.
  * Esto debe de hacerlo cada implementación concreta.

@@ -1,9 +1,5 @@
 package gestorComics;
 
-import java.util.List;
-
-import gui.GuiAlarma;
-
 public class ManagerAlarmas {
 	
 	static ManagerAlarmas instance;
@@ -45,7 +41,7 @@ public class ManagerAlarmas {
 	
 	public void activarAlarma(Alarma a) {
 		
-		GuiAlarma guialarma = new GuiAlarma(a);
+		//GuiAlarma guialarma = new GuiAlarma(a);
 		
 		if(bd!=null)
 		bd.removeAlarma(a);

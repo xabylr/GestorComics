@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import gestorComics.Alarma;
 
+@SuppressWarnings("serial")
 public class GuiAlarma extends JFrame {
 
 	private JPanel contentPane;

@@ -11,12 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import gestorComics.Comic;
-import gestorComics.Galeria;
 import gestorComics.IGaleria;
 import gestorComics.MedioComunicacion;
-import gestorComics.Obra;
-import gestorComics.Observable;
 import gui.*;
 
 

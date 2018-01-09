@@ -17,7 +17,6 @@ import gui.Observador;
 public class Galeria implements IGaleria, Observador //, Observable (No es observable por motivos de retrocompatibilidad)
 {
 	private List<Comic> comics;
-	private List<Observador> observadores;
 	private List<MedioComunicacion> medios;
 	private IVentanaGaleria gui;
 	private ManagerAlarmas manager;
@@ -26,7 +25,6 @@ public class Galeria implements IGaleria, Observador //, Observable (No es obser
 	
 	public Galeria(){
 		comics = new ArrayList<>();
-		observadores = new ArrayList<>();
 		medios = new ArrayList<>();
 		manager = ManagerAlarmas.instance();
 	}

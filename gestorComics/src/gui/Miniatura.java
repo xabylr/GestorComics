@@ -2,16 +2,12 @@
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
 import javax.swing.JPanel;
 
 import javax.swing.ImageIcon;

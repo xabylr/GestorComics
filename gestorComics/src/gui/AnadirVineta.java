@@ -8,7 +8,6 @@ import java.awt.Toolkit;
 import javax.swing.JPanel;
 import excepciones.ExcepcionUsuario;
 import gestorComics.Comic;
-import gestorComics.Galeria;
 import gestorComics.IGaleria;
 import gestorComics.Vineta;
 
@@ -31,7 +30,6 @@ import javax.swing.SwingConstants;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import javax.swing.JList;
 
 @SuppressWarnings("serial")
 public class AnadirVineta extends JFrame implements IAnadirVineta {
@@ -187,8 +185,6 @@ public class AnadirVineta extends JFrame implements IAnadirVineta {
 		//Botón crear viñeta
 		btnCrearVineta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-					Comic aComic = getComic();
 					try {
 					if(nuevaVineta == null || listacomics.size() == 0)
 						throw new ExcepcionUsuario("Selecciona al menos un cómic y una imagen");

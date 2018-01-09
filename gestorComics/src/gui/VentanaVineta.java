@@ -3,14 +3,11 @@
 package gui;
 
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
 import gestorComics.Anotacion;
 import gestorComics.Comic;
 import gestorComics.Vineta;
@@ -18,11 +15,7 @@ import gestorComics.Vineta;
 import javax.swing.JButton;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
-import javax.swing.GroupLayout.Alignment;
-
 import excepciones.RecursoNoEncontrado;
 
 @SuppressWarnings("serial")
@@ -88,7 +81,7 @@ public class VentanaVineta extends JFrame implements IVisorVineta {
 		panelVisor.add(limagen);
 		//getContentPane().setLayout(groupLayout);
 		
-		setTitle(v.getNombre());
+		setNombre(v.getNombre());
 		limagen.setIcon(new ImageIcon(v.getImagen().getScaledInstance(ANCH_IMG, ALT_IMG, Image.SCALE_DEFAULT)));
 		getContentPane().add(panelVisor, BorderLayout.WEST);
 		//pack();
@@ -152,8 +145,8 @@ public class VentanaVineta extends JFrame implements IVisorVineta {
 		limagen.setIcon(new ImageIcon(img.getScaledInstance(ANCH_IMG, ALT_IMG, Image.SCALE_DEFAULT)));
 	}
 	
-	public void SetNombre(String name) {
-		setTitle(name);
+	public void setNombre(String name) {
+		setTitle(name+" ("+comic.getNombre()+")");
 	}
 	
 	

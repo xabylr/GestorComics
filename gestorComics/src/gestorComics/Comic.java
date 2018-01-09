@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Observer;
-
-import excepciones.ExcepcionBD;
 import excepciones.RecursoNoEncontrado;
 import gui.Observador;
 
@@ -99,7 +96,6 @@ public class Comic extends Obra implements Observable, Observador{
 			//registrar en busca de cambios
 			for(Vineta v : vinetas) {
 				v.registrar(this);
-				v.conectar(bd);
 			}
 			
 			
@@ -124,7 +120,7 @@ public class Comic extends Obra implements Observable, Observador{
 		
 		//primero guardamos la viñeta para que tenga un ID en la BD
 		if(bd!=null) {
-			bd.insertarVineta(v, ID);
+			bd.insertarVineta(v, ID); //aquí se conecta
 		}
 		
 		//Después se puede poner de portada incluso en la BD
@@ -256,12 +252,9 @@ public class Comic extends Obra implements Observable, Observador{
 		if(!encontrado) {
 			if (vinetas.isEmpty()) setPortada(null);
 			else setPortada(vinetas.get(1));
-				
-		notificarTodos();
 		}
 		
-		
-		
+		notificarTodos();	
 	}
 
 }
